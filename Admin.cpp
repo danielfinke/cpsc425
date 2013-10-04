@@ -142,11 +142,13 @@ void Admin::logEnd() {
 		}
 		
 		// If token has values, display them
-		if((trace || sc->namesRev[tok.getTokenType()] == "ERROR") && tok.getAttributeValue() != -2) {
+		if(trace || sc->namesRev[tok.getTokenType()] == "ERROR") {
+                    if(tok.getAttributeValue() != -2) {
 			*output << tok.getAttributeValue() << ")";
-		}
-		else {
-			*output << "null)";
+                    }
+                    else {
+                        *output << "null)";
+                    }
 		}
 		// Display name if token is an identifier
 		if(trace && sc->namesRev[tok.getTokenType()] == "ID") {
