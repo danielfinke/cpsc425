@@ -1,0 +1,4 @@
+int x = 0;
+bool yourFace = false;
+bool youSuck = true;
+int meaning_of_life = 42;

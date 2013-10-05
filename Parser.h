@@ -13,6 +13,46 @@ class Parser
 private:
 	Admin* admin;
 	Scanner* sc;
+        int lookahead;
+      
+        void match(int expected);
+        void program();
+        void declaration();
+        void nonVoidSpecifier();
+        void decTail();
+        void varDecTail();
+        void varName();
+        void funDecTail();
+        void params();
+        void param();
+        void statement();
+        void idStmt();
+        void idStmtTail();
+        void assignStmtTail();
+        void callStmtTail();
+        void callTail();
+        void arguments();
+        void compoundStmt();
+        void ifStmt();
+        void loopStmt();
+        void exitStmt();
+        void continueStmt();
+        void returnStmt();
+        void nullStmt();
+        void branchStmt();
+        void caseStmt();
+        void expression();
+        void addExp();
+        void term();
+        void factor();
+        void nidFactor();
+        void idFactor();
+        void idTail();
+        void varTail();
+        void relOp();
+        void addOp();
+        void multOp();
+        void uMinus();
 public:
 	// Constructors/deconstructors/related
 	Parser(void);
@@ -23,6 +63,8 @@ public:
 
 	// Main functions
 	void loopScanner();
+        
+        
 };
 
 #endif
