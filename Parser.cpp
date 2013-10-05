@@ -45,104 +45,243 @@ void Parser::loopScanner() {
 	admin->logEnd();
 }
 
+void Parser::startParsing(){
+    lookahead = sc->getToken().getTokenType();
+    program();
+}
+
 void Parser::program(){
+    
+    declaration();
     
 }
 
 void Parser::declaration(){
-    
+    if(lookahead == sc ->VOID){
+        match(sc->VOID);
+        match(sc->ID);
+        funDecTail();     
+    }
+    else {
+        nonVoidSpecifier();
+        match(sc->ID);
+        decTail();
+    }
 }
 
 void Parser::nonVoidSpecifier(){
+    if(lookahead = sc->INT)
+        match(sc->INT);
+    else
+        match(sc->BOOL);
     
 }
 
 void Parser::decTail(){
-    
+    varDecTail();
+    funDecTail();
 }
 
 void Parser::varDecTail(){
+    if(lookahead == sc->LSQR){
+        match(sc->LSQR);
+        addExp();
+        match(sc->RSQR);
+    }
+    while(lookahead == sc->COMMA){
+        match(sc->COMMA);
+        varName();
+    }
     
+    match(sc->SEMI);
 }
 
 void Parser::varName(){
+    match(sc->ID);
     
+    if(lookahead == sc->LSQR){
+        match(sc->LSQR);
+        addExp();
+        match(sc->RSQR);
+    }
 }
 
 void Parser::funDecTail(){
-    
+    match(sc->LPAREN);
+    params();
+    match(sc->RPAREN);
+    compoundStmt();
 }
 
 void Parser::params(){
+    if(lookahead == sc->REF){
+        param();
+        while(lookahead == sc->COMMA){
+            match(sc->COMMA);
+            param();
+        }
+    }
+    else{
+        match(sc->VOID);
+    }
     
 }
 
 void Parser::param(){
-    
+    if(lookahead == sc->REF){
+        match(sc->REF);
+        nonVoidSpecifier();
+        match(sc->ID);
+    }
+    else{
+        nonVoidSpecifier();
+        match(sc->ID);
+        
+        if(lookahead == sc->LSQR){
+            match(sc->LSQR);
+            match(sc->RSQR);
+        }
+    }
 }
 
 void Parser::statement(){
+    //DO ME
     
 }
 
 void Parser::idStmt(){
-    
+    match(sc->ID);
+    idStmtTail();
 }
 
 void Parser::idStmtTail(){
-    
+    //DO ME
 }
 
 void Parser::assignStmtTail(){
+    if(lookahead == sc->LSQR){
+        match(sc->LSQR);
+        addExp();
+        match(sc->RSQR);
+    }
     
+    match(sc->ASSIGN);
+    expression();
+    match(sc->SEMI);
 }
 
 void Parser::callStmtTail(){
+    callTail();
+    match(sc->SEMI);
     
 }
 
 void Parser::callTail(){
+    match(sc->LPAREN);
+        
+    if(isExpressionLookahead()){
+        arguments();
+    }
+    
+    match(sc->RPAREN);
     
 }
 
 void Parser::arguments(){
-    
+    expression();
+    while(lookahead == sc->COMMA){
+        match(sc->COMMA);
+        expression();
+    }
 }
 
 void Parser::compoundStmt(){
-    
+    match(sc->LCRLY);
+    while(lookahead == sc->INT || lookahead == sc->BOOL){
+        nonVoidSpecifier();
+        match(sc->ID);
+        varDecTail();
+    }
+    do{
+        statement();
+    }while(isStatementLookahead());
+     
+    match(sc->RCRLY);
 }
 
 void Parser::ifStmt(){
+    //DO ME (disambiguation rule)
+    match(sc->IF);
+    match(sc->LPAREN);
+    expression();
+    match(sc->RPAREN);
+    statement();
     
+    if(lookahead == sc->ELSE){
+        match(sc->ELSE);
+        statement();
+    }
 }
 
 void Parser::loopStmt(){
-    
+    match(sc->LOOP);
+    do{
+        statement();
+    }while(isStatementLookahead());
+    match(sc->END);
+    match(sc->SEMI);
 }
 
 void Parser::exitStmt(){
-    
+    match(sc->EXIT);
+    match(sc->SEMI);
 }
 
 void Parser::continueStmt(){
-    
+    match(sc->CONTINUE);
+    match(sc->SEMI);
 }
 
 void Parser::returnStmt(){
-    
+    match(sc->RETURN);
+    if(isExpressionLookahead()){
+        expression();
+    }
+    match(sc->SEMI);
 }
 
 void Parser::nullStmt(){
-    
+    match(sc->SEMI);
 }
 
 void Parser::branchStmt(){
+    match(sc->BRANCH);
+    match(sc->LPAREN);
+    addExp();
+    match(sc->RPAREN);
     
+    do{
+        caseStmt();
+    }while(lookahead == sc->CASE || lookahead == sc->DEFAULT);
+    
+    match(sc->END);
+    match(sc->SEMI);
+        
 }
 
+//NOTE colon doesn't exist in language???
 void Parser::caseStmt(){
-    
+    if(lookahead == sc->CASE){
+        match(sc->CASE);
+        match(sc->NUM);
+       // match(sc->COLON);
+        statement();
+    }
+    else{
+        match(sc->DEFAULT);
+        //match(sc->COLON);
+        statement();
+    }
     
 }
 
@@ -196,8 +335,39 @@ void Parser::uMinus(){
 
 void Parser:: match(int expected){
     
-    /*if(lookahead == expected){
-     lookahead = Scanner.getToken().name;
-     else syntaxError();
-     }*/
+    if(lookahead == expected){
+        lookahead = sc->getToken().getTokenType();
+    }
+    else{
+        //syntaxError();
+    }
+}
+
+bool Parser:: isStatementLookahead(){
+   
+    switch(lookahead){
+        case sc->LCRLY:
+        case sc->IF:
+        case sc->LOOP:
+        case sc-> EXIT:
+        case sc->CONTINUE:
+        case sc->RETURN:
+        case sc->SEMI:
+        case sc->ID:
+        case sc->BRANCH:return true;   
+    }
+    return false;
+}
+
+//is same for Arguments; Expression; addExp;
+bool Parser:: isExpressionLookahead(){
+    switch(lookahead){
+        case sc->MINUS:
+        case sc->NOT:
+        case sc->LPAREN:
+        case sc->NUM:
+        case sc->BLIT:
+        case sc->ID:return true;          
+    }
+    return false;
 }

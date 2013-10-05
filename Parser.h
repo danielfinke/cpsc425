@@ -53,6 +53,9 @@ private:
         void addOp();
         void multOp();
         void uMinus();
+        
+        bool isStatementLookahead();
+        bool isExpressionLookahead();
 public:
 	// Constructors/deconstructors/related
 	Parser(void);
@@ -63,6 +66,7 @@ public:
 
 	// Main functions
 	void loopScanner();
+        void startParsing();
         
         
 };
