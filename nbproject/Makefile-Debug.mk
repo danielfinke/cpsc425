@@ -35,6 +35,16 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/ASTBinaryNode.o \
+	${OBJECTDIR}/ASTCompoundNode.o \
+	${OBJECTDIR}/ASTDeclarationNode.o \
+	${OBJECTDIR}/ASTExpressionNode.o \
+	${OBJECTDIR}/ASTFunctionCallNode.o \
+	${OBJECTDIR}/ASTFunctionNode.o \
+	${OBJECTDIR}/ASTNode.o \
+	${OBJECTDIR}/ASTStatementNode.o \
+	${OBJECTDIR}/ASTUnaryNode.o \
+	${OBJECTDIR}/ASTVariableNode.o \
 	${OBJECTDIR}/Admin.o \
 	${OBJECTDIR}/Main.o \
 	${OBJECTDIR}/Parser.o \
@@ -65,6 +75,56 @@ LDLIBSOPTIONS=
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/cpsc425: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/cpsc425 ${OBJECTFILES} ${LDLIBSOPTIONS}
+
+${OBJECTDIR}/ASTBinaryNode.o: ASTBinaryNode.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ASTBinaryNode.o ASTBinaryNode.cpp
+
+${OBJECTDIR}/ASTCompoundNode.o: ASTCompoundNode.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ASTCompoundNode.o ASTCompoundNode.cpp
+
+${OBJECTDIR}/ASTDeclarationNode.o: ASTDeclarationNode.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ASTDeclarationNode.o ASTDeclarationNode.cpp
+
+${OBJECTDIR}/ASTExpressionNode.o: ASTExpressionNode.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ASTExpressionNode.o ASTExpressionNode.cpp
+
+${OBJECTDIR}/ASTFunctionCallNode.o: ASTFunctionCallNode.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ASTFunctionCallNode.o ASTFunctionCallNode.cpp
+
+${OBJECTDIR}/ASTFunctionNode.o: ASTFunctionNode.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ASTFunctionNode.o ASTFunctionNode.cpp
+
+${OBJECTDIR}/ASTNode.o: ASTNode.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ASTNode.o ASTNode.cpp
+
+${OBJECTDIR}/ASTStatementNode.o: ASTStatementNode.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ASTStatementNode.o ASTStatementNode.cpp
+
+${OBJECTDIR}/ASTUnaryNode.o: ASTUnaryNode.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ASTUnaryNode.o ASTUnaryNode.cpp
+
+${OBJECTDIR}/ASTVariableNode.o: ASTVariableNode.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ASTVariableNode.o ASTVariableNode.cpp
 
 ${OBJECTDIR}/Admin.o: Admin.cpp 
 	${MKDIR} -p ${OBJECTDIR}

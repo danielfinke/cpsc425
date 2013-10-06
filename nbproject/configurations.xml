@@ -4,6 +4,16 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>ASTBinaryNode.h</itemPath>
+      <itemPath>ASTCompoundNode.h</itemPath>
+      <itemPath>ASTDeclarationNode.h</itemPath>
+      <itemPath>ASTExpressionNode.h</itemPath>
+      <itemPath>ASTFunctionCallNode.h</itemPath>
+      <itemPath>ASTFunctionNode.h</itemPath>
+      <itemPath>ASTNode.h</itemPath>
+      <itemPath>ASTStatementNode.h</itemPath>
+      <itemPath>ASTUnaryNode.h</itemPath>
+      <itemPath>ASTVariableNode.h</itemPath>
       <itemPath>Admin.h</itemPath>
       <itemPath>Parser.h</itemPath>
       <itemPath>Scanner.h</itemPath>
@@ -16,6 +26,16 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>ASTBinaryNode.cpp</itemPath>
+      <itemPath>ASTCompoundNode.cpp</itemPath>
+      <itemPath>ASTDeclarationNode.cpp</itemPath>
+      <itemPath>ASTExpressionNode.cpp</itemPath>
+      <itemPath>ASTFunctionCallNode.cpp</itemPath>
+      <itemPath>ASTFunctionNode.cpp</itemPath>
+      <itemPath>ASTNode.cpp</itemPath>
+      <itemPath>ASTStatementNode.cpp</itemPath>
+      <itemPath>ASTUnaryNode.cpp</itemPath>
+      <itemPath>ASTVariableNode.cpp</itemPath>
       <itemPath>Admin.cpp</itemPath>
       <itemPath>Main.cpp</itemPath>
       <itemPath>Parser.cpp</itemPath>
@@ -48,6 +68,46 @@
           <standard>8</standard>
         </ccTool>
       </compileType>
+      <item path="ASTBinaryNode.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ASTBinaryNode.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ASTCompoundNode.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ASTCompoundNode.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ASTDeclarationNode.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ASTDeclarationNode.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ASTExpressionNode.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ASTExpressionNode.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ASTFunctionCallNode.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ASTFunctionCallNode.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ASTFunctionNode.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ASTFunctionNode.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ASTNode.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ASTNode.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ASTStatementNode.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ASTStatementNode.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ASTUnaryNode.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ASTUnaryNode.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ASTVariableNode.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ASTVariableNode.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Admin.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Admin.h" ex="false" tool="3" flavor2="0">
@@ -88,6 +148,46 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="ASTBinaryNode.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ASTBinaryNode.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ASTCompoundNode.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ASTCompoundNode.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ASTDeclarationNode.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ASTDeclarationNode.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ASTExpressionNode.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ASTExpressionNode.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ASTFunctionCallNode.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ASTFunctionCallNode.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ASTFunctionNode.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ASTFunctionNode.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ASTNode.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ASTNode.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ASTStatementNode.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ASTStatementNode.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ASTUnaryNode.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ASTUnaryNode.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ASTVariableNode.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ASTVariableNode.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Admin.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Admin.h" ex="false" tool="3" flavor2="0">

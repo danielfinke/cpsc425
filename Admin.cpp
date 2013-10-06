@@ -65,7 +65,8 @@ void Admin::setOutputStream(ostream &out) {
 
 // Compile process is small currently. Only loops through the scanner.
 void Admin::compile() {
-	ps->loopScanner();
+	//ps->loopScanner();
+    ps->startParsing();
 }
 
 // Interfaces with the input file. Reads a whole line, then passes out characters as needed until end of line.

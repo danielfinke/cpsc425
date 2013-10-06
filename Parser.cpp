@@ -222,7 +222,8 @@ void Parser::callTail(){
     
 }
 
-void Parser::arguments(){
+v
+oid Parser::arguments(){
     expression();
     while(lookahead == sc->COMMA){
         match(sc->COMMA);
@@ -245,7 +246,6 @@ void Parser::compoundStmt(){
 }
 
 void Parser::ifStmt(){
-    //DO ME (disambiguation rule)
     match(sc->IF);
     match(sc->LPAREN);
     expression();
