@@ -30,6 +30,14 @@ Parser::~Parser(void)
 	// The Parser does not delete the Scanner or Admin instances, because it does not have ownership.
 }
 
+void Parser::transition(string functionName, functionPtr ptr) {
+    admin->parserLog(functionName, PARSER_ENTER);
+    
+    (this->*ptr)();
+    
+    admin->parserLog(functionName, PARSER_EXIT);
+}
+
 /* Repeatedly request tokens from the scanner until ENDFILE is detected.
  * Does not display commented-out lexemes.
  * Tokens are stored in "vec" for logging purposes.
@@ -42,32 +50,32 @@ void Parser::loopScanner() {
 
 		admin->vec.push_back(tok);
 	} while(tok.getTokenType() != sc->ENDFILE);
-	admin->logEnd();
+	admin->scannerLogEnd();
 }
 
 void Parser::startParsing(){
-    lookahead = sc->getToken().getTokenType();
-    program();
+	Token tok = sc->getToken();
+    lookahead = tok.getTokenType();
+	admin->vec.push_back(tok);
+    transition("program", &Parser::program);
 }
 
 void Parser::program(){
-    
     do{
-         declaration();
+        transition("declaration", &Parser::declaration);
     }while(lookahead == sc->INT || lookahead == sc->BOOL || lookahead == sc->VOID);
-    
 }
 
 void Parser::declaration(){
     if(lookahead == sc ->VOID){
         match(sc->VOID);
         match(sc->ID);
-        funDecTail();     
+        transition("funDecTail", &Parser::funDecTail);
     }
     else {
         nonVoidSpecifier();
         match(sc->ID);
-        decTail();
+        transition("decTail", &Parser::decTail);
     }
 }
 
@@ -76,23 +84,26 @@ void Parser::nonVoidSpecifier(){
         match(sc->INT);
     else
         match(sc->BOOL);
-    
 }
 
 void Parser::decTail(){
-    varDecTail();
-    funDecTail();
+	if(lookahead == sc->LPAREN) {
+		transition("funDecTail", &Parser::funDecTail);
+	}
+	else {
+		transition("varDecTail", &Parser::varDecTail);
+	}
 }
 
 void Parser::varDecTail(){
     if(lookahead == sc->LSQR){
         match(sc->LSQR);
-        addExp();
+        transition("addExp", &Parser::addExp);
         match(sc->RSQR);
     }
     while(lookahead == sc->COMMA){
         match(sc->COMMA);
-        varName();
+        transition("varName", &Parser::varName);
     }
     
     match(sc->SEMI);
@@ -103,40 +114,39 @@ void Parser::varName(){
     
     if(lookahead == sc->LSQR){
         match(sc->LSQR);
-        addExp();
+        transition("addExp", &Parser::addExp);
         match(sc->RSQR);
     }
 }
 
 void Parser::funDecTail(){
     match(sc->LPAREN);
-    params();
+    transition("params", &Parser::params);
     match(sc->RPAREN);
-    compoundStmt();
+    transition("compoundStmt", &Parser::compoundStmt);
 }
 
 void Parser::params(){
     if(lookahead == sc->REF){
-        param();
+        transition("param", &Parser::param);
         while(lookahead == sc->COMMA){
             match(sc->COMMA);
-            param();
+            transition("param", &Parser::param);
         }
     }
     else{
         match(sc->VOID);
     }
-    
 }
 
 void Parser::param(){
     if(lookahead == sc->REF){
         match(sc->REF);
-        nonVoidSpecifier();
+        transition("nonVoidSpecifier", &Parser::nonVoidSpecifier);
         match(sc->ID);
     }
     else{
-        nonVoidSpecifier();
+        transition("nonVoidSpecifier", &Parser::nonVoidSpecifier);
         match(sc->ID);
         
         if(lookahead == sc->LSQR){
@@ -149,96 +159,93 @@ void Parser::param(){
 void Parser::statement(){
     switch(lookahead){
         case sc->ID:
-            idStmt();
+			transition("idStmt", &Parser::idStmt);
             break;
         case sc->LCRLY:
-            idStmt();
+			transition("compoundStmt", &Parser::compoundStmt);
             break;
         case sc->IF:
-            ifStmt();
+			transition("ifStmt", &Parser::ifStmt);
             break;
         case sc->LOOP:
-            loopStmt();
+			transition("loopStmt", &Parser::loopStmt);
             break;
         case sc->EXIT:
-            exit();
+			transition("exitStmt", &Parser::exitStmt);
             break;
         case sc->CONTINUE:
-            continueStmt();
+			transition("continueStmt", &Parser::continueStmt);
             break;
         case sc->RETURN:
-            returnStmt();
+			transition("returnStmt", &Parser::returnStmt);
             break;
         case sc->BRANCH:
-            branchStmt();
+			transition("branchStmt", &Parser::branchStmt);
             break;
         default:
-            nullStmt();
+			transition("nullStmt", &Parser::nullStmt);
             break;
     }
-    
 }
 
 void Parser::idStmt(){
     match(sc->ID);
-    idStmtTail();
+    transition("idStmtTail", &Parser::idStmtTail);
 }
 
 void Parser::idStmtTail(){
     if(lookahead == sc->LSQR || lookahead == sc->ASSIGN){
-        assignStmtTail();
+        transition("assignStmtTail", &Parser::assignStmtTail);
     }
     else{
-        callStmtTail();
+        transition("callStmtTail", &Parser::callStmtTail);
     }
 }
 
 void Parser::assignStmtTail(){
     if(lookahead == sc->LSQR){
         match(sc->LSQR);
-        addExp();
+        transition("addExp", &Parser::addExp);
         match(sc->RSQR);
     }
     
     match(sc->ASSIGN);
-    expression();
+    transition("expression", &Parser::expression);
     match(sc->SEMI);
 }
 
 void Parser::callStmtTail(){
-    callTail();
+    transition("callTail", &Parser::callTail);
     match(sc->SEMI);
-    
 }
 
 void Parser::callTail(){
     match(sc->LPAREN);
         
     if(isExpressionLookahead()){
-        arguments();
+        transition("arguments", &Parser::arguments);
     }
     
     match(sc->RPAREN);
-    
 }
 
 void Parser::arguments(){
-    expression();
+    transition("expression", &Parser::expression);
     while(lookahead == sc->COMMA){
         match(sc->COMMA);
-        expression();
+        transition("expression", &Parser::expression);
     }
 }
 
 void Parser::compoundStmt(){
     match(sc->LCRLY);
     while(lookahead == sc->INT || lookahead == sc->BOOL){
-        nonVoidSpecifier();
+        transition("nonVoidSpecifier", &Parser::nonVoidSpecifier);
         match(sc->ID);
-        varDecTail();
+        transition("varDecTail", &Parser::varDecTail);
     }
     do{
-        statement();
+        transition("statement", &Parser::statement);
     }while(isStatementLookahead());
      
     match(sc->RCRLY);
@@ -248,20 +255,20 @@ void Parser::ifStmt(){
     //DO ME (disambiguation rule)
     match(sc->IF);
     match(sc->LPAREN);
-    expression();
+    transition("expression", &Parser::expression);
     match(sc->RPAREN);
-    statement();
+    transition("statement", &Parser::statement);
     
     if(lookahead == sc->ELSE){
         match(sc->ELSE);
-        statement();
+        transition("statement", &Parser::statement);
     }
 }
 
 void Parser::loopStmt(){
     match(sc->LOOP);
     do{
-        statement();
+        transition("statement", &Parser::statement);
     }while(isStatementLookahead());
     match(sc->END);
     match(sc->SEMI);
@@ -280,7 +287,7 @@ void Parser::continueStmt(){
 void Parser::returnStmt(){
     match(sc->RETURN);
     if(isExpressionLookahead()){
-        expression();
+        transition("expression", &Parser::expression);
     }
     match(sc->SEMI);
 }
@@ -292,16 +299,15 @@ void Parser::nullStmt(){
 void Parser::branchStmt(){
     match(sc->BRANCH);
     match(sc->LPAREN);
-    addExp();
+    transition("addExp", &Parser::addExp);
     match(sc->RPAREN);
     
     do{
-        caseStmt();
+        transition("caseStmt", &Parser::caseStmt);
     }while(lookahead == sc->CASE || lookahead == sc->DEFAULT);
     
     match(sc->END);
     match(sc->SEMI);
-        
 }
 
 //NOTE colon doesn't exist in language???
@@ -310,50 +316,49 @@ void Parser::caseStmt(){
         match(sc->CASE);
         match(sc->NUM);
        // match(sc->COLON);
-        statement();
+        transition("statement", &Parser::statement);
     }
     else{
         match(sc->DEFAULT);
         //match(sc->COLON);
-        statement();
+        transition("statement", &Parser::statement);
     }
-    
 }
 
 void Parser::expression(){
-    addExp();
+    transition("addExp", &Parser::addExp);
     if(isRelopLookahead())
     {
-        relOp();
-        addExp();
+        transition("relOp", &Parser::relOp);
+        transition("addExp", &Parser::addExp);
     }
 }
 
 void Parser::addExp(){
     if(lookahead == sc->MINUS){
-        uMinus();
+        transition("uMinus", &Parser::uMinus);
     }
     term();
     while(isAddopLookahead()){
-        addOp();
-        term();
+        transition("addOp", &Parser::addOp);
+        transition("term", &Parser::term);
     }
 }
 
 void Parser::term(){
-    factor();
+    transition("factor", &Parser::factor);
     while(isMultopLookahead()){
-        multOp();
-        factor();
+        transition("multOp", &Parser::multOp);
+        transition("factor", &Parser::factor);
     }
 }
 
 void Parser::factor(){
     if(lookahead == sc->ID){
-        idFactor();
+        transition("idFactor", &Parser::idFactor);
     }
     else{
-        nidFactor();
+        transition("nidFactor", &Parser::nidFactor);
     }
 }
 
@@ -361,11 +366,11 @@ void Parser::nidFactor(){
     switch(lookahead){
         case sc->NOT:
             match(sc->NOT);
-            factor();
+			transition("factor", &Parser::factor);
             break;
         case sc->LPAREN:
             match(sc->LPAREN);
-            expression();
+			transition("expression", &Parser::expression);
             match(sc->RPAREN);
             break;
         case sc->NUM:
@@ -379,22 +384,22 @@ void Parser::nidFactor(){
 
 void Parser::idFactor(){
     match(sc->ID);
-    idTail();
+    transition("idTail", &Parser::idTail);
 }
 
 void Parser::idTail(){
     if(lookahead == sc->LPAREN){
-        callTail();
+        transition("callTail", &Parser::callTail);
     }
     else{
-        varTail();
+        transition("varTail", &Parser::varTail);
     }
 }
 
 void Parser::varTail(){
     if(lookahead == sc->LSQR){
         match(sc->LSQR);
-        addExp();
+        transition("addExp", &Parser::addExp);
         match(sc->RSQR);
     }
 }
@@ -468,7 +473,9 @@ void Parser::uMinus(){
 void Parser:: match(int expected){
     
     if(lookahead == expected){
-        lookahead = sc->getToken().getTokenType();
+		Token tok = sc->getToken();
+        lookahead = tok.getTokenType();
+		admin->vec.push_back(tok);
     }
     else{
         //syntaxError();

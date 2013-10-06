@@ -8,6 +8,9 @@ class Scanner;
 class Parser;
 class Token;
 
+#define PARSER_ENTER 0
+#define PARSER_EXIT 1
+
 using namespace std;
 
 /* The Admin class is responsible for reading source files and writing to output streams.
@@ -18,7 +21,7 @@ class Admin
 {
 private:
 	int linePos, lineCount;
-	bool trace, almostDone;
+	bool traceScanner, traceParser, almostDone;
 	string line;
 	ifstream * source;
 	ostream * output;
@@ -45,8 +48,9 @@ public:
 	void compile();
 	char getCh(bool skipWs);
 	void endLine();
-	void log();
-	void logEnd();
+	void scannerLog();
+	void scannerLogEnd();
+        void parserLog(string functionName, int mode);
 	void unget();
 };
 

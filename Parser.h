@@ -1,8 +1,11 @@
 #ifndef Parser_H
 #define Parser_H
 
+#include <string>
 class Admin;
 class Scanner;
+
+using namespace std;
 
 /* In its current state, the Parser class solely loops through requests on the Scanner.
  * Each iteration of its main loop in the loopScanner() function produces one single token.
@@ -14,8 +17,12 @@ private:
 	Admin* admin;
 	Scanner* sc;
         int lookahead;
+        
+        typedef void(Parser::*functionPtr)();
+        
+        void transition(string functionName, functionPtr ptr);
       
-        void match(int expected);
+        void match(int expected);       
         void program();
         void declaration();
         void nonVoidSpecifier();

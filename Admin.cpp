@@ -3,22 +3,24 @@
 #include "Parser.h"
 #include <iostream>
 
-Admin::Admin(void) : linePos(0), lineCount(0), trace(false), almostDone(false), line(""),
+Admin::Admin(void) : linePos(0), lineCount(0), traceScanner(false), traceParser(false), almostDone(false), line(""),
 	source(NULL), output(&cout)
 {
 }
 
-Admin::Admin(ifstream & file, ostream & out) : linePos(0), lineCount(0), trace(false), almostDone(false),
+Admin::Admin(ifstream & file, ostream & out) : linePos(0), lineCount(0), traceScanner(false), 
+        traceParser(false), almostDone(false),
 	line(""), source(&file), output(&out),
 	sc(new Scanner(*this)), ps(new Parser(*this, *sc)) {
 }
 
-Admin::Admin(ifstream & file, ostream & out, bool traceEnabled) : linePos(0), lineCount(0), trace(traceEnabled),
-	almostDone(false), line(""), source(&file), output(&out),
+Admin::Admin(ifstream & file, ostream & out, bool traceEnabled) : linePos(0), lineCount(0), traceScanner(traceEnabled),
+	traceParser(traceEnabled), almostDone(false), line(""), source(&file), output(&out),
 	sc(new Scanner(*this)), ps(new Parser(*this, *sc)) {
 }
 
-Admin::Admin(const Admin &other) : linePos(other.linePos), lineCount(other.lineCount), trace(other.trace), almostDone(false),
+Admin::Admin(const Admin &other) : linePos(other.linePos), lineCount(other.lineCount), traceScanner(other.traceScanner),
+        traceParser(other.traceParser), almostDone(false),
         line(other.line), source(other.source), output(other.output), sc(new Scanner(*this)), ps(new Parser(*this, *sc))
 {
 }
@@ -28,7 +30,8 @@ Admin& Admin::operator= (const Admin &rhs)
     // do the copy
     linePos = rhs.linePos;
 	lineCount = rhs.lineCount;
-	trace = rhs.trace;
+	traceScanner = rhs.traceScanner;
+        traceParser = rhs.traceParser;
 	almostDone = rhs.almostDone;
 	line = rhs.line;
         source = rhs.source;
@@ -65,7 +68,8 @@ void Admin::setOutputStream(ostream &out) {
 
 // Compile process is small currently. Only loops through the scanner.
 void Admin::compile() {
-	ps->loopScanner();
+	//ps->loopScanner();
+	ps->startParsing();
 }
 
 // Interfaces with the input file. Reads a whole line, then passes out characters as needed until end of line.
@@ -113,7 +117,7 @@ char Admin::getCh(bool skipWs) {
 
 // Refreshes the input line. Also logs the previous one.
 void Admin::endLine() {
-	if(lineCount > 0) { log(); }
+	if(lineCount > 0) { scannerLog(); }
 	if(!source->eof()) {
 		linePos = 0;
 		lineCount++;
@@ -127,22 +131,22 @@ void Admin::endLine() {
 }
 
 // Logs scanner output. With trace disabled, only prints errors.
-void Admin::log() {
-	if(trace) {
+void Admin::scannerLog() {
+	if(traceScanner) {
 		*output << lineCount << ": " << line << endl;
 	}
-	logEnd();
+	scannerLogEnd();
 }
 
-void Admin::logEnd() {
+void Admin::scannerLogEnd() {
 	for(int i = 0; i < vec.size(); i++) {
 		Token tok = vec.at(i);
-		if(trace || sc->namesRev[tok.getTokenType()] == "ERROR") {
+		if(traceScanner || sc->namesRev[tok.getTokenType()] == "ERROR") {
 			*output << "  " << lineCount << ": (" << sc->namesRev[tok.getTokenType()] << ", ";
 		}
 		
 		// If token has values, display them
-		if(trace || sc->namesRev[tok.getTokenType()] == "ERROR") {
+		if(traceScanner || sc->namesRev[tok.getTokenType()] == "ERROR") {
                     if(tok.getAttributeValue() != -2) {
 			*output << tok.getAttributeValue() << ")";
                     }
@@ -151,7 +155,7 @@ void Admin::logEnd() {
                     }
 		}
 		// Display name if token is an identifier
-		if(trace && sc->namesRev[tok.getTokenType()] == "ID") {
+		if(traceScanner && sc->namesRev[tok.getTokenType()] == "ID") {
 			*output << " => \"" << sc->getIdentifierName(tok.getAttributeValue()) << "\"";
 		}
 		// Bump the error counter
@@ -159,7 +163,7 @@ void Admin::logEnd() {
 			*output << " => \"" << sc->getErrorName(tok.getAttributeValue());
 		}
 		
-		if(trace || sc->namesRev[tok.getTokenType()] == "ERROR") {
+		if(traceScanner || sc->namesRev[tok.getTokenType()] == "ERROR") {
 			*output << endl;
 		}
 		
@@ -176,6 +180,17 @@ void Admin::logEnd() {
 	}
 	
 	vec.clear();
+}
+
+void Admin::parserLog(string functionName, int mode) {
+    if(traceParser) {
+        if(mode == PARSER_ENTER) {
+            *output << "Entering " + functionName << endl;
+        }
+        else if(mode == PARSER_EXIT) {
+            *output << "Leaving " + functionName << endl;
+        }
+    }
 }
 
 // Go back one character in the input line.
