@@ -52,7 +52,9 @@ void Parser::startParsing(){
 
 void Parser::program(){
     
-    declaration();
+    do{
+         declaration();
+    }while(lookahead == sc->INT || lookahead == sc->BOOL || lookahead == sc->VOID);
     
 }
 
@@ -145,7 +147,35 @@ void Parser::param(){
 }
 
 void Parser::statement(){
-    //DO ME
+    switch(lookahead){
+        case sc->ID:
+            idStmt();
+            break;
+        case sc->LCRLY:
+            idStmt();
+            break;
+        case sc->IF:
+            ifStmt();
+            break;
+        case sc->LOOP:
+            loopStmt();
+            break;
+        case sc->EXIT:
+            exit();
+            break;
+        case sc->CONTINUE:
+            continueStmt();
+            break;
+        case sc->RETURN:
+            returnStmt();
+            break;
+        case sc->BRANCH:
+            branchStmt();
+            break;
+        default:
+            nullStmt();
+            break;
+    }
     
 }
 
@@ -155,7 +185,12 @@ void Parser::idStmt(){
 }
 
 void Parser::idStmtTail(){
-    //DO ME
+    if(lookahead == sc->LSQR || lookahead == sc->ASSIGN){
+        assignStmtTail();
+    }
+    else{
+        callStmtTail();
+    }
 }
 
 void Parser::assignStmtTail(){
@@ -286,51 +321,148 @@ void Parser::caseStmt(){
 }
 
 void Parser::expression(){
-    
+    addExp();
+    if(isRelopLookahead())
+    {
+        relOp();
+        addExp();
+    }
 }
 
 void Parser::addExp(){
-    
+    if(lookahead == sc->MINUS){
+        uMinus();
+    }
+    term();
+    while(isAddopLookahead()){
+        addOp();
+        term();
+    }
 }
 
 void Parser::term(){
-    
+    factor();
+    while(isMultopLookahead()){
+        multOp();
+        factor();
+    }
 }
 
 void Parser::factor(){
-    
+    if(lookahead == sc->ID){
+        idFactor();
+    }
+    else{
+        nidFactor();
+    }
 }
 
 void Parser::nidFactor(){
-    
+    switch(lookahead){
+        case sc->NOT:
+            match(sc->NOT);
+            factor();
+            break;
+        case sc->LPAREN:
+            match(sc->LPAREN);
+            expression();
+            match(sc->RPAREN);
+            break;
+        case sc->NUM:
+            match(sc->NUM);
+            break;
+        default:
+            match(sc->BLIT);
+            break;        
+    }
 }
 
 void Parser::idFactor(){
-    
+    match(sc->ID);
+    idTail();
 }
 
 void Parser::idTail(){
-    
+    if(lookahead == sc->LPAREN){
+        callTail();
+    }
+    else{
+        varTail();
+    }
 }
 
 void Parser::varTail(){
-    
+    if(lookahead == sc->LSQR){
+        match(sc->LSQR);
+        addExp();
+        match(sc->RSQR);
+    }
 }
 
 void Parser::relOp(){
-    
+    switch(lookahead){
+        case sc->LTEQ:
+            match(sc->LTEQ);
+            break;
+        case sc->LT:
+            match(sc->LT);
+            break;
+        case sc->GT:
+            match(sc->GT);
+            break;
+        case sc->GTEQ:
+            match(sc->GTEQ);
+            break;
+        case sc->EQ:
+            match(sc->EQ);
+            break;
+        default:
+            match(sc->NEQ);
+            break;
+    }
 }
 
 void Parser::addOp(){
-    
+    switch(lookahead){
+        case sc->PLUS:
+            match(sc->PLUS);
+            break;
+        case sc->MINUS:
+            match(sc->MINUS);
+            break;
+        case sc-> OR:
+            match(sc->OR);
+            break;
+        //default == ORELSE
+        default:
+            match(sc->ORELSE);
+            break;
+    }
 }
 
 void Parser::multOp(){
-    
+    switch(lookahead){
+        case sc->MULT:
+            match(sc->MULT);
+            break;
+        case sc->DIV:
+            match(sc->DIV);
+            break;
+        case sc->MOD:
+            match(sc->MOD);
+            break;
+        case sc->AND:
+            match(sc->AND);
+            break;
+        //default == ANDTHEN
+        default:
+            match(sc->ANDTHEN);
+            break;
+    }
 }
 
 void Parser::uMinus(){
-   
+    match(sc->MINUS);
 }
 
 void Parser:: match(int expected){
@@ -368,6 +500,39 @@ bool Parser:: isExpressionLookahead(){
         case sc->NUM:
         case sc->BLIT:
         case sc->ID:return true;          
+    }
+    return false;
+}
+
+bool Parser:: isRelopLookahead(){
+    switch(lookahead){
+        case sc->LTEQ:
+        case sc->LT:
+        case sc->GT:
+        case sc->GTEQ:
+        case sc->EQ:
+        case sc->NEQ:return true;
+    }
+    return false;
+}
+
+bool Parser:: isAddopLookahead(){
+    switch(lookahead){
+        case sc->PLUS:
+        case sc->MINUS:
+        case sc->OR:
+        case sc->ORELSE:return true;
+    }
+    return false;
+}
+
+bool Parser:: isMultopLookahead(){
+    switch(lookahead){
+        case sc->MULT:
+        case sc->DIV:
+        case sc->MOD:
+        case sc->AND:
+        case sc->ANDTHEN:return true;
     }
     return false;
 }

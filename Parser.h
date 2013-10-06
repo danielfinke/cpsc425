@@ -56,6 +56,9 @@ private:
         
         bool isStatementLookahead();
         bool isExpressionLookahead();
+        bool isRelopLookahead();
+        bool isAddopLookahead();
+        bool isMultopLookahead();
 public:
 	// Constructors/deconstructors/related
 	Parser(void);
