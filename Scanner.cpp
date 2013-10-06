@@ -92,7 +92,7 @@ pair<string, int> Scanner::getLexeme() {
 			if(c == ERROR) {
 				return make_pair(string(&c), ERROR);
 			}
-			return make_pair("SYMBOL", getSpecial(c));
+			return make_pair("SYMBOL", symbol);
 		}
 	}
 

@@ -1,4 +1,22 @@
-int x = 0;
-bool yourFace = false;
-bool youSuck = true;
-int meaning_of_life = 42;
+int main() {
+	int x;
+	bool yourFace;
+	bool youSuck;
+	int meaning_of_life;
+	x := 0;
+
+	if(x=0){
+		yourFace := false;
+		youSuck := true;
+	}
+	else{
+		x:=5;
+	}
+
+	loop x:=x+1;
+	if(x>=10)
+		exit;
+	end;
+
+	meaning_of_life := 42;
+}
