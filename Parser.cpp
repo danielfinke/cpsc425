@@ -229,14 +229,8 @@ void Parser::callTail(){
     match(sc->RPAREN);
 }
 
-<<<<<<< HEAD
-v
-oid Parser::arguments(){
-    expression();
-=======
 void Parser::arguments(){
     transition("expression", &Parser::expression);
->>>>>>> 78c85e6c8943dcb5e61478f777088c23b9f4a85f
     while(lookahead == sc->COMMA){
         match(sc->COMMA);
         transition("expression", &Parser::expression);
