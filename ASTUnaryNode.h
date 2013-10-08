@@ -8,11 +8,19 @@
 #ifndef ASTUNARYNODE_H
 #define	ASTUNARYNODE_H
 
+#include "ASTExpressionNode.h"
+
 class ASTUnaryNode : public ASTExpressionNode{
 public:
     ASTUnaryNode();
     ASTUnaryNode(const ASTUnaryNode& orig);
     virtual ~ASTUnaryNode();
+	
+	void printNode(int indent);
+	
+	int operation;
+	int type;
+	ASTExpressionNode * operand;
 private:
 
 };

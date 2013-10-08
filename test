@@ -1,11 +1,11 @@
-int main() {
-	int x;
+void main() {
+	int x[4], y;
 	bool yourFace;
 	bool youSuck;
 	int meaning_of_life;
 	x := 0;
 
-	if(x=0){
+	if(x[t+4]=0){
 		yourFace := false;
 		youSuck := true;
 	}

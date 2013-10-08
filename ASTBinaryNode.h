@@ -1,21 +1,28 @@
 /* 
- * File:   ASTBinaryToken.h
+ * File:   ASTBinaryNode.h
  * Author: claire
  *
  * Created on October 6, 2013, 2:47 PM
  */
 
-#ifndef ASTBINARYTOKEN_H
-#define	ASTBINARYTOKEN_H
+#ifndef ASTBINARYNODE_H
+#define	ASTBINARYNODE_H
 
-class ASTBinaryToken : public ASTExpressionNode {
+#include "ASTExpressionNode.h"
+
+class ASTBinaryNode : public ASTExpressionNode {
 public:
-    ASTBinaryToken();
-    ASTBinaryToken(const ASTBinaryToken& orig);
-    virtual ~ASTBinaryToken();
+    ASTBinaryNode();
+    ASTBinaryNode(const ASTBinaryNode& orig);
+    virtual ~ASTBinaryNode();
+	
+	void printNode(int indent);
+	
+	int oper;
+	ASTExpressionNode * left, *right;
 private:
 
 };
 
-#endif	/* ASTBINARYTOKEN_H */
+#endif	/* ASTBINARYNODE_H */
 

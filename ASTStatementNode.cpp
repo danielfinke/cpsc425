@@ -7,7 +7,7 @@
 
 #include "ASTStatementNode.h"
 
-ASTStatementNode::ASTStatementNode() {
+ASTStatementNode::ASTStatementNode() : ASTNode() {
 }
 
 ASTStatementNode::ASTStatementNode(const ASTStatementNode& orig) {
@@ -16,3 +16,10 @@ ASTStatementNode::ASTStatementNode(const ASTStatementNode& orig) {
 ASTStatementNode::~ASTStatementNode() {
 }
 
+void ASTStatementNode::printNode(int indent) {
+	printIndented("statement:", indent);
+	
+	if(next != NULL) {
+		next->printNode(indent);
+	}
+}

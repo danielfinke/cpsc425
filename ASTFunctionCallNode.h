@@ -8,11 +8,23 @@
 #ifndef ASTFUNCTIONCALLNODE_H
 #define	ASTFUNCTIONCALLNODE_H
 
-class ASTFunctionCallNode : public ASTNode {
+#include <string>
+#include "ASTNode.h"
+#include "ASTExpressionNode.h"
+#include "ASTStatementNode.h"
+
+using namespace std;
+
+class ASTFunctionCallNode : public ASTStatementNode {
 public:
     ASTFunctionCallNode();
     ASTFunctionCallNode(const ASTFunctionCallNode& orig);
     virtual ~ASTFunctionCallNode();
+	
+	void printNode(int indent);
+	
+	string idName;
+	ASTExpressionNode * argument;
 private:
 
 };

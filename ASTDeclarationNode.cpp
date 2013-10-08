@@ -7,7 +7,7 @@
 
 #include "ASTDeclarationNode.h"
 
-ASTDeclarationNode::ASTDeclarationNode() {
+ASTDeclarationNode::ASTDeclarationNode() : ASTNode(), declarationType(0), idName("") {
 }
 
 ASTDeclarationNode::ASTDeclarationNode(const ASTDeclarationNode& orig) {
@@ -16,3 +16,6 @@ ASTDeclarationNode::ASTDeclarationNode(const ASTDeclarationNode& orig) {
 ASTDeclarationNode::~ASTDeclarationNode() {
 }
 
+void ASTDeclarationNode::printNode(int indent) {
+	
+}

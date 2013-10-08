@@ -1,18 +1,27 @@
 /* 
  * File:   ASTVariableNode.h
- * Author: claire
+ * Author: daniel
  *
- * Created on October 6, 2013, 2:46 PM
+ * Created on October 8, 2013, 8:51 AM
  */
 
 #ifndef ASTVARIABLENODE_H
 #define	ASTVARIABLENODE_H
 
-class ASTVariableNode : public ASTDeclarationNode{
+#include "ASTFunctionCallNode.h"
+
+class ASTVariableNode : public ASTExpressionNode {
 public:
-    ASTVariableNode();
-    ASTVariableNode(const ASTVariableNode& orig);
-    virtual ~ASTVariableNode();
+	ASTVariableNode();
+	ASTVariableNode(const ASTVariableNode& orig);
+	virtual ~ASTVariableNode();
+	
+	void printNode(int indent);
+	
+	string idName;
+	bool isArray;
+	ASTExpressionNode * arrayExp;
+	ASTFunctionCallNode * func;
 private:
 
 };

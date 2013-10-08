@@ -7,7 +7,7 @@
 
 #include "ASTCompoundNode.h"
 
-ASTCompoundNode::ASTCompoundNode() {
+ASTCompoundNode::ASTCompoundNode() : ASTNode() {
 }
 
 ASTCompoundNode::ASTCompoundNode(const ASTCompoundNode& orig) {
@@ -16,3 +16,8 @@ ASTCompoundNode::ASTCompoundNode(const ASTCompoundNode& orig) {
 ASTCompoundNode::~ASTCompoundNode() {
 }
 
+void ASTCompoundNode::printNode(int indent) {
+	if(next != NULL) {
+		next->printNode(indent);
+	}	
+}

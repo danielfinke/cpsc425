@@ -2,6 +2,8 @@
 #define Parser_H
 
 #include <string>
+#include "Token.h"
+#include "ASTNode.h"
 class Admin;
 class Scanner;
 
@@ -16,50 +18,41 @@ class Parser
 private:
 	Admin* admin;
 	Scanner* sc;
-        int lookahead;
+        Token lookahead;
         
-        typedef void(Parser::*functionPtr)();
+        typedef ASTNode *(Parser::*functionPtr)();
         
-        void transition(string functionName, functionPtr ptr);
+        ASTNode * transition(string functionName, functionPtr ptr);
       
         void match(int expected);       
-        void program();
-        void declaration();
-        void nonVoidSpecifier();
-        void decTail();
-        void varDecTail();
-        void varName();
-        void funDecTail();
-        void params();
-        void param();
-        void statement();
-        void idStmt();
-        void idStmtTail();
-        void assignStmtTail();
-        void callStmtTail();
-        void callTail();
-        void arguments();
-        void compoundStmt();
-        void ifStmt();
-        void loopStmt();
-        void exitStmt();
-        void continueStmt();
-        void returnStmt();
-        void nullStmt();
-        void branchStmt();
-        void caseStmt();
-        void expression();
-        void addExp();
-        void term();
-        void factor();
-        void nidFactor();
-        void idFactor();
-        void idTail();
-        void varTail();
-        void relOp();
-        void addOp();
-        void multOp();
-        void uMinus();
+        ASTNode * program();
+        ASTNode * declaration();
+        ASTNode * nonVoidSpecifier();
+        ASTNode * varDecTail();
+        ASTNode * varName();
+        ASTNode * funDecTail();
+        ASTNode * params();
+        ASTNode * param();
+        ASTNode * statement();
+        ASTNode * idStmt();
+        ASTNode * assignStmtTail();
+        ASTNode * callTail();
+        ASTNode * arguments();
+        ASTNode * compoundStmt();
+        ASTNode * ifStmt();
+        ASTNode * loopStmt();
+        ASTNode * exitStmt();
+        ASTNode * continueStmt();
+        ASTNode * returnStmt();
+        ASTNode * nullStmt();
+        ASTNode * branchStmt();
+        ASTNode * caseStmt();
+        ASTNode * expression();
+        ASTNode * addExp();
+        ASTNode * term();
+        ASTNode * factor();
+        ASTNode * nidFactor();
+        ASTNode * idFactor();
         
         bool isStatementLookahead();
         bool isExpressionLookahead();

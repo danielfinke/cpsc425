@@ -8,14 +8,26 @@
 #ifndef ASTNODE_H
 #define	ASTNODE_H
 
+#include <iostream>
+#include <string>
+#include <sstream>
+#include "Scanner.h"
+
+using namespace std;
+
 class ASTNode {
 public:
     ASTNode();
     ASTNode(const ASTNode& orig);
     ASTNode& operator= (const ASTNode& rhs);
     virtual ~ASTNode();
+	
+	virtual void printNode(int indent) = 0;
+	
+	ASTNode * next;
+protected:
+    void printIndented(string text, int indent);
 private:
-    
 
 };
 

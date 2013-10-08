@@ -7,7 +7,7 @@
 
 #include "ASTNode.h"
 
-ASTNode::ASTNode() {
+ASTNode::ASTNode() : next(NULL) {
 }
 
 ASTNode::ASTNode(const ASTNode& orig) {
@@ -20,3 +20,9 @@ ASTNode& ASTNode:: operator = (const ASTNode& rhs){
 ASTNode::~ASTNode() {
 }
 
+void ASTNode::printIndented(string text, int indent) {
+	for(int i = 0; i < indent; i++) {
+		cout << " ";
+	}
+	cout << text << endl;
+}

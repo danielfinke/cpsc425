@@ -35,15 +35,22 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/ASTAssignmentNode.o \
 	${OBJECTDIR}/ASTBinaryNode.o \
 	${OBJECTDIR}/ASTCompoundNode.o \
 	${OBJECTDIR}/ASTDeclarationNode.o \
 	${OBJECTDIR}/ASTExpressionNode.o \
 	${OBJECTDIR}/ASTFunctionCallNode.o \
 	${OBJECTDIR}/ASTFunctionNode.o \
+	${OBJECTDIR}/ASTIfNode.o \
+	${OBJECTDIR}/ASTLiteralNode.o \
+	${OBJECTDIR}/ASTLoopNode.o \
+	${OBJECTDIR}/ASTMarkerNode.o \
 	${OBJECTDIR}/ASTNode.o \
+	${OBJECTDIR}/ASTParamNode.o \
 	${OBJECTDIR}/ASTStatementNode.o \
 	${OBJECTDIR}/ASTUnaryNode.o \
+	${OBJECTDIR}/ASTVariableDeclarationNode.o \
 	${OBJECTDIR}/ASTVariableNode.o \
 	${OBJECTDIR}/Admin.o \
 	${OBJECTDIR}/Main.o \
@@ -70,11 +77,16 @@ LDLIBSOPTIONS=
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/cpsc425
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/parser
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/cpsc425: ${OBJECTFILES}
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/parser: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/cpsc425 ${OBJECTFILES} ${LDLIBSOPTIONS}
+	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/parser ${OBJECTFILES} ${LDLIBSOPTIONS}
+
+${OBJECTDIR}/ASTAssignmentNode.o: ASTAssignmentNode.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ASTAssignmentNode.o ASTAssignmentNode.cpp
 
 ${OBJECTDIR}/ASTBinaryNode.o: ASTBinaryNode.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -106,10 +118,35 @@ ${OBJECTDIR}/ASTFunctionNode.o: ASTFunctionNode.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ASTFunctionNode.o ASTFunctionNode.cpp
 
+${OBJECTDIR}/ASTIfNode.o: ASTIfNode.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ASTIfNode.o ASTIfNode.cpp
+
+${OBJECTDIR}/ASTLiteralNode.o: ASTLiteralNode.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ASTLiteralNode.o ASTLiteralNode.cpp
+
+${OBJECTDIR}/ASTLoopNode.o: ASTLoopNode.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ASTLoopNode.o ASTLoopNode.cpp
+
+${OBJECTDIR}/ASTMarkerNode.o: ASTMarkerNode.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ASTMarkerNode.o ASTMarkerNode.cpp
+
 ${OBJECTDIR}/ASTNode.o: ASTNode.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ASTNode.o ASTNode.cpp
+
+${OBJECTDIR}/ASTParamNode.o: ASTParamNode.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ASTParamNode.o ASTParamNode.cpp
 
 ${OBJECTDIR}/ASTStatementNode.o: ASTStatementNode.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -120,6 +157,11 @@ ${OBJECTDIR}/ASTUnaryNode.o: ASTUnaryNode.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ASTUnaryNode.o ASTUnaryNode.cpp
+
+${OBJECTDIR}/ASTVariableDeclarationNode.o: ASTVariableDeclarationNode.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ASTVariableDeclarationNode.o ASTVariableDeclarationNode.cpp
 
 ${OBJECTDIR}/ASTVariableNode.o: ASTVariableNode.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -157,7 +199,7 @@ ${OBJECTDIR}/Token.o: Token.cpp
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r ${CND_BUILDDIR}/${CND_CONF}
-	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/cpsc425
+	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/parser
 
 # Subprojects
 .clean-subprojects:

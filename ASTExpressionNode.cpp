@@ -7,7 +7,7 @@
 
 #include "ASTExpressionNode.h"
 
-ASTExpressionNode::ASTExpressionNode() {
+ASTExpressionNode::ASTExpressionNode() : ASTNode(), type(0) {
 }
 
 ASTExpressionNode::ASTExpressionNode(const ASTExpressionNode& orig) {

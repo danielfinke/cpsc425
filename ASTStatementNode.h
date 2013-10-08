@@ -8,11 +8,15 @@
 #ifndef ASTSTATEMENTNODE_H
 #define	ASTSTATEMENTNODE_H
 
+#include "ASTNode.h"
+
 class ASTStatementNode : public ASTNode {
 public:
     ASTStatementNode();
     ASTStatementNode(const ASTStatementNode& orig);
     virtual ~ASTStatementNode();
+	
+	virtual void printNode(int indent);
 private:
 
 };

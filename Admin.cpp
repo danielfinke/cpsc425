@@ -134,10 +134,10 @@ void Admin::endLine() {
 
 // Logs scanner output. With trace disabled, only prints errors.
 void Admin::scannerLog() {
-    if(traceScanner) {
+    /*if(traceScanner) {
             *output << lineCount << ": " << line << endl;
     }
-    scannerLogEnd();
+    scannerLogEnd();*/
 }
 
 void Admin::scannerLogEnd() {
@@ -182,6 +182,10 @@ void Admin::scannerLogEnd() {
 	}
 	
 	vec.clear();
+}
+
+void Admin::parserLog(string functionName, int mode) {
+	
 }
 
 // Go back one character in the input line.

@@ -8,11 +8,15 @@
 #ifndef ASTCOMPOUNDNODE_H
 #define	ASTCOMPOUNDNODE_H
 
+#include "ASTNode.h"
+
 class ASTCompoundNode :public ASTNode{
 public:
     ASTCompoundNode();
     ASTCompoundNode(const ASTCompoundNode& orig);
     virtual ~ASTCompoundNode();
+	
+	virtual void printNode(int indent);
 private:
 
 };

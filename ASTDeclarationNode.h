@@ -8,6 +8,9 @@
 #ifndef ASTDECLARATIONNODE_H
 #define	ASTDECLARATIONNODE_H
 
+#include <string>
+#include "ASTNode.h"
+
 using namespace std;
 
 class ASTDeclarationNode : public ASTNode {
@@ -15,9 +18,12 @@ public:
     ASTDeclarationNode();
     ASTDeclarationNode(const ASTDeclarationNode& orig);
     virtual ~ASTDeclarationNode();
-private:
+	
+	virtual void printNode(int indent);
+	
     int declarationType;
     string idName;
+private:
 
 };
 
