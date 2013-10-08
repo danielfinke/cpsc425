@@ -18,6 +18,7 @@ class ASTAssignmentNode : public ASTStatementNode {
 public:
 	ASTAssignmentNode();
 	ASTAssignmentNode(const ASTAssignmentNode& orig);
+	ASTAssignmentNode& operator= (const ASTAssignmentNode &rhs);
 	virtual ~ASTAssignmentNode();
 	
 	void printNode(int indent);

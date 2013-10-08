@@ -29,7 +29,7 @@ Parser& Parser::operator= (const Parser &rhs)
     // do the copy
     admin = rhs.admin;
 	sc = rhs.sc;
-        lookahead = rhs.lookahead;
+    lookahead = rhs.lookahead;
  
     // return the existing object
     return *this;
@@ -605,7 +605,7 @@ void Parser:: match(int expected){
 		admin->vec.push_back(lookahead);
     }
     else{
-       admin->syntaxError(lookahead);
+       admin->syntaxError(lookahead.getTokenType());
     }
 }
 

@@ -56,13 +56,13 @@ class Scanner {
 			INLINECOMMENT, COMMENTOPEN, COMMENTCLOSE,
 			IGNORED, COLON};
 		// String names of token types
-		static string namesRev[48];
+		static string namesRev[49];
 
 		// Constructors/deconstructors/related
 		Scanner();
 		Scanner(Admin& adminMod);
 		Scanner(const Scanner &other);
-                Scanner& operator= (const Scanner &rhs);
+		Scanner& operator= (const Scanner &rhs);
 		~Scanner();
 
 		// Main functions

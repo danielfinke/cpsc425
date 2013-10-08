@@ -14,6 +14,7 @@
       <itemPath>ASTIfNode.h</itemPath>
       <itemPath>ASTLiteralNode.h</itemPath>
       <itemPath>ASTLoopNode.h</itemPath>
+      <itemPath>ASTMarkerNode.h</itemPath>
       <itemPath>ASTNode.h</itemPath>
       <itemPath>ASTParamNode.h</itemPath>
       <itemPath>ASTStatementNode.h</itemPath>
@@ -42,6 +43,7 @@
       <itemPath>ASTIfNode.cpp</itemPath>
       <itemPath>ASTLiteralNode.cpp</itemPath>
       <itemPath>ASTLoopNode.cpp</itemPath>
+      <itemPath>ASTMarkerNode.cpp</itemPath>
       <itemPath>ASTNode.cpp</itemPath>
       <itemPath>ASTParamNode.cpp</itemPath>
       <itemPath>ASTStatementNode.cpp</itemPath>
@@ -65,8 +67,6 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
-    <itemPath>ASTMarkerNode.cpp</itemPath>
-    <itemPath>ASTMarkerNode.h</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>

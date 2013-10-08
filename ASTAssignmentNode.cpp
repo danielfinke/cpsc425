@@ -12,10 +12,28 @@ ASTAssignmentNode::ASTAssignmentNode() : ASTStatementNode(), isArray(false),
 {
 }
 
-ASTAssignmentNode::ASTAssignmentNode(const ASTAssignmentNode& orig) {
+ASTAssignmentNode::ASTAssignmentNode(const ASTAssignmentNode& orig) : ASTStatementNode(orig),
+		isArray(orig.isArray), idName(orig.idName), exp(orig.exp), arrayExp(orig.arrayExp)
+{
+}
+
+ASTAssignmentNode& ASTAssignmentNode::operator= (const ASTAssignmentNode &rhs)
+{
+	ASTStatementNode::operator=(rhs);
+	
+    // do the copy
+    isArray = rhs.isArray;
+	idName = rhs.idName;
+	exp = rhs.exp;
+	arrayExp = rhs.arrayExp;
+ 
+    // return the existing object
+    return *this;
 }
 
 ASTAssignmentNode::~ASTAssignmentNode() {
+	delete exp;
+	delete arrayExp;
 }
 
 void ASTAssignmentNode::printNode(int indent) {

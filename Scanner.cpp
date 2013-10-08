@@ -3,7 +3,7 @@
 #include <iostream>
 
 // The friendly names for token integer enums
-string Scanner::namesRev[48] = {"ID", "NUM", "BLIT", "ENDFILE", "ERROR",
+string Scanner::namesRev[49] = {"ID", "NUM", "BLIT", "ENDFILE", "ERROR",
 			"AND", "BOOL", "BRANCH", "CASE", "CONTINUE", "DEFAULT", "ELSE", "END",
 			"EXIT", "IF", "INT", "LOOP", "MOD", "NOT", "OR", "REF", "RETURN", "VOID",
 			"PLUS", "MINUS", "MULT", "DIV", "ANDTHEN", "ORELSE", "LT", "LTEQ",
