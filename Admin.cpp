@@ -186,3 +186,9 @@ void Admin::scannerLogEnd() {
 
 // Go back one character in the input line.
 void Admin::unget() { linePos--; }
+
+//To 
+void Admin :: syntaxError(int expected){
+    *output << sc->namesRev[expected] +" was expected";
+    exit();
+}

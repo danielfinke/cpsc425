@@ -10,7 +10,7 @@ string Scanner::namesRev[48] = {"ID", "NUM", "BLIT", "ENDFILE", "ERROR",
 			"GT", "GTEQ", "EQ", "NEQ", "ASSIGN", "SEMI", "COMMA", "LPAREN", "RPAREN",
 			"LSQR", "RSQR", "LCRLY", "RCRLY",
 			"INLINECOMMENT", "COMMENTOPEN", "COMMENTCLOSE",
-			"IGNORED"};
+			"IGNORED", "COLON"};
 
 Scanner::Scanner() : symbolCount(0), commentDepth(0), errorCount(0), wordTable(unordered_map<string, pair<int, int>>()),
 	symbolTable(unordered_map<string, pair<int, int>>())
@@ -246,8 +246,7 @@ int Scanner::getSpecial(char c) {
 			return ASSIGN;
 		}
 		else {
-			admin->unget();
-			return ERROR;
+			return COLON;
 		}
 		break;
 	case EOF:
