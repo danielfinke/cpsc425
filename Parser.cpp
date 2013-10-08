@@ -464,12 +464,12 @@ ASTNode * Parser::caseStmt(){
     if(lookahead.getTokenType() == sc->CASE){
         match(sc->CASE);
         match(sc->NUM);
-       // match(sc->COLON);
+        match(sc->COLON);
         transition("statement", &Parser::statement);
     }
     else{
         match(sc->DEFAULT);
-        //match(sc->COLON);
+        match(sc->COLON);
         transition("statement", &Parser::statement);
     }
 }
@@ -605,7 +605,7 @@ void Parser:: match(int expected){
 		admin->vec.push_back(lookahead);
     }
     else{
-        //syntaxError();
+       admin->syntaxError(lookahead);
     }
 }
 

@@ -52,6 +52,7 @@ public:
 	void scannerLogEnd();
         void parserLog(string functionName, int mode);
 	void unget();
+        void syntaxError(int expected);
 };
 
 #endif

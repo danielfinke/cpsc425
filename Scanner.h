@@ -54,7 +54,7 @@ class Scanner {
 			GT, GTEQ, EQ, NEQ, ASSIGN, SEMI, COMMA, LPAREN, RPAREN,
 			LSQR, RSQR, LCRLY, RCRLY,
 			INLINECOMMENT, COMMENTOPEN, COMMENTCLOSE,
-			IGNORED};
+			IGNORED, COLON};
 		// String names of token types
 		static string namesRev[48];
 
