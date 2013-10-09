@@ -38,7 +38,9 @@ void ASTVariableNode::printNode(int indent, ostream * output) {
 	this->output = output;
 	
 	printIndented("var", indent);
-	//printIndented("name: " + id, indent + 2);
+	if(ASTNode::lookup != NULL) {
+		printIndented("id: " + ASTNode::lookup->getIdentifierName(id), indent + 2);
+	}
 	printIndented("type: " + Scanner::namesRev[type], indent + 2);
 	oss << "array? " << (isArray ? "YES" : "NO");
 	printIndented(oss.str(), indent + 2);

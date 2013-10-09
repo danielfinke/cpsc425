@@ -21,7 +21,7 @@ Admin::Admin(ifstream & file, ostream & out) : linePos(0), lineCount(0),
 
 Admin::Admin(ifstream & file, ostream & out, bool traceEnabled) : linePos(0), lineCount(0),
         traceScanner(traceEnabled), traceParser(traceEnabled),
-		outputAST(false),
+		outputAST(true),
 	almostDone(false), line(""), source(&file), output(&out),
 	sc(new Scanner(*this)), ps(new Parser(*this, *sc))
 {
@@ -145,7 +145,7 @@ void Admin::endLine() {
 		line = "" + EOF;
 		almostDone = true;
 	}
-	if(lineCount > 0) { scannerLog(); }
+	if(lineCount > 0 && !almostDone) { scannerLog(); }
 }
 
 // Logs scanner input.

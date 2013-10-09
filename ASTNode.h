@@ -27,7 +27,7 @@ public:
 	ASTNode * next;
 	ostream * output;
 	
-	static Scanner * lookup = 0;
+	static Scanner * lookup;
 protected:
     void printIndented(string text, int indent);
 private:

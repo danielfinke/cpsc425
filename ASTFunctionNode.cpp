@@ -36,7 +36,9 @@ void ASTFunctionNode::printNode(int indent, ostream * output) {
 	this->output = output;
 	
 	printIndented("function", indent);
-	printIndented("id: " + id, indent + 2);
+	if(ASTNode::lookup != NULL) {
+		printIndented("id: " + ASTNode::lookup->getIdentifierName(id), indent + 2);
+	}
 	printIndented("type: " + Scanner::namesRev[declarationType], indent + 2);
 	if(param != NULL) {
 		printIndented("params:", indent + 2);

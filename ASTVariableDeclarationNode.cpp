@@ -38,7 +38,9 @@ void ASTVariableDeclarationNode::printNode(int indent, ostream * output) {
 	this->output = output;
 	
 	printIndented("var declaration", indent);
-	//printIndented("name: " + id, indent + 2);
+	if(ASTNode::lookup != NULL) {
+		printIndented("id: " + ASTNode::lookup->getIdentifierName(id), indent + 2);
+	}
 	printIndented("type: " + Scanner::namesRev[declarationType], indent + 2);
 	oss << "arrayParam? " << (isArray ? "YES" : "NO");
 	printIndented(oss.str(), indent + 2);

@@ -10,7 +10,7 @@ int boo(int input[]) {
 }
 
 int foo(void) {
-	--return 5;
+	/*return 5;*/
 	input := 3;
 }
 

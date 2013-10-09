@@ -36,7 +36,9 @@ void ASTFunctionCallNode::printNode(int indent, ostream * output) {
 	this->ASTStatementNode::output = output;
 	
 	ASTStatementNode::printIndented("function call", indent);
-	ASTStatementNode::printIndented("id: " + id, indent + 2);
+	if(ASTNode::lookup != NULL) {
+		ASTStatementNode::printIndented("id: " + ASTNode::lookup->getIdentifierName(id), indent + 2);
+	}
 	
 	if(argument != NULL) {
 		ASTStatementNode::printIndented("args:", indent + 2);

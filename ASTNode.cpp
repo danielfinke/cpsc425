@@ -7,6 +7,8 @@
 
 #include "ASTNode.h"
 
+Scanner * ASTNode::lookup = 0;
+
 ASTNode::ASTNode() : next(NULL), output(NULL) {
 }
 
