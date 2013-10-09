@@ -14,6 +14,7 @@ class ASTLiteralNode : public ASTExpressionNode {
 public:
 	ASTLiteralNode();
 	ASTLiteralNode(const ASTLiteralNode& orig);
+        ASTLiteralNode& operator= (const ASTLiteralNode &rhs);
 	virtual ~ASTLiteralNode();
 	
 	void printNode(int indent);

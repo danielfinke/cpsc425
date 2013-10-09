@@ -14,6 +14,7 @@ class ASTMarkerNode : public ASTStatementNode {
 public:
 	ASTMarkerNode();
 	ASTMarkerNode(const ASTMarkerNode& orig);
+        ASTMarkerNode& operator= (const ASTMarkerNode &rhs);
 	virtual ~ASTMarkerNode();
 	
 	void printNode(int indent);

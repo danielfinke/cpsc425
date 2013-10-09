@@ -19,6 +19,7 @@ class ASTFunctionCallNode : public ASTStatementNode, ASTExpressionNode {
 public:
     ASTFunctionCallNode();
     ASTFunctionCallNode(const ASTFunctionCallNode& orig);
+    ASTFunctionCallNode& operator= (const ASTFunctionCallNode &rhs);
     virtual ~ASTFunctionCallNode();
 	
 	void printNode(int indent);

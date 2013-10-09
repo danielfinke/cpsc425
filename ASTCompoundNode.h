@@ -14,6 +14,7 @@ class ASTCompoundNode :public ASTNode{
 public:
     ASTCompoundNode();
     ASTCompoundNode(const ASTCompoundNode& orig);
+    ASTCompoundNode& operator= (const ASTCompoundNode &rhs);
     virtual ~ASTCompoundNode();
 	
 	// todo: make pure virtual

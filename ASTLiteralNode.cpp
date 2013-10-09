@@ -10,7 +10,18 @@
 ASTLiteralNode::ASTLiteralNode() : ASTExpressionNode(), value(0) {
 }
 
-ASTLiteralNode::ASTLiteralNode(const ASTLiteralNode& orig) {
+ASTLiteralNode::ASTLiteralNode(const ASTLiteralNode& orig) : ASTExpressionNode(orig), value(orig.value) {
+}
+
+ASTLiteralNode& ASTLiteralNode::operator= (const ASTLiteralNode &rhs)
+{
+	ASTExpressionNode::operator=(rhs);
+	
+    // do the copy
+        value = rhs.value;
+ 
+    // return the existing object
+    return *this;
 }
 
 ASTLiteralNode::~ASTLiteralNode() {

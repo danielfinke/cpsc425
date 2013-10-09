@@ -16,6 +16,7 @@ class ASTFunctionNode : public ASTDeclarationNode{
 public:
     ASTFunctionNode();
     ASTFunctionNode(const ASTFunctionNode& orig);
+    ASTFunctionNode& operator= (const ASTFunctionNode &rhs);
     virtual ~ASTFunctionNode();
 	
 	void printNode(int indent);

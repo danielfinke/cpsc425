@@ -10,10 +10,26 @@
 ASTFunctionCallNode::ASTFunctionCallNode() : ASTStatementNode(), ASTExpressionNode(), idName(""), argument(NULL) {
 }
 
-ASTFunctionCallNode::ASTFunctionCallNode(const ASTFunctionCallNode& orig) {
+ASTFunctionCallNode::ASTFunctionCallNode(const ASTFunctionCallNode& orig): ASTStatementNode(orig), 
+        ASTExpressionNode(orig), idName(orig.idName),argument(orig.argument)
+{
+}
+
+ASTFunctionCallNode& ASTFunctionCallNode::operator= (const ASTFunctionCallNode &rhs)
+{
+	ASTStatementNode::operator=(rhs);
+        ASTExpressionNode::operator = (rhs);
+	
+    // do the copy
+        idName= rhs.idName;
+        argument = rhs.argument;
+ 
+    // return the existing object
+    return *this;
 }
 
 ASTFunctionCallNode::~ASTFunctionCallNode() {
+    delete argument;
 }
 
 void ASTFunctionCallNode::printNode(int indent) {

@@ -10,10 +10,23 @@
 ASTLoopNode::ASTLoopNode() : ASTStatementNode(), statement(NULL) {
 }
 
-ASTLoopNode::ASTLoopNode(const ASTLoopNode& orig) {
+ASTLoopNode::ASTLoopNode(const ASTLoopNode& orig) : ASTStatementNode(orig), statement(orig.statement)  {
+}
+
+ASTLoopNode& ASTLoopNode::operator= (const ASTLoopNode &rhs)
+{
+	ASTStatementNode::operator=(rhs);
+	
+    // do the copy
+        statement = rhs.statement;
+    
+ 
+    // return the existing object
+    return *this;
 }
 
 ASTLoopNode::~ASTLoopNode() {
+    delete statement;
 }
 
 void ASTLoopNode::printNode(int indent) {

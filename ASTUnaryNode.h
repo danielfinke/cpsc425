@@ -14,6 +14,7 @@ class ASTUnaryNode : public ASTExpressionNode{
 public:
     ASTUnaryNode();
     ASTUnaryNode(const ASTUnaryNode& orig);
+    ASTUnaryNode& operator= (const ASTUnaryNode &rhs);
     virtual ~ASTUnaryNode();
 	
 	void printNode(int indent);

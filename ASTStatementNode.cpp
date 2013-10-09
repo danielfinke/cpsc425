@@ -10,7 +10,15 @@
 ASTStatementNode::ASTStatementNode() : ASTNode() {
 }
 
-ASTStatementNode::ASTStatementNode(const ASTStatementNode& orig) {
+ASTStatementNode::ASTStatementNode(const ASTStatementNode& orig) : ASTNode(orig){
+}
+
+ASTStatementNode& ASTStatementNode::operator= (const ASTStatementNode &rhs)
+{
+	ASTNode::operator=(rhs);
+	
+    // return the existing object
+    return *this;
 }
 
 ASTStatementNode::~ASTStatementNode() {

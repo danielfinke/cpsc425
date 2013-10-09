@@ -10,10 +10,26 @@
 ASTFunctionNode::ASTFunctionNode() : ASTDeclarationNode(), param(NULL), compound(NULL) {
 }
 
-ASTFunctionNode::ASTFunctionNode(const ASTFunctionNode& orig) {
+ASTFunctionNode::ASTFunctionNode(const ASTFunctionNode& orig):ASTDeclarationNode(orig),param(orig.param),
+        compound(orig.compound)
+{
+}
+
+ASTFunctionNode& ASTFunctionNode::operator= (const ASTFunctionNode &rhs)
+{
+	ASTDeclarationNode::operator=(rhs);
+	
+    // do the copy
+        param = rhs.param;
+        compound = rhs.compound;
+ 
+    // return the existing object
+    return *this;
 }
 
 ASTFunctionNode::~ASTFunctionNode() {
+    delete param;
+    delete compound;
 }
 
 void ASTFunctionNode::printNode(int indent) {

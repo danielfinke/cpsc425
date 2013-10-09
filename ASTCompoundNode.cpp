@@ -10,7 +10,15 @@
 ASTCompoundNode::ASTCompoundNode() : ASTNode() {
 }
 
-ASTCompoundNode::ASTCompoundNode(const ASTCompoundNode& orig) {
+ASTCompoundNode::ASTCompoundNode(const ASTCompoundNode& orig):ASTNode(orig) {
+}
+
+ASTCompoundNode& ASTCompoundNode::operator= (const ASTCompoundNode &rhs)
+{
+	ASTNode::operator=(rhs);
+ 
+    // return the existing object
+    return *this;
 }
 
 ASTCompoundNode::~ASTCompoundNode() {

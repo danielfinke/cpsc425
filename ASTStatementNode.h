@@ -14,6 +14,7 @@ class ASTStatementNode : public ASTNode {
 public:
     ASTStatementNode();
     ASTStatementNode(const ASTStatementNode& orig);
+    ASTStatementNode& operator= (const ASTStatementNode &rhs);
     virtual ~ASTStatementNode();
 	
 	virtual void printNode(int indent);

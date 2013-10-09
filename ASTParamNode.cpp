@@ -10,7 +10,21 @@
 ASTParamNode::ASTParamNode() : ASTVariableDeclarationNode(), isRef(false) {
 }
 
-ASTParamNode::ASTParamNode(const ASTParamNode& orig) {
+ASTParamNode::ASTParamNode(const ASTParamNode& orig):ASTVariableDeclarationNode(orig),
+        isRef(orig.isRef)
+{
+}
+
+ASTParamNode& ASTParamNode::operator= (const ASTParamNode &rhs)
+{
+	ASTVariableDeclarationNode::operator=(rhs);
+	
+    // do the copy
+        isRef = rhs.isRef;
+    
+ 
+    // return the existing object
+    return *this;
 }
 
 ASTParamNode::~ASTParamNode() {

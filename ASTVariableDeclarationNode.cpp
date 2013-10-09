@@ -11,10 +11,25 @@ ASTVariableDeclarationNode::ASTVariableDeclarationNode() : ASTDeclarationNode(),
 {
 }
 
-ASTVariableDeclarationNode::ASTVariableDeclarationNode(const ASTVariableDeclarationNode& orig) {
+ASTVariableDeclarationNode::ASTVariableDeclarationNode(const ASTVariableDeclarationNode& orig) :ASTDeclarationNode(orig),
+        isArray(orig.isArray),arrayExp(orig.arrayExp)
+{
+}
+
+ASTVariableDeclarationNode& ASTVariableDeclarationNode::operator= (const ASTVariableDeclarationNode &rhs)
+{
+	ASTDeclarationNode::operator=(rhs);
+	
+    // do the copy
+        isArray = rhs.isArray;
+        arrayExp = rhs.arrayExp;
+ 
+    // return the existing object
+    return *this;
 }
 
 ASTVariableDeclarationNode::~ASTVariableDeclarationNode() {
+    delete arrayExp;
 }
 
 void ASTVariableDeclarationNode::printNode(int indent) {

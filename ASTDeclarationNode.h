@@ -17,6 +17,7 @@ class ASTDeclarationNode : public ASTNode {
 public:
     ASTDeclarationNode();
     ASTDeclarationNode(const ASTDeclarationNode& orig);
+    ASTDeclarationNode& operator= (const ASTDeclarationNode &rhs);
     virtual ~ASTDeclarationNode();
 	
 	// todo: make pure virtual
