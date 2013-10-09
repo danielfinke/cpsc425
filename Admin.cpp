@@ -119,7 +119,6 @@ char Admin::getCh(bool skipWs) {
 
 // Refreshes the input line. Also logs the previous one.
 void Admin::endLine() {
-	if(lineCount > 0) { scannerLog(); }
 	if(!source->eof()) {
 		linePos = 0;
 		lineCount++;
@@ -130,16 +129,17 @@ void Admin::endLine() {
 		line = "" + EOF;
 		almostDone = true;
 	}
+	if(lineCount > 0) { scannerLog(); }
+}
+
+// Logs scanner input.
+void Admin::scannerLog() {
+    if(traceScanner) {
+            *output << lineCount << ": " << line << endl;
+    }
 }
 
 // Logs scanner output. With trace disabled, only prints errors.
-void Admin::scannerLog() {
-    /*if(traceScanner) {
-            *output << lineCount << ": " << line << endl;
-    }
-    scannerLogEnd();*/
-}
-
 void Admin::scannerLogEnd() {
 	for(int i = 0; i < vec.size(); i++) {
 		Token tok = vec.at(i);
@@ -185,14 +185,31 @@ void Admin::scannerLogEnd() {
 }
 
 void Admin::parserLog(string functionName, int mode) {
-	
+	if(traceParser) {
+		if(mode == PARSER_ENTER) {
+			*output << "Entering " << functionName << endl;
+		}
+		else if(mode == PARSER_EXIT) {
+			*output << "Leaving " << functionName << endl;
+		}
+	}
+}
+void Admin::parserLog(int type, int mode) {
+	if(traceParser) {
+		if(mode == PARSER_MATCH) {
+			*output << "Matched " << sc->namesRev[type] << endl;
+		}
+		else if(mode == PARSER_LOAD) {
+			*output << "Loaded " << sc->namesRev[type] << endl;
+		}
+	}
 }
 
 // Go back one character in the input line.
 void Admin::unget() { linePos--; }
 
-//To 
-void Admin :: syntaxError(int expected){
-    *output << sc->namesRev[expected] +" was expected on line " << lineCount << endl;
+void Admin :: syntaxError(int expected, int found){
+	*output << "Line " << lineCount << ": Syntax error. Found " << sc->namesRev[found]
+			<< " (expected " << sc->namesRev[expected] << ")" << endl;
     //exit();
 }

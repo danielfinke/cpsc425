@@ -8,12 +8,12 @@
 #include "ASTAssignmentNode.h"
 
 ASTAssignmentNode::ASTAssignmentNode() : ASTStatementNode(), isArray(false),
-		idName(""), exp(NULL), arrayExp(NULL)
+		id(0), exp(NULL), arrayExp(NULL)
 {
 }
 
 ASTAssignmentNode::ASTAssignmentNode(const ASTAssignmentNode& orig) : ASTStatementNode(orig),
-		isArray(orig.isArray), idName(orig.idName), exp(orig.exp), arrayExp(orig.arrayExp)
+		isArray(orig.isArray), id(orig.id), exp(orig.exp), arrayExp(orig.arrayExp)
 {
 }
 
@@ -23,7 +23,7 @@ ASTAssignmentNode& ASTAssignmentNode::operator= (const ASTAssignmentNode &rhs)
 	
     // do the copy
     isArray = rhs.isArray;
-	idName = rhs.idName;
+	id = rhs.id;
 	exp = rhs.exp;
 	arrayExp = rhs.arrayExp;
  
@@ -40,7 +40,7 @@ void ASTAssignmentNode::printNode(int indent) {
 	ostringstream oss;
 	
 	printIndented("assignment", indent);
-	printIndented("id: " + idName, indent + 2);
+	//printIndented("id: " + id, indent + 2);
 	oss << "arrayIndex? " << (isArray ? "YES" : "NO");
 	printIndented(oss.str(), indent + 2);
 	

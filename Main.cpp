@@ -8,7 +8,6 @@ using namespace std;
 // !!!!!!!!!!!!!!!!!!!!!!!!!!
 // Made change to scanner get token!
 // Also fixed the ENDFILE issue!
-// Need to deal with top-level program
 
 int main(int argc, const char * argv[]) {
 	bool verbose = false, fileOutput = false, unattended = false;
@@ -57,7 +56,7 @@ int main(int argc, const char * argv[]) {
 	}
 
 	if(!unattended) {
-		cout << "CAD Scanner v1.0 Loaded" << endl;
+		cout << "CAD Scanner v1.1 Loaded" << endl;
 		if(filename != "") {
 			cout << "Source file: " << filename << endl;
 		}
@@ -74,12 +73,6 @@ int main(int argc, const char * argv[]) {
 		cout << "No filename was specified. Use the \"-s\" parameter followed by a filename.";
 		return 4;
 	}
-
-	// Tests in Visual Studio
-	/*filename = "identifiers.txt";
-	verbose = true;
-	fileOutput = true;
-	outputFile = "identifiersTest.txt";*/
 
 	// Start up the compiler
     ifstream file(filename);

@@ -11,6 +11,9 @@ class Token;
 #define PARSER_ENTER 0
 #define PARSER_EXIT 1
 
+#define PARSER_MATCH 0
+#define PARSER_LOAD 1
+
 using namespace std;
 
 /* The Admin class is responsible for reading source files and writing to output streams.
@@ -50,9 +53,10 @@ public:
 	void endLine();
 	void scannerLog();
 	void scannerLogEnd();
-        void parserLog(string functionName, int mode);
+    void parserLog(string functionName, int mode);
+	void parserLog(int type, int mode);
 	void unget();
-        void syntaxError(int expected);
+    void syntaxError(int expected, int found);
 };
 
 #endif

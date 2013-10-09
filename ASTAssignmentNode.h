@@ -24,7 +24,7 @@ public:
 	void printNode(int indent);
 	
 	bool isArray;
-	string idName;
+	int id;
 	ASTExpressionNode * exp, *arrayExp;
 private:
 

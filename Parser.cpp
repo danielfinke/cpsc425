@@ -68,10 +68,11 @@ void Parser::loopScanner() {
 void Parser::startParsing(){
     lookahead = sc->getToken();
 	admin->vec.push_back(lookahead);
+	admin->scannerLogEnd();
     transition("program", &Parser::program);
 }
 
-// Finish me!!!!
+// Move AST print elsewhere
 ASTNode * Parser::program(){
 	ASTDeclarationNode * parent = ((ASTDeclarationNode *)transition("declaration", &Parser::declaration));
 	ASTDeclarationNode * current = parent;
@@ -81,7 +82,7 @@ ASTNode * Parser::program(){
 			current = ((ASTDeclarationNode *)current->next);
 		}
 	}
-	parent->printNode(0);
+	//parent->printNode(0);
 }
 
 ASTNode * Parser::declaration(){
@@ -278,17 +279,19 @@ ASTNode * Parser::statement(){
 }
 
 ASTNode * Parser::idStmt(){
+	int id = lookahead.getAttributeValue();
 	string idName = sc->getIdentifierName(lookahead.getAttributeValue());
 	ASTStatementNode * sNode = NULL;
     match(sc->ID);
 	
     if(lookahead.getTokenType() == sc->LSQR || lookahead.getTokenType() == sc->ASSIGN){
         sNode = ((ASTStatementNode *)transition("assignStmtTail", &Parser::assignStmtTail));
-		((ASTAssignmentNode *)sNode)->idName = idName;
+		((ASTAssignmentNode *)sNode)->id = id;
     }
     else{
         sNode = ((ASTStatementNode *)transition("callTail", &Parser::callTail));
 		((ASTFunctionCallNode *)sNode)->idName = idName;
+		match(sc->SEMI);
     }
 	
 	return sNode;
@@ -327,7 +330,6 @@ ASTNode * Parser::callTail(){
     }
     
     match(sc->RPAREN);
-    match(sc->SEMI);
 	
 	return ((ASTExpressionNode *)fNode);
 }
@@ -548,7 +550,6 @@ ASTNode * Parser::factor(){
     }
 }
 
-// Might be doing parenthesized expressions wrong
 ASTNode * Parser::nidFactor(){
 	ASTExpressionNode * eNode = NULL;
     switch(lookahead.getTokenType()){
@@ -607,13 +608,15 @@ ASTNode * Parser::idFactor(){
 }
 
 void Parser:: match(int expected){
-    
     if(lookahead.getTokenType() == expected){
+		admin->parserLog(expected, PARSER_MATCH);
         lookahead = sc->getToken();
 		admin->vec.push_back(lookahead);
+		admin->scannerLogEnd();
+		admin->parserLog(lookahead.getTokenType(), PARSER_LOAD);
     }
     else{
-       admin->syntaxError(expected);
+       admin->syntaxError(expected, lookahead.getTokenType());
     }
 }
 
