@@ -20,7 +20,7 @@ int foo(void) {
 	return 5;
 }
 
-void main(ref int param) {
+void main(ref int param, bool t) {
 	int x[4], y;
 	bool yourFace;
 	bool youSuck;
@@ -29,9 +29,14 @@ void main(ref int param) {
 	x[0] := 0+1;
 	x[1] := boo(x);
 	y := foo();
+	foo();
+	if(t) {
+		main(param, not t);
+		;
+	}
 
 	if(x[y-1]=0){
-		yourFace := false;
+		yourFace := not t;
 		youSuck := true;
 	}
 	else{

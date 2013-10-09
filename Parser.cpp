@@ -154,7 +154,8 @@ ASTNode * Parser::varDecTail(){
 	
     if(lookahead.getTokenType() == sc->LSQR){
         match(sc->LSQR);
-        parent->arrayExp = ((ASTExpressionNode *)transition("addExp", &Parser::addExp));
+        //parent->arrayExp = ((ASTExpressionNode *)transition("addExp", &Parser::addExp));
+		parent->arrayExp = dynamic_cast<ASTExpressionNode *>(transition("addExp", &Parser::addExp));
         match(sc->RSQR);
 		
 		parent->isArray = true;
@@ -179,7 +180,8 @@ ASTNode * Parser::varName(){
     
     if(lookahead.getTokenType() == sc->LSQR){
         match(sc->LSQR);
-        vNode->arrayExp = ((ASTExpressionNode *)transition("addExp", &Parser::addExp));
+        //vNode->arrayExp = ((ASTExpressionNode *)transition("addExp", &Parser::addExp));
+		vNode->arrayExp = dynamic_cast<ASTExpressionNode *>(transition("addExp", &Parser::addExp));
         match(sc->RSQR);
 		
 		vNode->isArray = true;
@@ -198,7 +200,8 @@ ASTNode * Parser::funDecTail(){
     match(sc->LPAREN);
     pNode = ((ASTParamNode *)transition("params", &Parser::params));
     match(sc->RPAREN);
-    cNode = ((ASTCompoundNode *)transition("compoundStmt", &Parser::compoundStmt));
+    //cNode = ((ASTCompoundNode *)transition("compoundStmt", &Parser::compoundStmt));
+	cNode = dynamic_cast<ASTCompoundNode *>(transition("compoundStmt", &Parser::compoundStmt));
 	
 	fNode->param = pNode;
 	fNode->compound = cNode;
@@ -297,11 +300,13 @@ ASTNode * Parser::idStmt(){
     match(sc->ID);
 	
     if(lookahead.getTokenType() == sc->LSQR || lookahead.getTokenType() == sc->ASSIGN){
-        sNode = ((ASTStatementNode *)transition("assignStmtTail", &Parser::assignStmtTail));
+        //sNode = ((ASTStatementNode *)transition("assignStmtTail", &Parser::assignStmtTail));
+		sNode = dynamic_cast<ASTStatementNode *>(transition("assignStmtTail", &Parser::assignStmtTail));
 		((ASTAssignmentNode *)sNode)->id = id;
     }
     else{
-        sNode = ((ASTStatementNode *)transition("callTail", &Parser::callTail));
+        //sNode = ((ASTStatementNode *)transition("callTail", &Parser::callTail));
+		sNode = dynamic_cast<ASTStatementNode *>(transition("callTail", &Parser::callTail));
 		((ASTFunctionCallNode *)sNode)->id = id;
 		match(sc->SEMI);
     }
@@ -315,14 +320,16 @@ ASTNode * Parser::assignStmtTail(){
 	
     if(lookahead.getTokenType() == sc->LSQR){
         match(sc->LSQR);
-        aNode->arrayExp = ((ASTExpressionNode *)transition("addExp", &Parser::addExp));
+        //aNode->arrayExp = ((ASTExpressionNode *)transition("addExp", &Parser::addExp));
+		aNode->arrayExp = dynamic_cast<ASTExpressionNode *>(transition("addExp", &Parser::addExp));
         match(sc->RSQR);
 		
 		aNode->isArray = true;
     }
     
     match(sc->ASSIGN);
-    eNode = ((ASTExpressionNode *)transition("expression", &Parser::expression));
+    //eNode = ((ASTExpressionNode *)transition("expression", &Parser::expression));
+	eNode = dynamic_cast<ASTExpressionNode *>(transition("expression", &Parser::expression));
     match(sc->SEMI);
 	
 	aNode->exp = eNode;
@@ -337,7 +344,8 @@ ASTNode * Parser::callTail(){
     match(sc->LPAREN);
         
     if(isExpressionLookahead()){
-        argument = ((ASTExpressionNode *)transition("arguments", &Parser::arguments));
+        //argument = ((ASTExpressionNode *)transition("arguments", &Parser::arguments));
+		argument = dynamic_cast<ASTExpressionNode *>(transition("arguments", &Parser::arguments));
 		fNode->argument = argument;
     }
     
@@ -348,12 +356,14 @@ ASTNode * Parser::callTail(){
 
 ASTNode * Parser::arguments(){
 	ASTExpressionNode * parent = NULL, *eNode = NULL;
-    parent = ((ASTExpressionNode *)transition("expression", &Parser::expression));
+    //parent = ((ASTExpressionNode *)transition("expression", &Parser::expression));
+	parent = dynamic_cast<ASTExpressionNode *>(transition("expression", &Parser::expression));
 	eNode = parent;
     while(lookahead.getTokenType() == sc->COMMA){
         match(sc->COMMA);
         eNode->next = transition("expression", &Parser::expression);
-		eNode = ((ASTExpressionNode *)eNode->next);
+		//eNode = ((ASTExpressionNode *)eNode->next);
+		eNode = dynamic_cast<ASTExpressionNode *>(eNode->next);
     }
 	
 	return parent;
@@ -395,7 +405,8 @@ ASTNode * Parser::compoundStmt(){
 		}
     }
     do{
-        sNode = ((ASTStatementNode *)transition("statement", &Parser::statement));
+        //sNode = ((ASTStatementNode *)transition("statement", &Parser::statement));
+		sNode = dynamic_cast<ASTStatementNode *>(transition("statement", &Parser::statement));
 		
 		// Make sure that we start by adding to compound's statements, then chaining later
 		if(cNode->statement == NULL) {
@@ -418,13 +429,16 @@ ASTNode * Parser::ifStmt(){
 	
     match(sc->IF);
     match(sc->LPAREN);
-    iNode->exp = ((ASTExpressionNode *)transition("expression", &Parser::expression));
+    //iNode->exp = ((ASTExpressionNode *)transition("expression", &Parser::expression));
+	iNode->exp = dynamic_cast<ASTExpressionNode *>(transition("expression", &Parser::expression));
     match(sc->RPAREN);
-    iNode->statement = ((ASTStatementNode *)transition("statement", &Parser::statement));
+    //iNode->statement = ((ASTStatementNode *)transition("statement", &Parser::statement));
+	iNode->statement = dynamic_cast<ASTStatementNode *>(transition("statement", &Parser::statement));
     
     if(lookahead.getTokenType() == sc->ELSE){
         match(sc->ELSE);
-        iNode->elseStatement = ((ASTStatementNode *)transition("statement", &Parser::statement));
+        //iNode->elseStatement = ((ASTStatementNode *)transition("statement", &Parser::statement));
+		iNode->elseStatement = dynamic_cast<ASTStatementNode *>(transition("statement", &Parser::statement));
     }
 	
 	return iNode;
@@ -435,7 +449,8 @@ ASTNode * Parser::loopStmt(){
 	ASTNode * current = lNode;
 	
     match(sc->LOOP);
-	lNode->statement = ((ASTStatementNode *)transition("statement", &Parser::statement));
+	//lNode->statement = ((ASTStatementNode *)transition("statement", &Parser::statement));
+	lNode->statement = dynamic_cast<ASTStatementNode *>(transition("statement", &Parser::statement));
 	current = lNode->statement;
     while(isStatementLookahead()){
         current->next = transition("statement", &Parser::statement);
@@ -473,7 +488,8 @@ ASTNode * Parser::returnStmt(){
 
     match(sc->RETURN);
     if(isExpressionLookahead()){
-      rNode->expression = ((ASTExpressionNode *)transition("expression", &Parser::expression));
+		//rNode->expression = ((ASTExpressionNode *)transition("expression", &Parser::expression));
+		rNode->expression = dynamic_cast<ASTExpressionNode *>(transition("expression", &Parser::expression));
     }
     
     match(sc->SEMI);
@@ -493,14 +509,17 @@ ASTNode * Parser::branchStmt(){
     ASTCaseNode *current = NULL;
     match(sc->BRANCH);
     match(sc->LPAREN);
-    bNode ->expression =((ASTExpressionNode *)transition("addExp", &Parser::addExp));
+    //bNode ->expression =((ASTExpressionNode *)transition("addExp", &Parser::addExp));
+	bNode->expression = dynamic_cast<ASTExpressionNode *>(transition("addExp", &Parser::addExp));
     match(sc->RPAREN);
     
     
-    bNode->firstCase= ((ASTCaseNode *)transition("caseStmt", &Parser::caseStmt));
+    //bNode->firstCase= ((ASTCaseNode *)transition("caseStmt", &Parser::caseStmt));
+	bNode->firstCase = dynamic_cast<ASTCaseNode *>(transition("caseStmt", &Parser::caseStmt));
     current =bNode->firstCase;
     while(lookahead.getTokenType() == sc->CASE || lookahead.getTokenType() == sc->DEFAULT){
-        current->nextCase = ((ASTCaseNode *)transition("caseStmt", &Parser::caseStmt));
+        //current->nextCase = ((ASTCaseNode *)transition("caseStmt", &Parser::caseStmt));
+		current->nextCase = dynamic_cast<ASTCaseNode *>(transition("caseStmt", &Parser::caseStmt));
         current = current->nextCase;
     }
     
@@ -518,13 +537,15 @@ ASTNode * Parser::caseStmt(){
         cNode->num = lookahead.getAttributeValue();
         match(sc->NUM);
         match(sc->COLON);
-        cNode->statement = ((ASTStatementNode *)transition("statement", &Parser::statement));
+        //cNode->statement = ((ASTStatementNode *)transition("statement", &Parser::statement));
+		cNode->statement = dynamic_cast<ASTStatementNode *>(transition("statement", &Parser::statement));
     }
     else{
         cNode->type = sc->DEFAULT;
         match(sc->DEFAULT);
         match(sc->COLON);
-        cNode->statement = ((ASTStatementNode *)transition("statement", &Parser::statement));
+        //cNode->statement = ((ASTStatementNode *)transition("statement", &Parser::statement));
+		cNode->statement = dynamic_cast<ASTStatementNode *>(transition("statement", &Parser::statement));
     }
     
     return cNode;
@@ -532,13 +553,15 @@ ASTNode * Parser::caseStmt(){
 
 // Commented out expression types because they will be taken care of later during semantic analysis
 ASTNode * Parser::expression(){
-    ASTExpressionNode * exp = ((ASTExpressionNode *)transition("addExp", &Parser::addExp));
+    //ASTExpressionNode * exp = ((ASTExpressionNode *)transition("addExp", &Parser::addExp));
+    ASTExpressionNode * exp = dynamic_cast<ASTExpressionNode *>(transition("addExp", &Parser::addExp));
     if(isRelopLookahead())
     {
 		ASTBinaryNode * next = new ASTBinaryNode;
         next->oper = lookahead.getTokenType();
 		match(lookahead.getTokenType());
-        next->right = ((ASTExpressionNode *)transition("addExp", &Parser::addExp));
+        //next->right = ((ASTExpressionNode *)transition("addExp", &Parser::addExp));
+		next->right = dynamic_cast<ASTExpressionNode *>(transition("addExp", &Parser::addExp));
 		next->left = exp;
 		//next->type = ((ASTExpressionNode *)right)->type;
 		exp = next;
@@ -555,7 +578,8 @@ ASTNode * Parser::addExp(){
         match(sc->MINUS);
 		isNeg = true;
     }
-    exp = ((ASTExpressionNode *)transition("term", &Parser::term));
+    //exp = ((ASTExpressionNode *)transition("term", &Parser::term));
+	exp = dynamic_cast<ASTExpressionNode *>(transition("term", &Parser::term));
 	if(isNeg) {
 		ASTUnaryNode * next = new ASTUnaryNode;
 		next->operation = sc->MINUS;
@@ -567,7 +591,8 @@ ASTNode * Parser::addExp(){
 		ASTBinaryNode * next = new ASTBinaryNode;
 		next->oper = lookahead.getTokenType();
 		match(lookahead.getTokenType());
-		next->right = ((ASTExpressionNode *)transition("term", &Parser::term));
+		//next->right = ((ASTExpressionNode *)transition("term", &Parser::term));
+		next->right = dynamic_cast<ASTExpressionNode *>(transition("term", &Parser::term));
 		next->left = exp;
 		//next->type = ((ASTExpressionNode *)right)->type;
 		exp = next;
@@ -577,12 +602,14 @@ ASTNode * Parser::addExp(){
 }
 
 ASTNode * Parser::term(){
-    ASTExpressionNode * exp = ((ASTExpressionNode *)transition("factor", &Parser::factor));
+    //ASTExpressionNode * exp = ((ASTExpressionNode *)transition("factor", &Parser::factor));
+    ASTExpressionNode * exp = dynamic_cast<ASTExpressionNode *>(transition("factor", &Parser::factor));
     while(isMultopLookahead()){
         ASTBinaryNode * next = new ASTBinaryNode;
         next->oper = lookahead.getTokenType();
 		match(lookahead.getTokenType());
-        next->right = ((ASTExpressionNode *)transition("factor", &Parser::factor));
+        //next->right = ((ASTExpressionNode *)transition("factor", &Parser::factor));
+		next->right = dynamic_cast<ASTExpressionNode *>(transition("factor", &Parser::factor));
 		next->left = exp;
 		//next->type = ((ASTExpressionNode *)right)->type;
 		exp = next;
@@ -606,13 +633,15 @@ ASTNode * Parser::nidFactor(){
         case sc->NOT:
 			eNode = new ASTUnaryNode;
             match(sc->NOT);
-			((ASTUnaryNode *)eNode)->operand = ((ASTExpressionNode *)transition("factor", &Parser::factor));
+			//((ASTUnaryNode *)eNode)->operand = ((ASTExpressionNode *)transition("factor", &Parser::factor));
+			((ASTUnaryNode *)eNode)->operand = dynamic_cast<ASTExpressionNode *>(transition("factor", &Parser::factor));
 			((ASTUnaryNode *)eNode)->operation = sc->NOT;
 			((ASTUnaryNode *)eNode)->type = ((ASTUnaryNode *)eNode)->operand->type;
             break;
         case sc->LPAREN:
             match(sc->LPAREN);
-			eNode = ((ASTExpressionNode *)transition("expression", &Parser::expression));
+			//eNode = ((ASTExpressionNode *)transition("expression", &Parser::expression));
+			eNode = dynamic_cast<ASTExpressionNode *>(transition("expression", &Parser::expression));
             match(sc->RPAREN);
             break;
         case sc->NUM:
@@ -638,7 +667,8 @@ ASTNode * Parser::idFactor(){
 	
     match(sc->ID);
     if(lookahead.getTokenType() == sc->LPAREN){
-        exp = ((ASTExpressionNode *)transition("callTail", &Parser::callTail));
+        //exp = ((ASTExpressionNode *)transition("callTail", &Parser::callTail));
+		exp = dynamic_cast<ASTExpressionNode *>(transition("callTail", &Parser::callTail));
 		((ASTFunctionCallNode *)exp)->id = id;
     }
     else {
@@ -647,7 +677,8 @@ ASTNode * Parser::idFactor(){
 	
 		if(lookahead.getTokenType() == sc->LSQR){
 			match(sc->LSQR);
-			((ASTVariableNode *)exp)->arrayExp = ((ASTExpressionNode *)transition("addExp", &Parser::addExp));
+			//((ASTVariableNode *)exp)->arrayExp = ((ASTExpressionNode *)transition("addExp", &Parser::addExp));
+			((ASTVariableNode *)exp)->arrayExp = dynamic_cast<ASTExpressionNode *>(transition("addExp", &Parser::addExp));
 			match(sc->RSQR);
 
 			((ASTVariableNode *)exp)->isArray = true;

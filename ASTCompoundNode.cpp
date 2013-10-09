@@ -7,17 +7,17 @@
 
 #include "ASTCompoundNode.h"
 
-ASTCompoundNode::ASTCompoundNode() : ASTNode(), dec(0), statement(0) {
+ASTCompoundNode::ASTCompoundNode() : ASTStatementNode(), dec(0), statement(0) {
 }
 
-ASTCompoundNode::ASTCompoundNode(const ASTCompoundNode& orig):ASTNode(orig),
+ASTCompoundNode::ASTCompoundNode(const ASTCompoundNode& orig):ASTStatementNode(orig),
 		dec(orig.dec), statement(orig.statement)
 {
 }
 
 ASTCompoundNode& ASTCompoundNode::operator= (const ASTCompoundNode &rhs)
 {
-	ASTNode::operator=(rhs);
+	ASTStatementNode::operator=(rhs);
 	
 	dec = rhs.dec;
 	statement = rhs.statement;

@@ -12,7 +12,7 @@
 #include "ASTDeclarationNode.h"
 #include "ASTStatementNode.h"
 
-class ASTCompoundNode :public ASTNode{
+class ASTCompoundNode : public ASTStatementNode{
 public:
     ASTCompoundNode();
     ASTCompoundNode(const ASTCompoundNode& orig);

@@ -10,7 +10,7 @@
 
 #include "ASTNode.h"
 
-class ASTStatementNode : public ASTNode {
+class ASTStatementNode : public virtual ASTNode {
 public:
     ASTStatementNode();
     ASTStatementNode(const ASTStatementNode& orig);

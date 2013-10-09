@@ -10,7 +10,7 @@
 
 #include "ASTNode.h"
 
-class ASTExpressionNode :public ASTNode{
+class ASTExpressionNode :public virtual ASTNode {
 public:
     ASTExpressionNode();
     ASTExpressionNode(const ASTExpressionNode& orig);
