@@ -3,14 +3,14 @@
 #include <iostream>
 
 // The friendly names for token integer enums
-string Scanner::namesRev[49] = {"ID", "NUM", "BLIT", "ENDFILE", "ERROR",
+string Scanner::namesRev[50] = {"ID", "NUM", "BLIT", "ENDFILE", "ERROR",
 			"AND", "BOOL", "BRANCH", "CASE", "CONTINUE", "DEFAULT", "ELSE", "END",
 			"EXIT", "IF", "INT", "LOOP", "MOD", "NOT", "OR", "REF", "RETURN", "VOID",
 			"PLUS", "MINUS", "MULT", "DIV", "ANDTHEN", "ORELSE", "LT", "LTEQ",
 			"GT", "GTEQ", "EQ", "NEQ", "ASSIGN", "SEMI", "COMMA", "LPAREN", "RPAREN",
 			"LSQR", "RSQR", "LCRLY", "RCRLY",
 			"INLINECOMMENT", "COMMENTOPEN", "COMMENTCLOSE",
-			"IGNORED", "COLON"};
+			"IGNORED", "COLON","NULLSTMT"};
 
 Scanner::Scanner() : symbolCount(0), commentDepth(0), errorCount(0), wordTable(unordered_map<string, pair<int, int>>()),
 	symbolTable(unordered_map<string, pair<int, int>>())

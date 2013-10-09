@@ -37,6 +37,8 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/ASTAssignmentNode.o \
 	${OBJECTDIR}/ASTBinaryNode.o \
+	${OBJECTDIR}/ASTBranchNode.o \
+	${OBJECTDIR}/ASTCaseNode.o \
 	${OBJECTDIR}/ASTCompoundNode.o \
 	${OBJECTDIR}/ASTDeclarationNode.o \
 	${OBJECTDIR}/ASTExpressionNode.o \
@@ -48,6 +50,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/ASTMarkerNode.o \
 	${OBJECTDIR}/ASTNode.o \
 	${OBJECTDIR}/ASTParamNode.o \
+	${OBJECTDIR}/ASTReturnNode.o \
 	${OBJECTDIR}/ASTStatementNode.o \
 	${OBJECTDIR}/ASTUnaryNode.o \
 	${OBJECTDIR}/ASTVariableDeclarationNode.o \
@@ -92,6 +95,16 @@ ${OBJECTDIR}/ASTBinaryNode.o: ASTBinaryNode.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ASTBinaryNode.o ASTBinaryNode.cpp
+
+${OBJECTDIR}/ASTBranchNode.o: ASTBranchNode.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ASTBranchNode.o ASTBranchNode.cpp
+
+${OBJECTDIR}/ASTCaseNode.o: ASTCaseNode.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ASTCaseNode.o ASTCaseNode.cpp
 
 ${OBJECTDIR}/ASTCompoundNode.o: ASTCompoundNode.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -147,6 +160,11 @@ ${OBJECTDIR}/ASTParamNode.o: ASTParamNode.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ASTParamNode.o ASTParamNode.cpp
+
+${OBJECTDIR}/ASTReturnNode.o: ASTReturnNode.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ASTReturnNode.o ASTReturnNode.cpp
 
 ${OBJECTDIR}/ASTStatementNode.o: ASTStatementNode.cpp 
 	${MKDIR} -p ${OBJECTDIR}

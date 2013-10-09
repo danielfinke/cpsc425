@@ -7,11 +7,11 @@
 
 #include "ASTFunctionCallNode.h"
 
-ASTFunctionCallNode::ASTFunctionCallNode() : ASTStatementNode(), ASTExpressionNode(), idName(""), argument(NULL) {
+ASTFunctionCallNode::ASTFunctionCallNode() : ASTStatementNode(), ASTExpressionNode(), id(0), argument(NULL) {
 }
 
 ASTFunctionCallNode::ASTFunctionCallNode(const ASTFunctionCallNode& orig): ASTStatementNode(orig), 
-        ASTExpressionNode(orig), idName(orig.idName),argument(orig.argument)
+        ASTExpressionNode(orig), id(orig.id),argument(orig.argument)
 {
 }
 
@@ -21,7 +21,7 @@ ASTFunctionCallNode& ASTFunctionCallNode::operator= (const ASTFunctionCallNode &
         ASTExpressionNode::operator = (rhs);
 	
     // do the copy
-        idName= rhs.idName;
+        id= rhs.id;
         argument = rhs.argument;
  
     // return the existing object
@@ -34,7 +34,7 @@ ASTFunctionCallNode::~ASTFunctionCallNode() {
 
 void ASTFunctionCallNode::printNode(int indent) {
 	ASTStatementNode::printIndented("function call", indent);
-	ASTStatementNode::printIndented("id: " + idName, indent + 2);
+	ASTStatementNode::printIndented("id: " + id, indent + 2);
 	
 	if(argument != NULL) {
 		ASTStatementNode::printIndented("args:", indent + 2);

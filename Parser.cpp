@@ -12,6 +12,9 @@
 #include "ASTLiteralNode.h"
 #include "ASTVariableNode.h"
 #include "ASTMarkerNode.h"
+#include "ASTBranchNode.h"
+#include "ASTCaseNode.h"
+#include "ASTReturnNode.h"
 #include <iostream>
 
 Parser::Parser(void) : admin(NULL), sc(NULL), lookahead(Token())
@@ -86,36 +89,36 @@ ASTNode * Parser::program(){
 }
 
 ASTNode * Parser::declaration(){
-	string idName = "";
+	int id =0;
 	ASTNode * dNode = NULL;
 	
     if(lookahead.getTokenType() == sc ->VOID){
         match(sc->VOID);
-		idName = sc->getIdentifierName(lookahead.getAttributeValue());
+		id = lookahead.getAttributeValue();
         match(sc->ID);
 		
         dNode = transition("funDecTail", &Parser::funDecTail);
 		
 		((ASTFunctionNode *)dNode)->declarationType = sc->VOID;
-		((ASTFunctionNode *)dNode)->idName = idName;
+		((ASTFunctionNode *)dNode)->id = id;
     }
     else {
 		int decType = 0;
 		dNode = transition("nonVoidSpecifier", &Parser::nonVoidSpecifier);
 		
 		decType = ((ASTDeclarationNode *)dNode)->declarationType;
-		idName = sc->getIdentifierName(lookahead.getAttributeValue());
+		id = lookahead.getAttributeValue();
         match(sc->ID);
 		
 		if(lookahead.getTokenType() == sc->LPAREN) {
 			dNode = transition("funDecTail", &Parser::funDecTail);
 			((ASTFunctionNode *)dNode)->declarationType = decType;
-			((ASTFunctionNode *)dNode)->idName = idName;
+			((ASTFunctionNode *)dNode)->id = id;
 		}
 		else {
 			dNode = transition("varDecTail", &Parser::varDecTail);
 			((ASTVariableDeclarationNode *)dNode)->declarationType = decType;
-			((ASTVariableDeclarationNode *)dNode)->idName = idName;
+			((ASTVariableDeclarationNode *)dNode)->id = id;
 		}
     }
 	
@@ -158,10 +161,10 @@ ASTNode * Parser::varDecTail(){
 }
 
 ASTNode * Parser::varName(){
-	string idName = "";
+	int id =0;
 	ASTVariableDeclarationNode * vNode = new ASTVariableDeclarationNode;
 	
-	idName = sc->getIdentifierName(lookahead.getAttributeValue());
+	id = lookahead.getAttributeValue();
     match(sc->ID);
     
     if(lookahead.getTokenType() == sc->LSQR){
@@ -172,7 +175,7 @@ ASTNode * Parser::varName(){
 		vNode->isArray = true;
     }
 	
-	vNode->idName = idName;
+	vNode->id = id;
 	
 	return vNode;
 }
@@ -215,21 +218,21 @@ ASTNode * Parser::params(){
 ASTNode * Parser::param(){
 	ASTParamNode * pNode = new ASTParamNode;
 	ASTDeclarationNode * dNode = NULL;
-	string idName = "";
+	int id =0;
 	
     if(lookahead.getTokenType() == sc->REF){
         match(sc->REF);
         dNode = ((ASTDeclarationNode *)transition("nonVoidSpecifier", &Parser::nonVoidSpecifier));
-		idName = sc->getIdentifierName(lookahead.getAttributeValue());
+		id = lookahead.getAttributeValue();
         match(sc->ID);
 		
 		pNode->isRef = true;
 		pNode->declarationType = dNode->declarationType;
-		pNode->idName = idName;
+		pNode->id = id;
     }
     else{
         dNode = ((ASTDeclarationNode *)transition("nonVoidSpecifier", &Parser::nonVoidSpecifier));
-		idName = sc->getIdentifierName(lookahead.getAttributeValue());
+		id = lookahead.getAttributeValue();
         match(sc->ID);
 		
         if(lookahead.getTokenType() == sc->LSQR){
@@ -240,7 +243,7 @@ ASTNode * Parser::param(){
         }
 		
 		pNode->declarationType = dNode->declarationType;
-		pNode->idName = idName;
+		pNode->id = id;
     }
 	
 	return pNode;
@@ -280,7 +283,6 @@ ASTNode * Parser::statement(){
 
 ASTNode * Parser::idStmt(){
 	int id = lookahead.getAttributeValue();
-	string idName = sc->getIdentifierName(lookahead.getAttributeValue());
 	ASTStatementNode * sNode = NULL;
     match(sc->ID);
 	
@@ -290,7 +292,7 @@ ASTNode * Parser::idStmt(){
     }
     else{
         sNode = ((ASTStatementNode *)transition("callTail", &Parser::callTail));
-		((ASTFunctionCallNode *)sNode)->idName = idName;
+		((ASTFunctionCallNode *)sNode)->id = id;
 		match(sc->SEMI);
     }
 	
@@ -350,7 +352,7 @@ ASTNode * Parser::arguments(){
 // May have to change "next" to a different construct (see diagram)
 ASTNode * Parser::compoundStmt(){
 	int decType = 0;
-	string idName = "";
+	int id =0;
 	ASTCompoundNode * cNode = new ASTCompoundNode;
 	ASTDeclarationNode * dNode = new ASTDeclarationNode;
 	ASTStatementNode * sNode = NULL;
@@ -359,14 +361,14 @@ ASTNode * Parser::compoundStmt(){
     match(sc->LCRLY);
     while(lookahead.getTokenType() == sc->INT || lookahead.getTokenType() == sc->BOOL){
         dNode = ((ASTDeclarationNode *)transition("nonVoidSpecifier", &Parser::nonVoidSpecifier));
-		idName = sc->getIdentifierName(lookahead.getAttributeValue());
+		id = lookahead.getAttributeValue();
         match(sc->ID);
 		
 		decType = dNode->declarationType;
 		
         dNode = ((ASTDeclarationNode *)transition("varDecTail", &Parser::varDecTail));
 		((ASTVariableDeclarationNode *)dNode)->declarationType = decType;
-		((ASTVariableDeclarationNode *)dNode)->idName = idName;
+		((ASTVariableDeclarationNode *)dNode)->id = id;
 		
 		current->next = dNode;
 		current = current->next;
@@ -432,25 +434,42 @@ ASTNode * Parser::exitStmt(){
 	return marker;
 }
 
-// NEED MORE STATEMENTS
+
 
 ASTNode * Parser::continueStmt(){
+    ASTMarkerNode * marker = new ASTMarkerNode;
+    
+    marker ->type = sc->CONTINUE;
+    
     match(sc->CONTINUE);
     match(sc->SEMI);
+    
+    return marker;
 }
+
+
 
 ASTNode * Parser::returnStmt(){
+    ASTReturnNode * rNode = new ASTReturnNode;
+
     match(sc->RETURN);
     if(isExpressionLookahead()){
-        transition("expression", &Parser::expression);
+      rNode->expression = ((ASTExpressionNode *)transition("expression", &Parser::expression));
     }
+    
     match(sc->SEMI);
+    return rNode;
 }
 
-ASTNode * Parser::nullStmt(){
+ASTNode * Parser::nullStmt(){   
+    ASTMarkerNode * marker = new ASTMarkerNode;
+    marker ->type = sc->NULLSTMT;
     match(sc->SEMI);
+    
+    return marker;
 }
 
+// NEED MORE STATEMENTS
 ASTNode * Parser::branchStmt(){
     match(sc->BRANCH);
     match(sc->LPAREN);
@@ -466,17 +485,22 @@ ASTNode * Parser::branchStmt(){
 }
 
 ASTNode * Parser::caseStmt(){
+   // ASTCaseNode * cNode = new ASTCaseNode;
     if(lookahead.getTokenType() == sc->CASE){
+        //cNode->type = sc->CASE;
         match(sc->CASE);
         match(sc->NUM);
         match(sc->COLON);
         transition("statement", &Parser::statement);
     }
     else{
+       // cNode->type = sc->DEFAULT;
         match(sc->DEFAULT);
         match(sc->COLON);
         transition("statement", &Parser::statement);
     }
+    
+    
 }
 
 // END REMAINING STATEMENTS
@@ -583,17 +607,17 @@ ASTNode * Parser::nidFactor(){
 }
 
 ASTNode * Parser::idFactor(){
-	string idName = sc->getIdentifierName(lookahead.getAttributeValue());
+	int id = lookahead.getAttributeValue();
 	ASTExpressionNode * exp = NULL;
 	
     match(sc->ID);
     if(lookahead.getTokenType() == sc->LPAREN){
         exp = ((ASTExpressionNode *)transition("callTail", &Parser::callTail));
-		((ASTFunctionCallNode *)exp)->idName = idName;
+		((ASTFunctionCallNode *)exp)->id = id;
     }
     else {
 		exp = new ASTVariableNode;
-		((ASTVariableNode *)exp)->idName = idName;
+		((ASTVariableNode *)exp)->id = id;
 	}
 	
 	if(lookahead.getTokenType() == sc->LSQR){

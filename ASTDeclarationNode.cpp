@@ -7,11 +7,11 @@
 
 #include "ASTDeclarationNode.h"
 
-ASTDeclarationNode::ASTDeclarationNode() : ASTNode(), declarationType(0), idName("") {
+ASTDeclarationNode::ASTDeclarationNode() : ASTNode(), declarationType(0), id(0) {
 }
 
 ASTDeclarationNode::ASTDeclarationNode(const ASTDeclarationNode& orig):ASTNode(orig),
-        declarationType(orig.declarationType), idName(orig.idName)
+        declarationType(orig.declarationType), id(orig.id)
 {
 }
 
@@ -22,7 +22,7 @@ ASTDeclarationNode& ASTDeclarationNode::operator= (const ASTDeclarationNode &rhs
 	
     // do the copy
         declarationType= rhs.declarationType;
-        idName=rhs.idName;
+        id=rhs.id;
  
     // return the existing object
     return *this;

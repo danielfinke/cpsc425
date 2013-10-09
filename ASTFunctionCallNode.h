@@ -24,7 +24,7 @@ public:
 	
 	void printNode(int indent);
 	
-	string idName;
+	int id;
 	ASTExpressionNode * argument;
 private:
 

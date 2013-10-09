@@ -24,7 +24,7 @@ public:
 	virtual void printNode(int indent);
 	
     int declarationType;
-    string idName;
+    int id;
 private:
 
 };

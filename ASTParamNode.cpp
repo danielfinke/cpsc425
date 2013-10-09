@@ -34,7 +34,7 @@ void ASTParamNode::printNode(int indent) {
 	ostringstream oss;
 	
 	printIndented("param", indent);
-	printIndented("id: " + idName, indent + 2);
+	printIndented("id: " + id, indent + 2);
 	printIndented("type: " + Scanner::namesRev[declarationType], indent + 2);
 	oss << "ref? " << (isRef ? "YES" : "NO");
 	printIndented(oss.str(), indent + 2);

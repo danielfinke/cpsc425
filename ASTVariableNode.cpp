@@ -7,13 +7,13 @@
 
 #include "ASTVariableNode.h"
 
-ASTVariableNode::ASTVariableNode() : ASTExpressionNode(), idName(""), isArray(false),
+ASTVariableNode::ASTVariableNode() : ASTExpressionNode(), id(0), isArray(false),
 		arrayExp(NULL)
 {
 }
 
 ASTVariableNode::ASTVariableNode(const ASTVariableNode& orig) : ASTExpressionNode(orig),
-        idName(orig.idName), isArray(orig.isArray)
+        id(orig.id), isArray(orig.isArray)
 {
 }
 
@@ -22,7 +22,7 @@ ASTVariableNode& ASTVariableNode::operator= (const ASTVariableNode &rhs)
 	ASTExpressionNode::operator=(rhs);
 	
     // do the copy
-        idName = rhs.idName;
+        id = rhs.id;
         isArray = rhs.isArray;
  
     // return the existing object
@@ -36,7 +36,7 @@ void ASTVariableNode::printNode(int indent) {
 	ostringstream oss;
 	
 	printIndented("var", indent);
-	printIndented("name: " + idName, indent + 2);
+	//printIndented("name: " + id, indent + 2);
 	printIndented("type: " + Scanner::namesRev[type], indent + 2);
 	oss << "array? " << (isArray ? "YES" : "NO");
 	printIndented(oss.str(), indent + 2);

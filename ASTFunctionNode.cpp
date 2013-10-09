@@ -34,7 +34,7 @@ ASTFunctionNode::~ASTFunctionNode() {
 
 void ASTFunctionNode::printNode(int indent) {
 	printIndented("function", indent);
-	printIndented("id: " + idName, indent + 2);
+	printIndented("id: " + id, indent + 2);
 	printIndented("type: " + Scanner::namesRev[declarationType], indent + 2);
 	if(param != NULL) {
 		printIndented("params:", indent + 2);

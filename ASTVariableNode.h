@@ -19,7 +19,7 @@ public:
 	
 	void printNode(int indent);
 	
-	string idName;
+	int id;
 	bool isArray;
 	ASTExpressionNode * arrayExp;
 private:

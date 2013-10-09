@@ -36,7 +36,7 @@ void ASTVariableDeclarationNode::printNode(int indent) {
 	ostringstream oss;
 	
 	printIndented("var declaration", indent);
-	printIndented("name: " + idName, indent + 2);
+	//printIndented("name: " + id, indent + 2);
 	printIndented("type: " + Scanner::namesRev[declarationType], indent + 2);
 	oss << "arrayParam? " << (isArray ? "YES" : "NO");
 	printIndented(oss.str(), indent + 2);
