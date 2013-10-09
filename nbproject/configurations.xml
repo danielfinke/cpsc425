@@ -6,6 +6,8 @@
                    projectFiles="true">
       <itemPath>ASTAssignmentNode.h</itemPath>
       <itemPath>ASTBinaryNode.h</itemPath>
+      <itemPath>ASTBranchNode.h</itemPath>
+      <itemPath>ASTCaseNode.h</itemPath>
       <itemPath>ASTCompoundNode.h</itemPath>
       <itemPath>ASTDeclarationNode.h</itemPath>
       <itemPath>ASTExpressionNode.h</itemPath>
@@ -17,6 +19,7 @@
       <itemPath>ASTMarkerNode.h</itemPath>
       <itemPath>ASTNode.h</itemPath>
       <itemPath>ASTParamNode.h</itemPath>
+      <itemPath>ASTReturnNode.h</itemPath>
       <itemPath>ASTStatementNode.h</itemPath>
       <itemPath>ASTUnaryNode.h</itemPath>
       <itemPath>ASTVariableDeclarationNode.h</itemPath>
@@ -35,6 +38,8 @@
                    projectFiles="true">
       <itemPath>ASTAssignmentNode.cpp</itemPath>
       <itemPath>ASTBinaryNode.cpp</itemPath>
+      <itemPath>ASTBranchNode.cpp</itemPath>
+      <itemPath>ASTCaseNode.cpp</itemPath>
       <itemPath>ASTCompoundNode.cpp</itemPath>
       <itemPath>ASTDeclarationNode.cpp</itemPath>
       <itemPath>ASTExpressionNode.cpp</itemPath>
@@ -46,6 +51,7 @@
       <itemPath>ASTMarkerNode.cpp</itemPath>
       <itemPath>ASTNode.cpp</itemPath>
       <itemPath>ASTParamNode.cpp</itemPath>
+      <itemPath>ASTReturnNode.cpp</itemPath>
       <itemPath>ASTStatementNode.cpp</itemPath>
       <itemPath>ASTUnaryNode.cpp</itemPath>
       <itemPath>ASTVariableDeclarationNode.cpp</itemPath>
@@ -90,6 +96,14 @@
       </item>
       <item path="ASTBinaryNode.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="ASTBranchNode.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ASTBranchNode.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ASTCaseNode.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ASTCaseNode.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="ASTCompoundNode.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="ASTCompoundNode.h" ex="false" tool="3" flavor2="0">
@@ -133,6 +147,10 @@
       <item path="ASTParamNode.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="ASTParamNode.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ASTReturnNode.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ASTReturnNode.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="ASTStatementNode.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -198,6 +216,14 @@
       </item>
       <item path="ASTBinaryNode.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="ASTBranchNode.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ASTBranchNode.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ASTCaseNode.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ASTCaseNode.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="ASTCompoundNode.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="ASTCompoundNode.h" ex="false" tool="3" flavor2="0">
@@ -241,6 +267,10 @@
       <item path="ASTParamNode.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="ASTParamNode.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ASTReturnNode.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ASTReturnNode.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="ASTStatementNode.cpp" ex="false" tool="1" flavor2="0">
       </item>
