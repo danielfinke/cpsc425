@@ -494,39 +494,49 @@ ASTNode * Parser::nullStmt(){
 
 // NEED MORE STATEMENTS
 ASTNode * Parser::branchStmt(){
+    ASTBranchNode * bNode = new ASTBranchNode;
+    ASTCaseNode *current = NULL;
     match(sc->BRANCH);
     match(sc->LPAREN);
-    transition("addExp", &Parser::addExp);
+    bNode ->expression =((ASTExpressionNode *)transition("addExp", &Parser::addExp));
     match(sc->RPAREN);
     
-    do{
-        transition("caseStmt", &Parser::caseStmt);
-    }while(lookahead.getTokenType() == sc->CASE || lookahead.getTokenType() == sc->DEFAULT);
+    
+    bNode->firstCase= ((ASTCaseNode *)transition("caseStmt", &Parser::caseStmt));
+    current =bNode->firstCase;
+    while(lookahead.getTokenType() == sc->CASE || lookahead.getTokenType() == sc->DEFAULT){
+        current->nextCase = ((ASTCaseNode *)transition("caseStmt", &Parser::caseStmt));
+        current = current->nextCase;
+    }
     
     match(sc->END);
     match(sc->SEMI);
+    
+    return bNode;
 }
 
 ASTNode * Parser::caseStmt(){
-   // ASTCaseNode * cNode = new ASTCaseNode;
+    ASTCaseNode * cNode = new ASTCaseNode;
     if(lookahead.getTokenType() == sc->CASE){
-        //cNode->type = sc->CASE;
+        cNode->type = sc->CASE;
         match(sc->CASE);
+        cNode->num = lookahead.getAttributeValue();
         match(sc->NUM);
         match(sc->COLON);
         transition("statement", &Parser::statement);
     }
     else{
-       // cNode->type = sc->DEFAULT;
+        cNode->type = sc->DEFAULT;
         match(sc->DEFAULT);
         match(sc->COLON);
         transition("statement", &Parser::statement);
     }
     
+    return cNode;
+    
     
 }
 
-// END REMAINING STATEMENTS
 
 // Commented out expression types because they will be taken care of later during semantic analysis
 ASTNode * Parser::expression(){
