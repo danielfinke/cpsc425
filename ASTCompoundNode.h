@@ -16,6 +16,7 @@ public:
     ASTCompoundNode(const ASTCompoundNode& orig);
     virtual ~ASTCompoundNode();
 	
+	// todo: make pure virtual
 	virtual void printNode(int indent);
 private:
 

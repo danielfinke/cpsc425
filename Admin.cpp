@@ -193,6 +193,6 @@ void Admin::unget() { linePos--; }
 
 //To 
 void Admin :: syntaxError(int expected){
-    *output << sc->namesRev[expected] +" was expected";
+    *output << sc->namesRev[expected] +" was expected on line " << lineCount << endl;
     //exit();
 }

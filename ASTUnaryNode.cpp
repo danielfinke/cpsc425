@@ -17,11 +17,11 @@ ASTUnaryNode::~ASTUnaryNode() {
 }
 
 void ASTUnaryNode::printNode(int indent) {
-	printIndented("unary exp:", indent);
-	printIndented("type: " + type, indent);
-	printIndented("operation: " + operation, indent);
-	printIndented("operand:", indent);
-	operand->printNode(indent + 2);
+	printIndented("unary exp", indent);
+	//printIndented("type: " + Scanner::namesRev[type], indent + 2);
+	printIndented("operation: " + Scanner::namesRev[operation], indent + 2);
+	printIndented("operand:", indent + 2);
+	operand->printNode(indent + 4);
 	
 	if(next != NULL) {
 		next->printNode(indent);

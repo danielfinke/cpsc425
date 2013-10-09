@@ -1,16 +1,29 @@
-void main() {
+int boo(ref int input) {
+	--return input + 3;
+	input := 3;
+}
+
+int foo(void) {
+	--return 5;
+	input := 3;
+}
+
+void main(ref int param) {
 	int x[4], y;
 	bool yourFace;
 	bool youSuck;
 	int meaning_of_life;
-	x := 0;
+
+	x[0] := 0+1;
+	x[1] := boo(y);
+	y := foo();
 
 	if(x[t+4]=0){
 		yourFace := false;
 		youSuck := true;
 	}
 	else{
-		x:=5;
+		x:=-5;
 	}
 
 	loop x:=x+1;

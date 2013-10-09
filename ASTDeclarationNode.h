@@ -19,6 +19,7 @@ public:
     ASTDeclarationNode(const ASTDeclarationNode& orig);
     virtual ~ASTDeclarationNode();
 	
+	// todo: make pure virtual
 	virtual void printNode(int indent);
 	
     int declarationType;

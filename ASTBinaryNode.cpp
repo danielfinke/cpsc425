@@ -17,13 +17,13 @@ ASTBinaryNode::~ASTBinaryNode() {
 }
 
 void ASTBinaryNode::printNode(int indent) {
-	printIndented("binary exp:", indent);
-	printIndented("type: " + Scanner::namesRev[type], indent);
-	printIndented("operation: " + Scanner::namesRev[oper], indent);
-	printIndented("left:", indent);
-	left->printNode(indent + 2);
-	printIndented("right:", indent);
-	right->printNode(indent + 2);
+	printIndented("binop", indent);
+	//printIndented("type: " + Scanner::namesRev[type], indent);
+	printIndented("operation: " + Scanner::namesRev[oper], indent + 2);
+	printIndented("left:", indent + 2);
+	left->printNode(indent + 4);
+	printIndented("right:", indent + 2);
+	right->printNode(indent + 4);
 	
 	if(next != NULL) {
 		next->printNode(indent);

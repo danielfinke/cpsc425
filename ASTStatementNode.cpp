@@ -17,7 +17,7 @@ ASTStatementNode::~ASTStatementNode() {
 }
 
 void ASTStatementNode::printNode(int indent) {
-	printIndented("statement:", indent);
+	printIndented("statement", indent);
 	
 	if(next != NULL) {
 		next->printNode(indent);

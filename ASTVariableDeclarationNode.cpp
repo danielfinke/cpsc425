@@ -20,15 +20,15 @@ ASTVariableDeclarationNode::~ASTVariableDeclarationNode() {
 void ASTVariableDeclarationNode::printNode(int indent) {
 	ostringstream oss;
 	
-	printIndented("var dec:", indent);
-	printIndented("name: " + idName, indent);
-	printIndented("type: " + Scanner::namesRev[declarationType], indent);
+	printIndented("var declaration", indent);
+	printIndented("name: " + idName, indent + 2);
+	printIndented("type: " + Scanner::namesRev[declarationType], indent + 2);
 	oss << "arrayParam? " << (isArray ? "YES" : "NO");
-	printIndented(oss.str(), indent);
+	printIndented(oss.str(), indent + 2);
 	
 	if(isArray) {
-		printIndented("size:", indent);
-		arrayExp->printNode(indent + 2);
+		printIndented("size:", indent + 2);
+		arrayExp->printNode(indent + 4);
 	}
 	
 	if(next != NULL) {

@@ -73,11 +73,15 @@ void Parser::startParsing(){
 
 // Finish me!!!!
 ASTNode * Parser::program(){
-	ASTNode * top;
-    do{
-        top = transition("declaration", &Parser::declaration);
-    }while(lookahead.getTokenType() == sc->INT || lookahead.getTokenType() == sc->BOOL || lookahead.getTokenType() == sc->VOID);
-	top->printNode(0);
+	ASTDeclarationNode * parent = ((ASTDeclarationNode *)transition("declaration", &Parser::declaration));
+	ASTDeclarationNode * current = parent;
+	while(lookahead.getTokenType() == sc->INT || lookahead.getTokenType() == sc->BOOL || lookahead.getTokenType() == sc->VOID) {
+		current->next = ((ASTDeclarationNode *)transition("declaration", &Parser::declaration));
+		while(current->next != NULL) {
+			current = ((ASTDeclarationNode *)current->next);
+		}
+	}
+	parent->printNode(0);
 }
 
 ASTNode * Parser::declaration(){
@@ -191,7 +195,7 @@ ASTNode * Parser::funDecTail(){
 ASTNode * Parser::params(){
 	ASTParamNode * parent = NULL, *pNode = NULL;
 	
-    if(lookahead.getTokenType() == sc->REF){
+    if(lookahead.getTokenType() != sc->VOID){
         parent = ((ASTParamNode *)transition("param", &Parser::param));
 		pNode = parent;
         while(lookahead.getTokenType() == sc->COMMA){
@@ -325,7 +329,7 @@ ASTNode * Parser::callTail(){
     match(sc->RPAREN);
     match(sc->SEMI);
 	
-	return fNode;
+	return ((ASTExpressionNode *)fNode);
 }
 
 ASTNode * Parser::arguments(){
@@ -459,7 +463,6 @@ ASTNode * Parser::branchStmt(){
     match(sc->SEMI);
 }
 
-//NOTE colon doesn't exist in language???
 ASTNode * Parser::caseStmt(){
     if(lookahead.getTokenType() == sc->CASE){
         match(sc->CASE);
@@ -580,22 +583,27 @@ ASTNode * Parser::nidFactor(){
 
 ASTNode * Parser::idFactor(){
 	string idName = sc->getIdentifierName(lookahead.getAttributeValue());
-	ASTVariableNode * varNode = new ASTVariableNode;
+	ASTExpressionNode * exp = NULL;
 	
     match(sc->ID);
-	varNode->idName = idName;
     if(lookahead.getTokenType() == sc->LPAREN){
-        varNode->func = ((ASTFunctionCallNode *)transition("callTail", &Parser::callTail));
+        exp = ((ASTExpressionNode *)transition("callTail", &Parser::callTail));
+		((ASTFunctionCallNode *)exp)->idName = idName;
     }
-    else if(lookahead.getTokenType() == sc->LSQR){
-		varNode->isArray = true;
-		
+    else {
+		exp = new ASTVariableNode;
+		((ASTVariableNode *)exp)->idName = idName;
+	}
+	
+	if(lookahead.getTokenType() == sc->LSQR){
 		match(sc->LSQR);
-		varNode->arrayExp = ((ASTExpressionNode *)transition("addExp", &Parser::addExp));
+		((ASTVariableNode *)exp)->arrayExp = ((ASTExpressionNode *)transition("addExp", &Parser::addExp));
 		match(sc->RSQR);
+		
+		((ASTVariableNode *)exp)->isArray = true;
     }
 	
-	return varNode;
+	return exp;
 }
 
 void Parser:: match(int expected){
@@ -605,7 +613,7 @@ void Parser:: match(int expected){
 		admin->vec.push_back(lookahead);
     }
     else{
-       admin->syntaxError(lookahead.getTokenType());
+       admin->syntaxError(expected);
     }
 }
 

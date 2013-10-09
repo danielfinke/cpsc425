@@ -8,7 +8,7 @@
 #include "ASTVariableNode.h"
 
 ASTVariableNode::ASTVariableNode() : ASTExpressionNode(), idName(""), isArray(false),
-		arrayExp(NULL), func(NULL)
+		arrayExp(NULL)
 {
 }
 
@@ -21,20 +21,15 @@ ASTVariableNode::~ASTVariableNode() {
 void ASTVariableNode::printNode(int indent) {
 	ostringstream oss;
 	
-	printIndented("var:", indent);
-	printIndented("name: " + idName, indent);
-	printIndented("type: " + Scanner::namesRev[type], indent);
+	printIndented("var", indent);
+	printIndented("name: " + idName, indent + 2);
+	printIndented("type: " + Scanner::namesRev[type], indent + 2);
 	oss << "array? " << (isArray ? "YES" : "NO");
-	printIndented(oss.str(), indent);
+	printIndented(oss.str(), indent + 2);
 	
 	if(isArray) {
-		printIndented("index:", indent);
-		arrayExp->printNode(indent + 2);
-	}
-	
-	if(func != NULL) {
-		printIndented("func:", indent);
-		func->printNode(indent + 2);
+		printIndented("index:", indent + 2);
+		arrayExp->printNode(indent + 4);
 	}
 	
 	if(next != NULL) {

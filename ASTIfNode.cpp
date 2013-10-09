@@ -17,15 +17,15 @@ ASTIfNode::~ASTIfNode() {
 }
 
 void ASTIfNode::printNode(int indent) {
-	printIndented("if:", indent);
-	printIndented("condition:", indent);
-	exp->printNode(indent + 2);
-	printIndented("ifStatement:", indent);
-	statement->printNode(indent + 2);
+	printIndented("if", indent);
+	printIndented("condition:", indent + 2);
+	exp->printNode(indent + 4);
+	printIndented("true branch:", indent + 2);
+	statement->printNode(indent + 4);
 	
 	if(elseStatement != NULL) {
-		printIndented("elseStatement:", indent);
-		elseStatement->printNode(indent + 2);
+		printIndented("false branch:", indent + 2);
+		elseStatement->printNode(indent + 4);
 	}
 	
 	if(next != NULL) {

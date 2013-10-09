@@ -17,5 +17,7 @@ ASTDeclarationNode::~ASTDeclarationNode() {
 }
 
 void ASTDeclarationNode::printNode(int indent) {
-	
+	if(next != NULL) {
+		next->printNode(indent);
+	}	
 }

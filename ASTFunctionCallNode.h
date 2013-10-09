@@ -15,7 +15,7 @@
 
 using namespace std;
 
-class ASTFunctionCallNode : public ASTStatementNode {
+class ASTFunctionCallNode : public ASTStatementNode, ASTExpressionNode {
 public:
     ASTFunctionCallNode();
     ASTFunctionCallNode(const ASTFunctionCallNode& orig);

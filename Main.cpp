@@ -5,6 +5,11 @@
 
 using namespace std;
 
+// !!!!!!!!!!!!!!!!!!!!!!!!!!
+// Made change to scanner get token!
+// Also fixed the ENDFILE issue!
+// Need to deal with top-level program
+
 int main(int argc, const char * argv[]) {
 	bool verbose = false, fileOutput = false, unattended = false;
 	string cmd, filename = "", outputFile = "";

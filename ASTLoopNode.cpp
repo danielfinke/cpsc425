@@ -17,9 +17,9 @@ ASTLoopNode::~ASTLoopNode() {
 }
 
 void ASTLoopNode::printNode(int indent) {
-	printIndented("loop:", indent);
-	printIndented("statement:", indent);
-	statement->printNode(indent + 2);
+	printIndented("loop", indent);
+	printIndented("statement:", indent + 2);
+	statement->printNode(indent + 4);
 	
 	if(next != NULL) {
 		next->printNode(indent);

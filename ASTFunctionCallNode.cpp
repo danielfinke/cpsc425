@@ -7,7 +7,7 @@
 
 #include "ASTFunctionCallNode.h"
 
-ASTFunctionCallNode::ASTFunctionCallNode() : ASTStatementNode(), idName(""), argument(NULL) {
+ASTFunctionCallNode::ASTFunctionCallNode() : ASTStatementNode(), ASTExpressionNode(), idName(""), argument(NULL) {
 }
 
 ASTFunctionCallNode::ASTFunctionCallNode(const ASTFunctionCallNode& orig) {
@@ -17,15 +17,15 @@ ASTFunctionCallNode::~ASTFunctionCallNode() {
 }
 
 void ASTFunctionCallNode::printNode(int indent) {
-	printIndented("function call:", indent);
-	printIndented("name: " + idName, indent);
+	ASTStatementNode::printIndented("function call", indent);
+	ASTStatementNode::printIndented("id: " + idName, indent + 2);
 	
 	if(argument != NULL) {
-		printIndented("args:", indent);
-		argument->printNode(indent + 2);
+		ASTStatementNode::printIndented("args:", indent + 2);
+		argument->printNode(indent + 4);
 	}
 	
-	if(next != NULL) {
-		next->printNode(indent);
+	if(ASTStatementNode::next != NULL) {
+		ASTStatementNode::next->printNode(indent);
 	}
 }

@@ -39,18 +39,18 @@ ASTAssignmentNode::~ASTAssignmentNode() {
 void ASTAssignmentNode::printNode(int indent) {
 	ostringstream oss;
 	
-	printIndented("assignment:", indent);
-	printIndented("id: " + idName, indent);
+	printIndented("assignment", indent);
+	printIndented("id: " + idName, indent + 2);
 	oss << "arrayIndex? " << (isArray ? "YES" : "NO");
-	printIndented(oss.str(), indent);
+	printIndented(oss.str(), indent + 2);
 	
 	if(isArray) {
-		printIndented("index:", indent);
-		arrayExp->printNode(indent + 2);
+		printIndented("index:", indent + 2);
+		arrayExp->printNode(indent + 4);
 	}
 	
-	printIndented("value:", indent);
-	exp->printNode(indent + 2);
+	printIndented("value:", indent + 2);
+	exp->printNode(indent + 4);
 	
 	if(next != NULL) {
 		next->printNode(indent);

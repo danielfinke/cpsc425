@@ -285,7 +285,11 @@ int Scanner::getErrorCount() { return errorCount; }
 
 // Wraps getToken(pair<string, int> tok)
 Token Scanner::getToken() {
-	return getToken(getLexeme());
+	Token nonIgnoredToken;
+	do {
+		nonIgnoredToken = getToken(getLexeme());
+	} while(nonIgnoredToken.getTokenType() == IGNORED);
+	return nonIgnoredToken;
 }
 
 // Builds an appropriate token for a given lexeme and returns it
@@ -293,8 +297,13 @@ Token Scanner::getToken(pair<string, int> tok) {
 	Token token;
 
 	// These are within comment scope and are discarded
-	if((commentDepth > 0 || tok.second == COMMENTCLOSE) && tok.second != ENDFILE) {
-		token = Token(IGNORED, -2);
+	if(commentDepth > 0 || tok.second == COMMENTCLOSE) {
+		if(tok.second == ENDFILE && tok.first == "SYMBOL") {
+			token = Token(tok.second, -2);
+		}
+		else {
+			token = Token(IGNORED, -2);
+		}
 	}
 	// Inline comments trigger an instant endline in the source file
 	else if(tok.second == INLINECOMMENT) {

@@ -17,12 +17,17 @@ ASTParamNode::~ASTParamNode() {
 }
 
 void ASTParamNode::printNode(int indent) {
-	printIndented("param:", indent);
-	printIndented("name: " + idName, indent);
-	printIndented("type: " + declarationType, indent);
-	printIndented("ref? " + isRef ? "YES" : "NO", indent);
-	printIndented("arrayParam? " + isArray ? "YES" : "NO", indent);
+	ostringstream oss;
 	
+	printIndented("param", indent);
+	printIndented("id: " + idName, indent + 2);
+	printIndented("type: " + Scanner::namesRev[declarationType], indent + 2);
+	oss << "ref? " << (isRef ? "YES" : "NO");
+	printIndented(oss.str(), indent + 2);
+	oss.str("");
+	oss << "arrayParam? " << (isArray ? "YES" : "NO");
+	printIndented(oss.str(), indent + 2);
+
 	if(next != NULL) {
 		next->printNode(indent);
 	}

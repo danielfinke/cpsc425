@@ -21,7 +21,6 @@ public:
 	string idName;
 	bool isArray;
 	ASTExpressionNode * arrayExp;
-	ASTFunctionCallNode * func;
 private:
 
 };

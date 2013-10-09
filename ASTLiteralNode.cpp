@@ -19,10 +19,10 @@ ASTLiteralNode::~ASTLiteralNode() {
 void ASTLiteralNode::printNode(int indent) {
 	ostringstream oss;
 	
-	printIndented("literal:", indent);
-	printIndented("type: " + Scanner::namesRev[type], indent);
+	printIndented("literal", indent);
+	printIndented("type: " + Scanner::namesRev[type], indent + 2);
 	oss << "value: " << value;
-	printIndented(oss.str(), indent);
+	printIndented(oss.str(), indent + 2);
 	
 	if(next != NULL) {
 		next->printNode(indent);
