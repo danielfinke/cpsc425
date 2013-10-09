@@ -14,6 +14,7 @@ class ASTExpressionNode :public ASTNode{
 public:
     ASTExpressionNode();
     ASTExpressionNode(const ASTExpressionNode& orig);
+    ASTExpressionNode& operator= (const ASTExpressionNode &rhs);
     virtual ~ASTExpressionNode();
 	
 	virtual void printNode(int indent) = 0;

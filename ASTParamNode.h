@@ -14,6 +14,7 @@ class ASTParamNode : public ASTVariableDeclarationNode {
 public:
 	ASTParamNode();
 	ASTParamNode(const ASTParamNode& orig);
+        ASTParamNode& operator= (const ASTParamNode &rhs);
 	virtual ~ASTParamNode();
 	
 	void printNode(int indent);

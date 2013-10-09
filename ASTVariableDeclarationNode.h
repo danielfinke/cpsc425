@@ -18,6 +18,7 @@ class ASTVariableDeclarationNode : public ASTDeclarationNode{
 public:
     ASTVariableDeclarationNode();
     ASTVariableDeclarationNode(const ASTVariableDeclarationNode& orig);
+    ASTVariableDeclarationNode& operator= (const ASTVariableDeclarationNode &rhs);
     virtual ~ASTVariableDeclarationNode();
 	
 	virtual void printNode(int indent);

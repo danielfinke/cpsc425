@@ -10,10 +10,27 @@
 ASTBinaryNode::ASTBinaryNode() : ASTExpressionNode(), oper(0), left(NULL), right(NULL) {
 }
 
-ASTBinaryNode::ASTBinaryNode(const ASTBinaryNode& orig) {
+ASTBinaryNode::ASTBinaryNode(const ASTBinaryNode& orig):ASTExpressionNode(orig),oper(orig.oper),
+left(orig.left), right(orig.right)
+{
+}
+
+ASTBinaryNode& ASTBinaryNode::operator= (const ASTBinaryNode &rhs)
+{
+	ASTExpressionNode::operator=(rhs);
+	
+    // do the copy
+        oper = rhs.oper;
+        left = rhs.left;
+        right = rhs.right;
+ 
+    // return the existing object
+    return *this;
 }
 
 ASTBinaryNode::~ASTBinaryNode() {
+    delete left;
+    delete right;
 }
 
 void ASTBinaryNode::printNode(int indent) {

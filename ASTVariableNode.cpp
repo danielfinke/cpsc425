@@ -12,7 +12,21 @@ ASTVariableNode::ASTVariableNode() : ASTExpressionNode(), idName(""), isArray(fa
 {
 }
 
-ASTVariableNode::ASTVariableNode(const ASTVariableNode& orig) {
+ASTVariableNode::ASTVariableNode(const ASTVariableNode& orig) : ASTExpressionNode(orig),
+        idName(orig.idName), isArray(orig.isArray)
+{
+}
+
+ASTVariableNode& ASTVariableNode::operator= (const ASTVariableNode &rhs)
+{
+	ASTExpressionNode::operator=(rhs);
+	
+    // do the copy
+        idName = rhs.idName;
+        isArray = rhs.isArray;
+ 
+    // return the existing object
+    return *this;
 }
 
 ASTVariableNode::~ASTVariableNode() {

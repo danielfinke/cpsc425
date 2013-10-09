@@ -15,6 +15,7 @@ class ASTIfNode : public ASTStatementNode {
 public:
 	ASTIfNode();
 	ASTIfNode(const ASTIfNode& orig);
+        ASTIfNode& operator= (const ASTIfNode &rhs);
 	virtual ~ASTIfNode();
 	
 	void printNode(int indent);

@@ -14,8 +14,9 @@ class ASTBinaryNode : public ASTExpressionNode {
 public:
     ASTBinaryNode();
     ASTBinaryNode(const ASTBinaryNode& orig);
+    ASTBinaryNode& operator= (const ASTBinaryNode &rhs);
     virtual ~ASTBinaryNode();
-	
+    
 	void printNode(int indent);
 	
 	int oper;

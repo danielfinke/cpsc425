@@ -10,7 +10,18 @@
 ASTMarkerNode::ASTMarkerNode() : ASTStatementNode(), type(0) {
 }
 
-ASTMarkerNode::ASTMarkerNode(const ASTMarkerNode& orig) {
+ASTMarkerNode::ASTMarkerNode(const ASTMarkerNode& orig) : ASTStatementNode(orig),type(orig.type) {
+}
+
+ASTMarkerNode& ASTMarkerNode::operator= (const ASTMarkerNode &rhs)
+{
+	ASTStatementNode::operator=(rhs);
+	
+    // do the copy
+        type = rhs.type;
+ 
+    // return the existing object
+    return *this;
 }
 
 ASTMarkerNode::~ASTMarkerNode() {

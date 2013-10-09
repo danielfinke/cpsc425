@@ -10,10 +10,29 @@
 ASTIfNode::ASTIfNode() : ASTStatementNode(), exp(NULL), statement(NULL), elseStatement(NULL) {
 }
 
-ASTIfNode::ASTIfNode(const ASTIfNode& orig) {
+ASTIfNode::ASTIfNode(const ASTIfNode& orig) : ASTStatementNode(orig), exp(orig.exp),
+        statement(orig.statement),elseStatement(orig.statement)
+{
+}
+
+ASTIfNode& ASTIfNode::operator= (const ASTIfNode &rhs)
+{
+	ASTStatementNode::operator=(rhs);
+	
+    // do the copy
+        exp=rhs.exp;
+        statement = rhs.statement;
+        elseStatement = rhs.elseStatement;
+    
+ 
+    // return the existing object
+    return *this;
 }
 
 ASTIfNode::~ASTIfNode() {
+    delete exp;
+    delete statement;
+    delete elseStatement;
 }
 
 void ASTIfNode::printNode(int indent) {

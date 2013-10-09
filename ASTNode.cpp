@@ -10,7 +10,7 @@
 ASTNode::ASTNode() : next(NULL) {
 }
 
-ASTNode::ASTNode(const ASTNode& orig) {
+ASTNode::ASTNode(const ASTNode& orig) : next(orig.next) {
 }
 
 ASTNode& ASTNode:: operator = (const ASTNode& rhs){
@@ -18,6 +18,7 @@ ASTNode& ASTNode:: operator = (const ASTNode& rhs){
 }
 
 ASTNode::~ASTNode() {
+    delete next;
 }
 
 void ASTNode::printIndented(string text, int indent) {

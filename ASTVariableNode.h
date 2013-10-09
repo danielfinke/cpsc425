@@ -14,6 +14,7 @@ class ASTVariableNode : public ASTExpressionNode {
 public:
 	ASTVariableNode();
 	ASTVariableNode(const ASTVariableNode& orig);
+        ASTVariableNode& operator= (const ASTVariableNode &rhs);
 	virtual ~ASTVariableNode();
 	
 	void printNode(int indent);

@@ -10,8 +10,20 @@
 ASTExpressionNode::ASTExpressionNode() : ASTNode(), type(0) {
 }
 
-ASTExpressionNode::ASTExpressionNode(const ASTExpressionNode& orig) {
+ASTExpressionNode::ASTExpressionNode(const ASTExpressionNode& orig):ASTNode(orig), type(orig.type) {
 }
+
+ASTExpressionNode& ASTExpressionNode::operator= (const ASTExpressionNode &rhs)
+{
+	ASTNode::operator=(rhs);
+	
+    // do the copy
+        type = rhs.type;
+ 
+    // return the existing object
+    return *this;
+}
+
 
 ASTExpressionNode::~ASTExpressionNode() {
 }
