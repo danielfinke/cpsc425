@@ -16,6 +16,8 @@ public:
     ASTCaseNode(const ASTCaseNode& orig);
     ASTCaseNode& operator = (const ASTCaseNode &rhs);
     virtual ~ASTCaseNode();
+	
+	void printNode(int indent, ostream * output);
     
     int type;
     int num;

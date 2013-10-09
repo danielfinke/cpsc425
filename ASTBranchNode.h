@@ -18,6 +18,8 @@ public:
     ASTBranchNode(const ASTBranchNode& orig);
     ASTBranchNode& operator = (const ASTBranchNode &rhs);
     virtual ~ASTBranchNode();
+	
+	void printNode(int indent, ostream * output);
     
     ASTExpressionNode * expression;
     ASTCaseNode * firstCase;

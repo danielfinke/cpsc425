@@ -29,3 +29,15 @@ ASTReturnNode::~ASTReturnNode() {
     delete expression;
 }
 
+void ASTReturnNode::printNode(int indent, ostream * output) {
+	this->output = output;
+	
+	printIndented("return", indent);
+	if(expression != NULL) {
+		expression->printNode(indent + 2, output);
+	}
+	
+	if(next != NULL) {
+		next->printNode(indent, output);
+	}
+}

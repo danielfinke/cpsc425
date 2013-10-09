@@ -17,6 +17,8 @@ public:
     ASTReturnNode(const ASTReturnNode& orig);
     ASTReturnNode& operator = (const ASTReturnNode &rhs);
     virtual ~ASTReturnNode();
+	
+	void printNode(int indent, ostream * output);
     
     ASTExpressionNode * expression;
 private:

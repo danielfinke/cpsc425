@@ -34,3 +34,16 @@ ASTBranchNode::~ASTBranchNode() {
     delete firstCase;
 }
 
+void ASTBranchNode::printNode(int indent, ostream * output) {
+	this->output = output;
+	
+	printIndented("branch", indent);
+	printIndented("exp:", indent + 2);
+	expression->printNode(indent + 4, output);
+	printIndented("cases:", indent + 2);
+	firstCase->printNode(indent + 4, output);
+	
+	if(next != NULL) {
+		next->printNode(indent, output);
+	}
+}

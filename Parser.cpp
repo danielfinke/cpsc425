@@ -457,8 +457,6 @@ ASTNode * Parser::exitStmt(){
 	return marker;
 }
 
-
-
 ASTNode * Parser::continueStmt(){
     ASTMarkerNode * marker = new ASTMarkerNode;
     
@@ -469,8 +467,6 @@ ASTNode * Parser::continueStmt(){
     
     return marker;
 }
-
-
 
 ASTNode * Parser::returnStmt(){
     ASTReturnNode * rNode = new ASTReturnNode;
@@ -492,7 +488,6 @@ ASTNode * Parser::nullStmt(){
     return marker;
 }
 
-// NEED MORE STATEMENTS
 ASTNode * Parser::branchStmt(){
     ASTBranchNode * bNode = new ASTBranchNode;
     ASTCaseNode *current = NULL;
@@ -523,20 +518,17 @@ ASTNode * Parser::caseStmt(){
         cNode->num = lookahead.getAttributeValue();
         match(sc->NUM);
         match(sc->COLON);
-        transition("statement", &Parser::statement);
+        cNode->statement = ((ASTStatementNode *)transition("statement", &Parser::statement));
     }
     else{
         cNode->type = sc->DEFAULT;
         match(sc->DEFAULT);
         match(sc->COLON);
-        transition("statement", &Parser::statement);
+        cNode->statement = ((ASTStatementNode *)transition("statement", &Parser::statement));
     }
     
     return cNode;
-    
-    
 }
-
 
 // Commented out expression types because they will be taken care of later during semantic analysis
 ASTNode * Parser::expression(){
@@ -652,15 +644,15 @@ ASTNode * Parser::idFactor(){
     else {
 		exp = new ASTVariableNode;
 		((ASTVariableNode *)exp)->id = id;
-	}
 	
-	if(lookahead.getTokenType() == sc->LSQR){
-		match(sc->LSQR);
-		((ASTVariableNode *)exp)->arrayExp = ((ASTExpressionNode *)transition("addExp", &Parser::addExp));
-		match(sc->RSQR);
-		
-		((ASTVariableNode *)exp)->isArray = true;
-    }
+		if(lookahead.getTokenType() == sc->LSQR){
+			match(sc->LSQR);
+			((ASTVariableNode *)exp)->arrayExp = ((ASTExpressionNode *)transition("addExp", &Parser::addExp));
+			match(sc->RSQR);
+
+			((ASTVariableNode *)exp)->isArray = true;
+		}
+	}
 	
 	return exp;
 }

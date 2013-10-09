@@ -34,3 +34,27 @@ ASTCaseNode::~ASTCaseNode() {
     delete nextCase;
 }
 
+void ASTCaseNode::printNode(int indent, ostream * output) {
+	ostringstream oss;
+	
+	this->output = output;
+	
+	printIndented(Scanner::namesRev[type], indent);
+	if(type != Scanner::DEFAULT) {
+		oss << "value: " << num;
+		printIndented(oss.str(), indent + 2);
+	}
+	
+	if(statement != NULL) {
+		printIndented("statements:" , indent + 2);
+		statement->printNode(indent + 4, output);
+	}
+	
+	if(nextCase != NULL) {
+		nextCase->printNode(indent, output);
+	}
+	
+	if(next != NULL) {
+		next->printNode(indent, output);
+	}
+}
