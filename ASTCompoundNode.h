@@ -9,6 +9,8 @@
 #define	ASTCOMPOUNDNODE_H
 
 #include "ASTNode.h"
+#include "ASTDeclarationNode.h"
+#include "ASTStatementNode.h"
 
 class ASTCompoundNode :public ASTNode{
 public:
@@ -17,8 +19,10 @@ public:
     ASTCompoundNode& operator= (const ASTCompoundNode &rhs);
     virtual ~ASTCompoundNode();
 	
-	// todo: make pure virtual
-	virtual void printNode(int indent);
+	virtual void printNode(int indent, ostream * output);
+	
+	ASTDeclarationNode * dec;
+	ASTStatementNode * statement;
 private:
 
 };

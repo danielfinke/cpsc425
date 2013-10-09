@@ -29,12 +29,14 @@ ASTLoopNode::~ASTLoopNode() {
     delete statement;
 }
 
-void ASTLoopNode::printNode(int indent) {
+void ASTLoopNode::printNode(int indent, ostream * output) {
+	this->output = output;
+	
 	printIndented("loop", indent);
 	printIndented("statement:", indent + 2);
-	statement->printNode(indent + 4);
+	statement->printNode(indent + 4, output);
 	
 	if(next != NULL) {
-		next->printNode(indent);
+		next->printNode(indent, output);
 	}
 }

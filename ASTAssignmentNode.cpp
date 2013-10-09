@@ -36,23 +36,27 @@ ASTAssignmentNode::~ASTAssignmentNode() {
 	delete arrayExp;
 }
 
-void ASTAssignmentNode::printNode(int indent) {
+void ASTAssignmentNode::printNode(int indent, ostream * output) {
 	ostringstream oss;
 	
+	this->output = output;
+	
 	printIndented("assignment", indent);
-	//printIndented("id: " + id, indent + 2);
+	if(ASTNode::lookup != NULL) {
+		printIndented("id: " + ASTNode::lookup->getIdentifierName(id), indent + 2);
+	}
 	oss << "arrayIndex? " << (isArray ? "YES" : "NO");
 	printIndented(oss.str(), indent + 2);
 	
 	if(isArray) {
 		printIndented("index:", indent + 2);
-		arrayExp->printNode(indent + 4);
+		arrayExp->printNode(indent + 4, output);
 	}
 	
 	printIndented("value:", indent + 2);
-	exp->printNode(indent + 4);
+	exp->printNode(indent + 4, output);
 	
 	if(next != NULL) {
-		next->printNode(indent);
+		next->printNode(indent, output);
 	}
 }

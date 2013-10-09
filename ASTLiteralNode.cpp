@@ -27,8 +27,10 @@ ASTLiteralNode& ASTLiteralNode::operator= (const ASTLiteralNode &rhs)
 ASTLiteralNode::~ASTLiteralNode() {
 }
 
-void ASTLiteralNode::printNode(int indent) {
+void ASTLiteralNode::printNode(int indent, ostream * output) {
 	ostringstream oss;
+	
+	this->output = output;
 	
 	printIndented("literal", indent);
 	printIndented("type: " + Scanner::namesRev[type], indent + 2);
@@ -36,6 +38,6 @@ void ASTLiteralNode::printNode(int indent) {
 	printIndented(oss.str(), indent + 2);
 	
 	if(next != NULL) {
-		next->printNode(indent);
+		next->printNode(indent, output);
 	}
 }

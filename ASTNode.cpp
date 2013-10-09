@@ -7,13 +7,16 @@
 
 #include "ASTNode.h"
 
-ASTNode::ASTNode() : next(NULL) {
+ASTNode::ASTNode() : next(NULL), output(NULL) {
 }
 
-ASTNode::ASTNode(const ASTNode& orig) : next(orig.next) {
+ASTNode::ASTNode(const ASTNode& orig) : next(orig.next), output(orig.output) {
 }
 
 ASTNode& ASTNode:: operator = (const ASTNode& rhs){
+	next = rhs.next;
+	output = rhs.output;
+	
     return *this;
 }
 
@@ -23,7 +26,7 @@ ASTNode::~ASTNode() {
 
 void ASTNode::printIndented(string text, int indent) {
 	for(int i = 0; i < indent; i++) {
-		cout << " ";
+		*output << " ";
 	}
-	cout << text << endl;
+	*output << text << endl;
 }

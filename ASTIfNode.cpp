@@ -35,19 +35,21 @@ ASTIfNode::~ASTIfNode() {
     delete elseStatement;
 }
 
-void ASTIfNode::printNode(int indent) {
+void ASTIfNode::printNode(int indent, ostream * output) {
+	this->output = output;
+	
 	printIndented("if", indent);
 	printIndented("condition:", indent + 2);
-	exp->printNode(indent + 4);
+	exp->printNode(indent + 4, output);
 	printIndented("true branch:", indent + 2);
-	statement->printNode(indent + 4);
+	statement->printNode(indent + 4, output);
 	
 	if(elseStatement != NULL) {
 		printIndented("false branch:", indent + 2);
-		elseStatement->printNode(indent + 4);
+		elseStatement->printNode(indent + 4, output);
 	}
 	
 	if(next != NULL) {
-		next->printNode(indent);
+		next->printNode(indent, output);
 	}
 }

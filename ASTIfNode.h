@@ -18,7 +18,7 @@ public:
         ASTIfNode& operator= (const ASTIfNode &rhs);
 	virtual ~ASTIfNode();
 	
-	void printNode(int indent);
+	void printNode(int indent, ostream * output);
 	
 	ASTExpressionNode * exp;
 	ASTStatementNode * statement, *elseStatement;

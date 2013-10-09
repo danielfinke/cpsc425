@@ -22,7 +22,7 @@ public:
     ASTFunctionCallNode& operator= (const ASTFunctionCallNode &rhs);
     virtual ~ASTFunctionCallNode();
 	
-	void printNode(int indent);
+	void printNode(int indent, ostream * output);
 	
 	string idName;
 	ASTExpressionNode * argument;

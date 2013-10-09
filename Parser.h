@@ -18,47 +18,48 @@ class Parser
 private:
 	Admin* admin;
 	Scanner* sc;
-        Token lookahead;
-        
-        typedef ASTNode *(Parser::*functionPtr)();
-        
-        ASTNode * transition(string functionName, functionPtr ptr);
-      
-        void match(int expected);       
-        ASTNode * program();
-        ASTNode * declaration();
-        ASTNode * nonVoidSpecifier();
-        ASTNode * varDecTail();
-        ASTNode * varName();
-        ASTNode * funDecTail();
-        ASTNode * params();
-        ASTNode * param();
-        ASTNode * statement();
-        ASTNode * idStmt();
-        ASTNode * assignStmtTail();
-        ASTNode * callTail();
-        ASTNode * arguments();
-        ASTNode * compoundStmt();
-        ASTNode * ifStmt();
-        ASTNode * loopStmt();
-        ASTNode * exitStmt();
-        ASTNode * continueStmt();
-        ASTNode * returnStmt();
-        ASTNode * nullStmt();
-        ASTNode * branchStmt();
-        ASTNode * caseStmt();
-        ASTNode * expression();
-        ASTNode * addExp();
-        ASTNode * term();
-        ASTNode * factor();
-        ASTNode * nidFactor();
-        ASTNode * idFactor();
-        
-        bool isStatementLookahead();
-        bool isExpressionLookahead();
-        bool isRelopLookahead();
-        bool isAddopLookahead();
-        bool isMultopLookahead();
+	Token lookahead;
+	ASTNode * astTop;
+
+	typedef ASTNode *(Parser::*functionPtr)();
+
+	ASTNode * transition(string functionName, functionPtr ptr);
+
+	void match(int expected);       
+	ASTNode * program();
+	ASTNode * declaration();
+	ASTNode * nonVoidSpecifier();
+	ASTNode * varDecTail();
+	ASTNode * varName();
+	ASTNode * funDecTail();
+	ASTNode * params();
+	ASTNode * param();
+	ASTNode * statement();
+	ASTNode * idStmt();
+	ASTNode * assignStmtTail();
+	ASTNode * callTail();
+	ASTNode * arguments();
+	ASTNode * compoundStmt();
+	ASTNode * ifStmt();
+	ASTNode * loopStmt();
+	ASTNode * exitStmt();
+	ASTNode * continueStmt();
+	ASTNode * returnStmt();
+	ASTNode * nullStmt();
+	ASTNode * branchStmt();
+	ASTNode * caseStmt();
+	ASTNode * expression();
+	ASTNode * addExp();
+	ASTNode * term();
+	ASTNode * factor();
+	ASTNode * nidFactor();
+	ASTNode * idFactor();
+
+	bool isStatementLookahead();
+	bool isExpressionLookahead();
+	bool isRelopLookahead();
+	bool isAddopLookahead();
+	bool isMultopLookahead();
         
 public:
 	// Constructors/deconstructors/related

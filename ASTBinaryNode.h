@@ -17,7 +17,7 @@ public:
     ASTBinaryNode& operator= (const ASTBinaryNode &rhs);
     virtual ~ASTBinaryNode();
     
-	void printNode(int indent);
+	void printNode(int indent, ostream * output);
 	
 	int oper;
 	ASTExpressionNode * left, *right;

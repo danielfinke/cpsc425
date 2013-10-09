@@ -21,7 +21,7 @@ public:
     virtual ~ASTDeclarationNode();
 	
 	// todo: make pure virtual
-	virtual void printNode(int indent);
+	virtual void printNode(int indent, ostream * output);
 	
     int declarationType;
     string idName;

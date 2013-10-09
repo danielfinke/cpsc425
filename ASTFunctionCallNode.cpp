@@ -32,16 +32,18 @@ ASTFunctionCallNode::~ASTFunctionCallNode() {
     delete argument;
 }
 
-void ASTFunctionCallNode::printNode(int indent) {
+void ASTFunctionCallNode::printNode(int indent, ostream * output) {
+	this->ASTStatementNode::output = output;
+	
 	ASTStatementNode::printIndented("function call", indent);
 	ASTStatementNode::printIndented("id: " + idName, indent + 2);
 	
 	if(argument != NULL) {
 		ASTStatementNode::printIndented("args:", indent + 2);
-		argument->printNode(indent + 4);
+		argument->printNode(indent + 4, output);
 	}
 	
 	if(ASTStatementNode::next != NULL) {
-		ASTStatementNode::next->printNode(indent);
+		ASTStatementNode::next->printNode(indent, output);
 	}
 }

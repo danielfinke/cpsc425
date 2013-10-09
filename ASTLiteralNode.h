@@ -17,7 +17,7 @@ public:
         ASTLiteralNode& operator= (const ASTLiteralNode &rhs);
 	virtual ~ASTLiteralNode();
 	
-	void printNode(int indent);
+	void printNode(int indent, ostream * output);
 	
 	int value;
 private:

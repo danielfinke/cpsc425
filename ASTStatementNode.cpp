@@ -24,10 +24,12 @@ ASTStatementNode& ASTStatementNode::operator= (const ASTStatementNode &rhs)
 ASTStatementNode::~ASTStatementNode() {
 }
 
-void ASTStatementNode::printNode(int indent) {
+void ASTStatementNode::printNode(int indent, ostream * output) {
+	this->output = output;
+	
 	printIndented("statement", indent);
 	
 	if(next != NULL) {
-		next->printNode(indent);
+		next->printNode(indent, output);
 	}
 }

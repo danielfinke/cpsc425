@@ -22,9 +22,12 @@ public:
     ASTNode& operator= (const ASTNode& rhs);
     virtual ~ASTNode();
 	
-	virtual void printNode(int indent) = 0;
+	virtual void printNode(int indent, ostream * output) = 0;
 	
 	ASTNode * next;
+	ostream * output;
+	
+	static Scanner * lookup = 0;
 protected:
     void printIndented(string text, int indent);
 private:

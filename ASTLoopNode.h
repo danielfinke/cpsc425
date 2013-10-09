@@ -17,7 +17,7 @@ public:
         ASTLoopNode& operator= (const ASTLoopNode &rhs);
 	virtual ~ASTLoopNode();
 	
-	void printNode(int indent);
+	void printNode(int indent, ostream * output);
 	
 	ASTStatementNode * statement;
 private:

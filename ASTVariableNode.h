@@ -17,7 +17,7 @@ public:
         ASTVariableNode& operator= (const ASTVariableNode &rhs);
 	virtual ~ASTVariableNode();
 	
-	void printNode(int indent);
+	void printNode(int indent, ostream * output);
 	
 	string idName;
 	bool isArray;

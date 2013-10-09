@@ -14,15 +14,19 @@
 #include "ASTMarkerNode.h"
 #include <iostream>
 
-Parser::Parser(void) : admin(NULL), sc(NULL), lookahead(Token())
+Parser::Parser(void) : admin(NULL), sc(NULL), lookahead(Token()), astTop(NULL)
 {
 }
-Parser::Parser(Admin& adminMod, Scanner& scanner) : admin(&adminMod), sc(&scanner),lookahead(Token()) {
+Parser::Parser(Admin& adminMod, Scanner& scanner) : admin(&adminMod), sc(&scanner),lookahead(Token()),
+		astTop(NULL)
+{
 }
 /* We do not create new instances of Admin or Scanner in either of the copy constructor/assignment operators
  * because there should only be one instance available (these functions should rarely be used)
  */
-Parser::Parser(const Parser &other) : admin(other.admin), sc(other.sc),lookahead(other.lookahead) {
+Parser::Parser(const Parser &other) : admin(other.admin), sc(other.sc),lookahead(other.lookahead),
+		astTop(other.astTop)
+{
 }
 Parser& Parser::operator= (const Parser &rhs)
 {
@@ -30,6 +34,7 @@ Parser& Parser::operator= (const Parser &rhs)
     admin = rhs.admin;
 	sc = rhs.sc;
     lookahead = rhs.lookahead;
+	astTop = rhs.astTop;
  
     // return the existing object
     return *this;
@@ -38,6 +43,7 @@ Parser& Parser::operator= (const Parser &rhs)
 Parser::~Parser(void)
 {
 	// The Parser does not delete the Scanner or Admin instances, because it does not have ownership.
+	delete astTop;
 }
 
 ASTNode * Parser::transition(string functionName, functionPtr ptr) {
@@ -69,20 +75,24 @@ void Parser::startParsing(){
     lookahead = sc->getToken();
 	admin->vec.push_back(lookahead);
 	admin->scannerLogEnd();
-    transition("program", &Parser::program);
+    astTop = transition("program", &Parser::program);
+	admin->parserLog(astTop);
 }
 
-// Move AST print elsewhere
 ASTNode * Parser::program(){
 	ASTDeclarationNode * parent = ((ASTDeclarationNode *)transition("declaration", &Parser::declaration));
 	ASTDeclarationNode * current = parent;
+	while(current->next != NULL) {
+		current = ((ASTDeclarationNode *)current->next);
+	}
 	while(lookahead.getTokenType() == sc->INT || lookahead.getTokenType() == sc->BOOL || lookahead.getTokenType() == sc->VOID) {
 		current->next = ((ASTDeclarationNode *)transition("declaration", &Parser::declaration));
 		while(current->next != NULL) {
 			current = ((ASTDeclarationNode *)current->next);
 		}
 	}
-	//parent->printNode(0);
+	
+	return parent;
 }
 
 ASTNode * Parser::declaration(){
@@ -347,7 +357,6 @@ ASTNode * Parser::arguments(){
 	return parent;
 }
 
-// May have to change "next" to a different construct (see diagram)
 ASTNode * Parser::compoundStmt(){
 	int decType = 0;
 	string idName = "";
@@ -368,8 +377,15 @@ ASTNode * Parser::compoundStmt(){
 		((ASTVariableDeclarationNode *)dNode)->declarationType = decType;
 		((ASTVariableDeclarationNode *)dNode)->idName = idName;
 		
-		current->next = dNode;
-		current = current->next;
+		// Make sure that we start by adding to compound's declarations, then chaining later
+		if(cNode->dec == NULL) {
+			cNode->dec = dNode;
+			current = cNode->dec;
+		}
+		else {
+			current->next = dNode;
+			current = current->next;
+		}
 		
 		while(current->next != NULL) {
 			((ASTVariableDeclarationNode *)current->next)->declarationType = dNode->declarationType;
@@ -379,8 +395,15 @@ ASTNode * Parser::compoundStmt(){
     do{
         sNode = ((ASTStatementNode *)transition("statement", &Parser::statement));
 		
-		current->next = sNode;
-		current = current->next;
+		// Make sure that we start by adding to compound's statements, then chaining later
+		if(cNode->statement == NULL) {
+			cNode->statement = sNode;
+			current = cNode->statement;
+		}
+		else {
+			current->next = sNode;
+			current = current->next;
+		}
     }while(isStatementLookahead());
      
     match(sc->RCRLY);
@@ -481,6 +504,7 @@ ASTNode * Parser::caseStmt(){
 
 // END REMAINING STATEMENTS
 
+// Commented out expression types because they will be taken care of later during semantic analysis
 ASTNode * Parser::expression(){
     ASTExpressionNode * exp = ((ASTExpressionNode *)transition("addExp", &Parser::addExp));
     if(isRelopLookahead())

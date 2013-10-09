@@ -32,8 +32,10 @@ ASTVariableDeclarationNode::~ASTVariableDeclarationNode() {
     delete arrayExp;
 }
 
-void ASTVariableDeclarationNode::printNode(int indent) {
+void ASTVariableDeclarationNode::printNode(int indent, ostream * output) {
 	ostringstream oss;
+	
+	this->output = output;
 	
 	printIndented("var declaration", indent);
 	printIndented("name: " + idName, indent + 2);
@@ -43,10 +45,10 @@ void ASTVariableDeclarationNode::printNode(int indent) {
 	
 	if(isArray) {
 		printIndented("size:", indent + 2);
-		arrayExp->printNode(indent + 4);
+		arrayExp->printNode(indent + 4, output);
 	}
 	
 	if(next != NULL) {
-		next->printNode(indent);
+		next->printNode(indent, output);
 	}
 }

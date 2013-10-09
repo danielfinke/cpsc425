@@ -4,27 +4,36 @@
 #include <iostream>
 
 Admin::Admin(void) : linePos(0), lineCount(0), traceScanner(false),
-        traceParser(false), almostDone(false), line(""),
-	source(NULL), output(&cout)
+        traceParser(false), outputAST(false), almostDone(false), line(""),
+	source(NULL), output(&cout), sc(NULL), ps(NULL)
 {
+	ASTNode::lookup = NULL;
 }
 
 Admin::Admin(ifstream & file, ostream & out) : linePos(0), lineCount(0),
-        traceScanner(false), traceParser(false), almostDone(false),
+        traceScanner(false), traceParser(false), outputAST(false),
+		almostDone(false),
 	line(""), source(&file), output(&out),
-	sc(new Scanner(*this)), ps(new Parser(*this, *sc)) {
+	sc(new Scanner(*this)), ps(new Parser(*this, *sc))
+{
+	ASTNode::lookup = sc;
 }
 
 Admin::Admin(ifstream & file, ostream & out, bool traceEnabled) : linePos(0), lineCount(0),
         traceScanner(traceEnabled), traceParser(traceEnabled),
+		outputAST(false),
 	almostDone(false), line(""), source(&file), output(&out),
-	sc(new Scanner(*this)), ps(new Parser(*this, *sc)) {
+	sc(new Scanner(*this)), ps(new Parser(*this, *sc))
+{
+	ASTNode::lookup = sc;
 }
 
 Admin::Admin(const Admin &other) : linePos(other.linePos), lineCount(other.lineCount),
-        traceScanner(other.traceScanner), traceParser(other.traceParser), almostDone(false),
+        traceScanner(other.traceScanner), traceParser(other.traceParser),
+		outputAST(other.outputAST), almostDone(other.almostDone),
         line(other.line), source(other.source), output(other.output), sc(new Scanner(*this)), ps(new Parser(*this, *sc))
 {
+	ASTNode::lookup = sc;
 }
 
 Admin& Admin::operator= (const Admin &rhs)
@@ -34,6 +43,7 @@ Admin& Admin::operator= (const Admin &rhs)
     lineCount = rhs.lineCount;
     traceScanner = rhs.traceScanner;
     traceParser = rhs.traceParser;
+	outputAST = rhs.outputAST;
     almostDone = rhs.almostDone;
     line = rhs.line;
     source = rhs.source;
@@ -41,6 +51,8 @@ Admin& Admin::operator= (const Admin &rhs)
 
     sc = new Scanner(*this);
     ps = new Parser(*this, *sc);
+	
+	ASTNode::lookup = sc;
  
     // return the existing object
     return *this;
@@ -72,6 +84,10 @@ void Admin::setOutputStream(ostream &out) {
 void Admin::compile() {
 	//ps->loopScanner();
     ps->startParsing();
+}
+
+void Admin::enableOutputAST() {
+	outputAST = true;
 }
 
 // Interfaces with the input file. Reads a whole line, then passes out characters as needed until end of line.
@@ -204,6 +220,12 @@ void Admin::parserLog(int type, int mode) {
 		}
 	}
 }
+void Admin::parserLog(ASTNode * topNode) {
+	if(outputAST) {
+		*output << endl;
+		topNode->printNode(0, output);
+	}
+}
 
 // Go back one character in the input line.
 void Admin::unget() { linePos--; }
@@ -211,5 +233,6 @@ void Admin::unget() { linePos--; }
 void Admin :: syntaxError(int expected, int found){
 	*output << "Line " << lineCount << ": Syntax error. Found " << sc->namesRev[found]
 			<< " (expected " << sc->namesRev[expected] << ")" << endl;
-    //exit();
+	*output << "Terminating..." << endl;
+    exit(-1);
 }

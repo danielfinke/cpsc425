@@ -17,7 +17,7 @@ public:
     ASTUnaryNode& operator= (const ASTUnaryNode &rhs);
     virtual ~ASTUnaryNode();
 	
-	void printNode(int indent);
+	void printNode(int indent, ostream * output);
 	
 	int operation;
 	int type;

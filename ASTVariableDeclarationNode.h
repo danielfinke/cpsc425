@@ -21,7 +21,7 @@ public:
     ASTVariableDeclarationNode& operator= (const ASTVariableDeclarationNode &rhs);
     virtual ~ASTVariableDeclarationNode();
 	
-	virtual void printNode(int indent);
+	virtual void printNode(int indent, ostream * output);
 	
 	bool isArray;
 	ASTExpressionNode * arrayExp;

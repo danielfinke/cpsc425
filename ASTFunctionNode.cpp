@@ -32,18 +32,20 @@ ASTFunctionNode::~ASTFunctionNode() {
     delete compound;
 }
 
-void ASTFunctionNode::printNode(int indent) {
+void ASTFunctionNode::printNode(int indent, ostream * output) {
+	this->output = output;
+	
 	printIndented("function", indent);
 	printIndented("id: " + idName, indent + 2);
 	printIndented("type: " + Scanner::namesRev[declarationType], indent + 2);
 	if(param != NULL) {
 		printIndented("params:", indent + 2);
-		param->printNode(indent + 4);
+		param->printNode(indent + 4, output);
 	}
 	printIndented("body:", indent + 2);
-	compound->printNode(indent + 4);
+	compound->printNode(indent + 4, output);
 	
 	if(next != NULL) {
-		next->printNode(indent);
+		next->printNode(indent, output);
 	}
 }

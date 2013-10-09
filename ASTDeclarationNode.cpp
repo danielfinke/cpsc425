@@ -31,8 +31,10 @@ ASTDeclarationNode& ASTDeclarationNode::operator= (const ASTDeclarationNode &rhs
 ASTDeclarationNode::~ASTDeclarationNode() {
 }
 
-void ASTDeclarationNode::printNode(int indent) {
+void ASTDeclarationNode::printNode(int indent, ostream * output) {
+	this->output = output;
+	
 	if(next != NULL) {
-		next->printNode(indent);
+		next->printNode(indent, output);
 	}	
 }

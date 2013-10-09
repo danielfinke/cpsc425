@@ -19,7 +19,7 @@ public:
     ASTFunctionNode& operator= (const ASTFunctionNode &rhs);
     virtual ~ASTFunctionNode();
 	
-	void printNode(int indent);
+	void printNode(int indent, ostream * output);
 	
 	ASTParamNode * param;
 	ASTCompoundNode * compound;

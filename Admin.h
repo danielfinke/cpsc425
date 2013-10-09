@@ -4,6 +4,7 @@
 #include <fstream>
 #include <ostream>
 #include <vector>
+#include "ASTNode.h"
 class Scanner;
 class Parser;
 class Token;
@@ -24,7 +25,7 @@ class Admin
 {
 private:
 	int linePos, lineCount;
-	bool traceScanner, traceParser, almostDone;
+	bool traceScanner, traceParser, outputAST, almostDone;
 	string line;
 	ifstream * source;
 	ostream * output;
@@ -49,12 +50,14 @@ public:
 	
 	// Other functions
 	void compile();
+	void enableOutputAST();
 	char getCh(bool skipWs);
 	void endLine();
 	void scannerLog();
 	void scannerLogEnd();
     void parserLog(string functionName, int mode);
 	void parserLog(int type, int mode);
+	void parserLog(ASTNode * topNode);
 	void unget();
     void syntaxError(int expected, int found);
 };

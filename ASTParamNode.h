@@ -17,7 +17,7 @@ public:
         ASTParamNode& operator= (const ASTParamNode &rhs);
 	virtual ~ASTParamNode();
 	
-	void printNode(int indent);
+	void printNode(int indent, ostream * output);
 	
 	bool isRef;
 private:

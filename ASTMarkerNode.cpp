@@ -27,11 +27,13 @@ ASTMarkerNode& ASTMarkerNode::operator= (const ASTMarkerNode &rhs)
 ASTMarkerNode::~ASTMarkerNode() {
 }
 
-void ASTMarkerNode::printNode(int indent) {
+void ASTMarkerNode::printNode(int indent, ostream * output) {
+	this->output = output;
+	
 	printIndented("marker", indent);
 	printIndented("type: " + Scanner::namesRev[type], indent + 2);
 	
 	if(next != NULL) {
-		next->printNode(indent);
+		next->printNode(indent, output);
 	}
 }

@@ -30,8 +30,10 @@ ASTParamNode& ASTParamNode::operator= (const ASTParamNode &rhs)
 ASTParamNode::~ASTParamNode() {
 }
 
-void ASTParamNode::printNode(int indent) {
+void ASTParamNode::printNode(int indent, ostream * output) {
 	ostringstream oss;
+	
+	this->output = output;
 	
 	printIndented("param", indent);
 	printIndented("id: " + idName, indent + 2);
@@ -43,6 +45,6 @@ void ASTParamNode::printNode(int indent) {
 	printIndented(oss.str(), indent + 2);
 
 	if(next != NULL) {
-		next->printNode(indent);
+		next->printNode(indent, output);
 	}
 }

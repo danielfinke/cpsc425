@@ -17,7 +17,7 @@ public:
         ASTMarkerNode& operator= (const ASTMarkerNode &rhs);
 	virtual ~ASTMarkerNode();
 	
-	void printNode(int indent);
+	void printNode(int indent, ostream * output);
 	
 	int type;
 private:

@@ -17,7 +17,7 @@ public:
     ASTStatementNode& operator= (const ASTStatementNode &rhs);
     virtual ~ASTStatementNode();
 	
-	virtual void printNode(int indent);
+	virtual void printNode(int indent, ostream * output);
 private:
 
 };

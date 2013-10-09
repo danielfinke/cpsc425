@@ -32,14 +32,16 @@ ASTUnaryNode::~ASTUnaryNode() {
     delete operand;
 }
 
-void ASTUnaryNode::printNode(int indent) {
+void ASTUnaryNode::printNode(int indent, ostream * output) {
+	this->output = output;
+	
 	printIndented("unary exp", indent);
 	//printIndented("type: " + Scanner::namesRev[type], indent + 2);
 	printIndented("operation: " + Scanner::namesRev[operation], indent + 2);
 	printIndented("operand:", indent + 2);
-	operand->printNode(indent + 4);
+	operand->printNode(indent + 4, output);
 	
 	if(next != NULL) {
-		next->printNode(indent);
+		next->printNode(indent, output);
 	}
 }

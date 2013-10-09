@@ -32,8 +32,10 @@ ASTVariableNode& ASTVariableNode::operator= (const ASTVariableNode &rhs)
 ASTVariableNode::~ASTVariableNode() {
 }
 
-void ASTVariableNode::printNode(int indent) {
+void ASTVariableNode::printNode(int indent, ostream * output) {
 	ostringstream oss;
+	
+	this->output = output;
 	
 	printIndented("var", indent);
 	printIndented("name: " + idName, indent + 2);
@@ -43,10 +45,10 @@ void ASTVariableNode::printNode(int indent) {
 	
 	if(isArray) {
 		printIndented("index:", indent + 2);
-		arrayExp->printNode(indent + 4);
+		arrayExp->printNode(indent + 4, output);
 	}
 	
 	if(next != NULL) {
-		next->printNode(indent);
+		next->printNode(indent, output);
 	}
 }

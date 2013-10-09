@@ -21,7 +21,7 @@ public:
 	ASTAssignmentNode& operator= (const ASTAssignmentNode &rhs);
 	virtual ~ASTAssignmentNode();
 	
-	void printNode(int indent);
+	void printNode(int indent, ostream * output);
 	
 	bool isArray;
 	int id;

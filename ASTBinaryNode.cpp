@@ -33,16 +33,18 @@ ASTBinaryNode::~ASTBinaryNode() {
     delete right;
 }
 
-void ASTBinaryNode::printNode(int indent) {
+void ASTBinaryNode::printNode(int indent, ostream * output) {
+	this->output = output;
+	
 	printIndented("binop", indent);
 	//printIndented("type: " + Scanner::namesRev[type], indent);
 	printIndented("operation: " + Scanner::namesRev[oper], indent + 2);
 	printIndented("left:", indent + 2);
-	left->printNode(indent + 4);
+	left->printNode(indent + 4, output);
 	printIndented("right:", indent + 2);
-	right->printNode(indent + 4);
+	right->printNode(indent + 4, output);
 	
 	if(next != NULL) {
-		next->printNode(indent);
+		next->printNode(indent, output);
 	}
 }
