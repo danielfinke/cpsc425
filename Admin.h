@@ -26,9 +26,9 @@ class Admin
 private:
 	int linePos, lineCount;
 	bool traceScanner, traceParser, outputAST, almostDone;
-	string line;
+	string line, fileName;
 	ifstream * source;
-	ostream * output;
+	ostream * output, * errOutput;
 	Scanner* sc;
 	Parser* ps;
 	
@@ -39,27 +39,31 @@ public:
 
 	// Constructor/deconstructors/related
 	Admin(void);
-	Admin(ifstream & file, ostream & out);
-	Admin(ifstream & file, ostream & out, bool traceEnabled);
+	Admin(ifstream & file, string fileName, ostream & out);
+	Admin(ifstream & file, string fileName, ostream & out, bool traceEnabled);
 	Admin(const Admin &other);
 	Admin& operator= (const Admin& rhs);
 	~Admin(void);
 
 	// Getters/setters
+	void setOutputAST(bool outputAST);
 	void setOutputStream(ostream & out);
+	void setErrOutputStream(ostream & out);
 	
-	// Other functions
-	void compile();
-	void enableOutputAST();
-	char getCh(bool skipWs);
-	void endLine();
+	// Logging functions
 	void scannerLog();
 	void scannerLogEnd();
     void parserLog(string functionName, int mode);
 	void parserLog(int type, int mode);
 	void parserLog(ASTNode * topNode);
-	void unget();
     void syntaxError(int expected, int found);
+	
+	// Other functions
+	void compile(int processTo);
+	void enableOutputAST();
+	char getCh(bool skipWs);
+	void endLine();
+	void unget();
 };
 
 #endif

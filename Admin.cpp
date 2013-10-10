@@ -5,33 +5,35 @@
 
 Admin::Admin(void) : linePos(0), lineCount(0), traceScanner(false),
         traceParser(false), outputAST(false), almostDone(false), line(""),
-	source(NULL), output(&cout), sc(NULL), ps(NULL)
+		fileName(""),
+	source(NULL), output(&cout), errOutput(&cout), sc(NULL), ps(NULL)
 {
 	ASTNode::lookup = NULL;
 }
 
-Admin::Admin(ifstream & file, ostream & out) : linePos(0), lineCount(0),
+Admin::Admin(ifstream & file, string fileName, ostream & out) : linePos(0), lineCount(0),
         traceScanner(false), traceParser(false), outputAST(false),
-		almostDone(false),
-	line(""), source(&file), output(&out),
+		almostDone(false), fileName(fileName),
+	line(""), source(&file), output(&out), errOutput(&out),
 	sc(new Scanner(*this)), ps(new Parser(*this, *sc))
 {
 	ASTNode::lookup = sc;
 }
 
-Admin::Admin(ifstream & file, ostream & out, bool traceEnabled) : linePos(0), lineCount(0),
+Admin::Admin(ifstream & file, string fileName, ostream & out, bool traceEnabled) : linePos(0), lineCount(0),
         traceScanner(traceEnabled), traceParser(traceEnabled),
-		outputAST(true),
-	almostDone(false), line(""), source(&file), output(&out),
-	sc(new Scanner(*this)), ps(new Parser(*this, *sc))
+		outputAST(false),
+	almostDone(false), line(""), fileName(fileName), source(&file), output(&out),
+	errOutput(&out), sc(new Scanner(*this)), ps(new Parser(*this, *sc))
 {
 	ASTNode::lookup = sc;
 }
 
 Admin::Admin(const Admin &other) : linePos(other.linePos), lineCount(other.lineCount),
         traceScanner(other.traceScanner), traceParser(other.traceParser),
-		outputAST(other.outputAST), almostDone(other.almostDone),
-        line(other.line), source(other.source), output(other.output), sc(new Scanner(*this)), ps(new Parser(*this, *sc))
+		outputAST(other.outputAST), almostDone(other.almostDone), fileName(other.fileName),
+        line(other.line), source(other.source), output(other.output), errOutput(other.errOutput),
+		sc(new Scanner(*this)), ps(new Parser(*this, *sc))
 {
 	ASTNode::lookup = sc;
 }
@@ -46,8 +48,10 @@ Admin& Admin::operator= (const Admin &rhs)
 	outputAST = rhs.outputAST;
     almostDone = rhs.almostDone;
     line = rhs.line;
+	fileName = rhs.fileName;
     source = rhs.source;
     output = rhs.output;
+	errOutput = rhs.errOutput;
 
     sc = new Scanner(*this);
     ps = new Parser(*this, *sc);
@@ -76,14 +80,29 @@ bool Admin::isInvisibleCharacter(char c) {
 		|| c == 144 || c == 157;
 }
 
+void Admin::setOutputAST(bool outputAST) {
+	this->outputAST = outputAST;
+}
 void Admin::setOutputStream(ostream &out) {
 	output = &out;
 }
+void Admin::setErrOutputStream(ostream &out) {
+	errOutput = &out;
+}
 
-// Compile process is small currently. Only loops through the scanner.
-void Admin::compile() {
-	//ps->loopScanner();
-    ps->startParsing();
+// Process up to the desired point as specified by processTo
+void Admin::compile(int processTo) {
+	switch(processTo) {
+		case 1:
+			ps->loopScanner();
+			break;
+		case 2:
+			ps->startParsing();
+			break;
+		default:
+			// Will be changed as phases get added
+			ps->startParsing();
+	}
 }
 
 void Admin::enableOutputAST() {
@@ -151,7 +170,21 @@ void Admin::endLine() {
 // Logs scanner input.
 void Admin::scannerLog() {
     if(traceScanner) {
-            *output << lineCount << ": " << line << endl;
+		int startIndex = 0;
+		
+		if(fileName != "") {
+			*output << fileName << ":";
+		}
+		*output << lineCount << ": ";
+		
+		while(isWhiteSpace(line[startIndex])) {
+			startIndex++;
+		}
+		
+		for(int i = startIndex; i < line.length(); i++) {
+			*output << line[i];
+		}
+        *output << endl;
     }
 }
 
@@ -159,18 +192,29 @@ void Admin::scannerLog() {
 void Admin::scannerLogEnd() {
 	for(int i = 0; i < vec.size(); i++) {
 		Token tok = vec.at(i);
-		if(traceScanner || sc->namesRev[tok.getTokenType()] == "ERROR") {
+		if(traceScanner && sc->namesRev[tok.getTokenType()] != "ERROR") {
 			*output << "  " << lineCount << ": (" << sc->namesRev[tok.getTokenType()] << ", ";
+		}
+		if(sc->namesRev[tok.getTokenType()] == "ERROR") {
+			*errOutput << "  " << lineCount << ": (" << sc->namesRev[tok.getTokenType()] << ", ";
 		}
 		
 		// If token has values, display them
-		if(traceScanner || sc->namesRev[tok.getTokenType()] == "ERROR") {
-                    if(tok.getAttributeValue() != -2) {
-			*output << tok.getAttributeValue() << ")";
-                    }
-                    else {
-                        *output << "null)";
-                    }
+		if(traceScanner && sc->namesRev[tok.getTokenType()] != "ERROR") {
+			if(tok.getAttributeValue() != -2) {
+				*output << tok.getAttributeValue() << ")";
+			}
+			else {
+				*output << "null)";
+			}
+		}
+		if(sc->namesRev[tok.getTokenType()] == "ERROR") {
+			if(tok.getAttributeValue() != -2) {
+				*errOutput << tok.getAttributeValue() << ")";
+			}
+			else {
+				*errOutput << "null)";
+			}
 		}
 		// Display name if token is an identifier
 		if(traceScanner && sc->namesRev[tok.getTokenType()] == "ID") {
@@ -178,14 +222,18 @@ void Admin::scannerLogEnd() {
 		}
 		// Bump the error counter
 		if(sc->namesRev[tok.getTokenType()] == "ERROR") {
-			*output << " => \"" << sc->getErrorName(tok.getAttributeValue());
+			*errOutput << " => \"" << sc->getErrorName(tok.getAttributeValue()) << "\"";
 		}
 		
-		if(traceScanner || sc->namesRev[tok.getTokenType()] == "ERROR") {
+		if(traceScanner && sc->namesRev[tok.getTokenType()] != "ERROR") {
 			*output << endl;
 		}
+		if(sc->namesRev[tok.getTokenType()] == "ERROR") {
+			*errOutput << endl;
+		}
 		
-		if(sc->namesRev[tok.getTokenType()] == "ENDFILE") {
+		// No longer used
+		/*if(sc->namesRev[tok.getTokenType()] == "ENDFILE") {
 			int errors = sc->getErrorCount();
 			if(errors > 0) {
 				*output << "BUILD FAILED (" << errors << " errors)";
@@ -194,12 +242,13 @@ void Admin::scannerLogEnd() {
 				*output << "BUILD SUCCEEDED";
 			}
 			*output << endl;
-		}
+		}*/
 	}
 	
 	vec.clear();
 }
 
+// Log entry/exit of derivation tree functions
 void Admin::parserLog(string functionName, int mode) {
 	if(traceParser) {
 		if(mode == PARSER_ENTER) {
@@ -210,6 +259,7 @@ void Admin::parserLog(string functionName, int mode) {
 		}
 	}
 }
+// Log matching/loading of tokens by parser
 void Admin::parserLog(int type, int mode) {
 	if(traceParser) {
 		if(mode == PARSER_MATCH) {
@@ -220,6 +270,7 @@ void Admin::parserLog(int type, int mode) {
 		}
 	}
 }
+// Recursively print the abstract syntax tree (AST) produced by the parser
 void Admin::parserLog(ASTNode * topNode) {
 	if(outputAST) {
 		*output << endl;
@@ -230,9 +281,17 @@ void Admin::parserLog(ASTNode * topNode) {
 // Go back one character in the input line.
 void Admin::unget() { linePos--; }
 
+/* syntaxError - prints syntax error information. In the basic parser,
+ *				this results in the parser terminating abruptly
+ * @param expected		token type expected to be found at current parse locn
+ * @param found			token type found at current parse locn
+ */
 void Admin :: syntaxError(int expected, int found){
-	*output << "Line " << lineCount << ": Syntax error. Found " << sc->namesRev[found]
+	if(fileName != "") {
+		*errOutput << fileName << ":";
+	}
+	*errOutput << lineCount << ": Syntax error. Found " << sc->namesRev[found]
 			<< " (expected " << sc->namesRev[expected] << ")" << endl;
-	*output << "Terminating..." << endl;
+	*errOutput << "Terminating..." << endl;
     exit(-1);
 }

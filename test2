@@ -1,0 +1,15 @@
+int boo(int input[]) {
+					-- Some sort of compound statement
+	{
+		int t;
+		t := 42;
+		; -- Check out this null statement. AH YEAH
+	}
+
+	branch (input[0])
+		case 4:
+			return input[0] * 2;
+		default:
+			return input[0] * 500;
+	end;
+}

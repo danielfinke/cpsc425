@@ -1,7 +1,7 @@
 int x, y, z;
 
 int boo(int input[]) {
-	-- Some sort of compound statement
+					-- Some sort of compound statement
 	{
 		int t;
 		t := 42;
@@ -43,7 +43,21 @@ void main(ref int param, bool t) {
 		x:=-5;
 	}
 
-	loop x:=(1*2)+x;
+	-- Dangling else
+	if(t)
+		if(x[0] = 1)
+			x[0] := 2;
+		else
+			x[0] := 1;
+	if(t)
+		if(x[0] = 1)
+			x[0] := 2;
+		else
+			x[0] := 1;
+	else
+		t := true;
+
+	loop x:=x*(1+2);
 	if(x>=10)
 		exit;
 	if(y = 4) {

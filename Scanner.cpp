@@ -1,6 +1,7 @@
 #include "Scanner.h"
 #include "Admin.h"
 #include <iostream>
+#include <sstream>
 
 // The friendly names for token integer enums
 string Scanner::namesRev[50] = {"ID", "NUM", "BLIT", "ENDFILE", "ERROR",
@@ -89,8 +90,10 @@ pair<string, int> Scanner::getLexeme() {
 		}
 		else {
 			int symbol = getSpecial(c);
-			if(c == ERROR) {
-				return make_pair(string(&c), ERROR);
+			if(symbol == ERROR) {
+				stringstream ss;
+				ss << c;
+				return make_pair(ss.str(), ERROR);
 			}
 			return make_pair("SYMBOL", symbol);
 		}
