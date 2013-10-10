@@ -8,7 +8,7 @@ int boo(int input[]) {
 
 	branch (input[0])
 		case 4:
-			return input[0] * 2;
+			return input[*input[0]] * 2;
 		default:
 			return input[0] * 500;
 	end;
