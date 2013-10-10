@@ -10,6 +10,9 @@
 
 #include "ASTNode.h"
 
+/*ASTStatementNode inherits from ASTNode. As c++ does not use interface, 
+ *  it is a super class to all statements,acting as an empty interface.
+ */
 class ASTStatementNode : public virtual ASTNode {
 public:
     ASTStatementNode();

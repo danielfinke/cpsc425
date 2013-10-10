@@ -14,6 +14,13 @@
 
 using namespace std;
 
+/*ASTVariableDeclarationNode represents variable declarations. It is a subclass
+ * of ASTDeclarationNode and a superclass to AStParamNode. It overrides the print
+ * method. 
+ * It contains the array information that may be associated with a delcartion.
+ *      -if its an array or not
+ *      -what the array expression is
+ */
 class ASTVariableDeclarationNode : public ASTDeclarationNode{
 public:
     ASTVariableDeclarationNode();

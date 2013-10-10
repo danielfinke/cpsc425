@@ -10,6 +10,14 @@
 
 #include "ASTNode.h"
 
+/*ASTExpressionNode represents general expressions within the language. It is a
+ * subclass of ASTNode and an superclass to ASTBinaryNode, ASTUnaryNode ASTLiteralNode,
+ * ASTVariableNode and ASTFunctionCallNode. It overrides the print method.
+ * The "type" is a place holder for the type the expression returns
+ * (e.g. int+int is of type int). this will be used later during semantic 
+ * analysis.
+ */
+
 class ASTExpressionNode :public virtual ASTNode {
 public:
     ASTExpressionNode();

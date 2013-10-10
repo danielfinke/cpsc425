@@ -12,6 +12,13 @@
 #include "ASTExpressionNode.h"
 #include "ASTCaseNode.h"
 
+/*ASTBranchNode represents the branch statements within the code. It is a subclass
+ * of ASTStatementNode. It contains an override of the
+ * print statement. It keeps track of:
+ *              -pointer to the expression which it branches on
+ *              -pointer to the first case statement
+ */
+
 class ASTBranchNode : public ASTStatementNode{
 public:
     ASTBranchNode();

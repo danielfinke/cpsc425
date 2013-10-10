@@ -11,6 +11,12 @@
 #include "ASTExpressionNode.h"
 #include "ASTStatementNode.h"
 
+/*ASTIfNode represents if statement. It is a subclass of ASTStatementNode and 
+ * overrides the SATNode print statement. It keeps track of:
+ *              -the expression within the if statement
+ *              -the statement within the if clause
+ *              -the statement within the else clause
+ */
 class ASTIfNode : public ASTStatementNode {
 public:
 	ASTIfNode();

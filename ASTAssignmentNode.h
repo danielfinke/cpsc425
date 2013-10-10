@@ -14,6 +14,16 @@
 
 using namespace std;
 
+/*The ASTAssignmentNode represents assignment operations within the program. It
+ * is a subclass of the ASTStatementNode. It contains an override of the
+ * print statement. This node keeps track of:
+ *              -if it is an array or not
+ *              -the id of what is being assigned to
+ *              -pointer to the expression that is contained in the array portion
+ *              -pointer to the operand expression
+ * 
+ */
+
 class ASTAssignmentNode : public ASTStatementNode {
 public:
 	ASTAssignmentNode();

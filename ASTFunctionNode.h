@@ -12,6 +12,11 @@
 #include "ASTParamNode.h"
 #include "ASTCompoundNode.h"
 
+/*ASTfunctionNode is a subclass of ASTDeclarationNode and represents function 
+ * declarations in the language. It keeps track of :
+ *              -a list of parameters required by the function
+ *              -a list of compound statements within the function
+ */
 class ASTFunctionNode : public ASTDeclarationNode{
 public:
     ASTFunctionNode();

@@ -10,6 +10,13 @@
 
 #include "ASTExpressionNode.h"
 
+/*ASTUnaryNode represents unary operations such as mod, and "-". It is a subclass
+ * of ASTExpressionNode, and overrides the print method. It contains:
+ *        -a type(int or bool) (eg. -4 is type int)
+ *        -operation as an ENUM (not, minus,etc)
+ *        - a pointer to the operand
+ 
+ */
 class ASTUnaryNode : public ASTExpressionNode{
 public:
     ASTUnaryNode();
