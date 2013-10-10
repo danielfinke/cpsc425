@@ -206,6 +206,9 @@ int main(int argc, const char * argv[]) {
 
 		if(fileOutput) {
 			admin.setOutputStream(output);
+			if(!errFileOutput) {
+				admin.setErrOutputStream(output);
+			}
 		}
 		if(errFileOutput) {
 			admin.setErrOutputStream(errOutput);

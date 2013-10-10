@@ -300,28 +300,28 @@ ASTNode * Parser::param(){
 //method for statement production rule
 ASTNode * Parser::statement(){
     switch(lookahead.getTokenType()){
-        case sc->ID:
+        case Scanner::ID:
 			return transition("idStmt", &Parser::idStmt);
             break;
-        case sc->LCRLY:
+        case Scanner::LCRLY:
 			return transition("compoundStmt", &Parser::compoundStmt);
             break;
-        case sc->IF:
+        case Scanner::IF:
 			return transition("ifStmt", &Parser::ifStmt);
             break;
-        case sc->LOOP:
+        case Scanner::LOOP:
 			return transition("loopStmt", &Parser::loopStmt);
             break;
-        case sc->EXIT:
+        case Scanner::EXIT:
 			return transition("exitStmt", &Parser::exitStmt);
             break;
-        case sc->CONTINUE:
+        case Scanner::CONTINUE:
 			return transition("continueStmt", &Parser::continueStmt);
             break;
-        case sc->RETURN:
+        case Scanner::RETURN:
 			return transition("returnStmt", &Parser::returnStmt);
             break;
-        case sc->BRANCH:
+        case Scanner::BRANCH:
 			return transition("branchStmt", &Parser::branchStmt);
             break;
         default:
@@ -695,7 +695,7 @@ ASTNode * Parser::factor(){
 ASTNode * Parser::nidFactor(){
 	ASTExpressionNode * eNode = NULL;
     switch(lookahead.getTokenType()){
-        case sc->NOT:
+        case Scanner::NOT:
 			eNode = new ASTUnaryNode;
             match(sc->NOT);
 			//((ASTUnaryNode *)eNode)->operand = ((ASTExpressionNode *)transition("factor", &Parser::factor));
@@ -703,13 +703,13 @@ ASTNode * Parser::nidFactor(){
 			((ASTUnaryNode *)eNode)->operation = sc->NOT;
 			((ASTUnaryNode *)eNode)->type = ((ASTUnaryNode *)eNode)->operand->type;
             break;
-        case sc->LPAREN:
+        case Scanner::LPAREN:
             match(sc->LPAREN);
 			//eNode = ((ASTExpressionNode *)transition("expression", &Parser::expression));
 			eNode = dynamic_cast<ASTExpressionNode *>(transition("expression", &Parser::expression));
             match(sc->RPAREN);
             break;
-        case sc->NUM:
+        case Scanner::NUM:
 			eNode = new ASTLiteralNode;
 			eNode->type = sc->INT;
 			((ASTLiteralNode *)eNode)->value = lookahead.getAttributeValue();
@@ -788,15 +788,16 @@ void Parser:: match(int expected){
 bool Parser:: isStatementLookahead(){
    
     switch(lookahead.getTokenType()){
-        case sc->LCRLY:
-        case sc->IF:
-        case sc->LOOP:
-        case sc-> EXIT:
-        case sc->CONTINUE:
-        case sc->RETURN:
-        case sc->SEMI:
-        case sc->ID:
-        case sc->BRANCH:return true;   
+        //case Scanner::LCRLY:
+	case Scanner::LCRLY:
+        case Scanner::IF:
+        case Scanner::LOOP:
+        case Scanner::EXIT:
+        case Scanner::CONTINUE:
+        case Scanner::RETURN:
+        case Scanner::SEMI:
+        case Scanner::ID:
+        case Scanner::BRANCH:return true;   
     }
     return false;
 }
@@ -805,12 +806,12 @@ bool Parser:: isStatementLookahead(){
 //same first set for Arguments; Expression; addExp;
 bool Parser:: isExpressionLookahead(){
     switch(lookahead.getTokenType()){
-        case sc->MINUS:
-        case sc->NOT:
-        case sc->LPAREN:
-        case sc->NUM:
-        case sc->BLIT:
-        case sc->ID:return true;          
+        case Scanner::MINUS:
+        case Scanner::NOT:
+        case Scanner::LPAREN:
+        case Scanner::NUM:
+        case Scanner::BLIT:
+        case Scanner::ID:return true;          
     }
     return false;
 }
@@ -818,12 +819,12 @@ bool Parser:: isExpressionLookahead(){
 //returns true if lookahead is part of relop first set
 bool Parser:: isRelopLookahead(){
     switch(lookahead.getTokenType()){
-        case sc->LTEQ:
-        case sc->LT:
-        case sc->GT:
-        case sc->GTEQ:
-        case sc->EQ:
-        case sc->NEQ:return true;
+        case Scanner::LTEQ:
+        case Scanner::LT:
+        case Scanner::GT:
+        case Scanner::GTEQ:
+        case Scanner::EQ:
+        case Scanner::NEQ:return true;
     }
     return false;
 }
@@ -831,10 +832,10 @@ bool Parser:: isRelopLookahead(){
 //returns true if lookahead is part of addop first set
 bool Parser:: isAddopLookahead(){
     switch(lookahead.getTokenType()){
-        case sc->PLUS:
-        case sc->MINUS:
-        case sc->OR:
-        case sc->ORELSE:return true;
+        case Scanner::PLUS:
+        case Scanner::MINUS:
+        case Scanner::OR:
+        case Scanner::ORELSE:return true;
     }
     return false;
 }
@@ -842,11 +843,11 @@ bool Parser:: isAddopLookahead(){
 //returns true if lookahead is part of multop first set
 bool Parser:: isMultopLookahead(){
     switch(lookahead.getTokenType()){
-        case sc->MULT:
-        case sc->DIV:
-        case sc->MOD:
-        case sc->AND:
-        case sc->ANDTHEN:return true;
+        case Scanner::MULT:
+        case Scanner::DIV:
+        case Scanner::MOD:
+        case Scanner::AND:
+        case Scanner::ANDTHEN:return true;
     }
     return false;
 }
