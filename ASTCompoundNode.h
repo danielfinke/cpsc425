@@ -11,6 +11,12 @@
 #include "ASTNode.h"
 #include "ASTDeclarationNode.h"
 #include "ASTStatementNode.h"
+/*The ASTCompoundNode represents compound statements within the code. It is a 
+ * subclass of the ASTStatementNode and contains an override of the
+ * print statement. It has a an ASTDeclarationNodeChild representing the first 
+ * declaration (if any), and an ASTStatementNode child representing the first
+ * statement in the list of statements.
+ */
 
 class ASTCompoundNode : public ASTStatementNode{
 public:

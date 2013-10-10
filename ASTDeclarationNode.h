@@ -13,6 +13,14 @@
 
 using namespace std;
 
+/*ASTDeclarationNode represents general declarations within the language. It
+ * is a subclass of ASTNode and is a superclass to ASTVariableDelcarationNode
+ * and to ASTfunctionNode. It contains an override of the print statement.
+ * It keeps track of the:
+ *      -delcaration type as en ENUM (int, void, bool)
+ *      -id of what is being declared
+ */
+
 class ASTDeclarationNode : public ASTNode {
 public:
     ASTDeclarationNode();

@@ -10,6 +10,10 @@
 
 #include "ASTStatementNode.h"
 
+/*ASTLoopNode represents the loop statement. It is a subclass of ASTStatementNode
+ * and overrides the print method.It has a pointer to the first statement of
+ * the statement list within the loop construct. 
+ */
 class ASTLoopNode : public ASTStatementNode {
 public:
 	ASTLoopNode();

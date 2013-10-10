@@ -10,6 +10,14 @@
 
 #include "ASTFunctionCallNode.h"
 
+/*ASTVariable Node represents variables in the language.
+ * It is a subclass of ASTExpressionNode.and overrides the print method
+ *  the node contains :
+ *      -the id of the ID (identifier name)
+ *      -if it is an array or not
+ *      -a pointer to the expression denoting where in the array we are looking
+ *              (e.g. x[4], 4 is the expression.)
+ */
 class ASTVariableNode : public ASTExpressionNode {
 public:
 	ASTVariableNode();

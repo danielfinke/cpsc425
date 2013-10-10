@@ -11,6 +11,10 @@
 #include "ASTStatementNode.h"
 #include "ASTExpressionNode.h"
 
+/*ASTReturnNode represents return statements within the code. It is a subclass of 
+ * ASTStatementNode and overrides the print statement. It contains a pointer to 
+ * the option expression.
+ */
 class ASTReturnNode : public ASTStatementNode{
 public:
     ASTReturnNode();

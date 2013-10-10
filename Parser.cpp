@@ -49,6 +49,10 @@ Parser::~Parser(void)
 	delete astTop;
 }
 
+/*Transition function is used to avoid trace messages within the code
+ * it Calls the function in the parameters, as well as passes information
+ * to the admin and calls the log function of admin.
+ */
 ASTNode * Parser::transition(string functionName, functionPtr ptr) {
     admin->parserLog(functionName, PARSER_ENTER);
     
@@ -74,6 +78,13 @@ void Parser::loopScanner() {
 	admin->scannerLogEnd();
 }
 
+/*Starts the parsing of the code, initates the lookahead to the first token
+ * from the scanner, sets the astTop to the top node of the program through 
+ * the mutually recursive calls started from the program() call (done through
+ * transition method). 
+ * 
+ * Calls to the admin are made to do logging
+ */
 void Parser::startParsing(){
     lookahead = sc->getToken();
 	admin->vec.push_back(lookahead);
@@ -82,6 +93,17 @@ void Parser::startParsing(){
 	admin->parserLog(astTop);
 }
 
+/*The following methods are based on the parsing grammar given by Jernej Polajner
+ * and are a set of mutually recursive methods.
+ * Each production is represented a method which matches terminal symbols and 
+ * calls the methods of the non-terminal symbols. There a few exceptions where
+ * production have been combined into one method in order to create ASTNodes
+ * with the required information. ASTNodes are created and chained according to
+ * the construct being built.These are documented below and within the 
+ * Parser Basic document.
+ */
+
+//program -> {|declaration|}+
 ASTNode * Parser::program(){
 	ASTDeclarationNode * parent = ((ASTDeclarationNode *)transition("declaration", &Parser::declaration));
 	ASTDeclarationNode * current = parent;
@@ -98,6 +120,13 @@ ASTNode * Parser::program(){
 	return parent;
 }
 
+
+//method for declaration production rule (including dec-tail production rule)
+/*includes the declaration production rule as well as the
+ * dec-tail production rule.This is so we can properly cast the declaration as 
+ * either a functionNode or a variableDeclarationNode, and still get all relevant
+ * information 
+ */
 ASTNode * Parser::declaration(){
 	int id =0;
 	ASTNode * dNode = NULL;
@@ -119,7 +148,7 @@ ASTNode * Parser::declaration(){
 		decType = ((ASTDeclarationNode *)dNode)->declarationType;
 		id = lookahead.getAttributeValue();
         match(sc->ID);
-		
+		//Start dec-tail production rule
 		if(lookahead.getTokenType() == sc->LPAREN) {
 			dNode = transition("funDecTail", &Parser::funDecTail);
 			((ASTFunctionNode *)dNode)->declarationType = decType;
@@ -130,11 +159,12 @@ ASTNode * Parser::declaration(){
 			((ASTVariableDeclarationNode *)dNode)->declarationType = decType;
 			((ASTVariableDeclarationNode *)dNode)->id = id;
 		}
+                //End dec-tail production rule
     }
 	
 	return dNode;
 }
-
+//method for nonvoid-specifier production rule
 ASTNode * Parser::nonVoidSpecifier(){
 	ASTDeclarationNode * dNode = new ASTDeclarationNode;
     if(lookahead.getTokenType() == sc->INT) {
@@ -149,6 +179,7 @@ ASTNode * Parser::nonVoidSpecifier(){
 	return dNode;
 }
 
+//method for var-dec-tail production rule
 ASTNode * Parser::varDecTail(){
 	ASTVariableDeclarationNode * parent = new ASTVariableDeclarationNode, *vNode = parent;
 	
@@ -171,6 +202,7 @@ ASTNode * Parser::varDecTail(){
 	return parent;
 }
 
+//method for var-name production rule
 ASTNode * Parser::varName(){
 	int id =0;
 	ASTVariableDeclarationNode * vNode = new ASTVariableDeclarationNode;
@@ -192,6 +224,7 @@ ASTNode * Parser::varName(){
 	return vNode;
 }
 
+//method for fun-dec-tail production rule
 ASTNode * Parser::funDecTail(){
 	ASTFunctionNode * fNode = new ASTFunctionNode;
 	ASTParamNode * pNode = NULL;
@@ -209,6 +242,7 @@ ASTNode * Parser::funDecTail(){
 	return fNode;
 }
 
+//method for params production rule
 ASTNode * Parser::params(){
 	ASTParamNode * parent = NULL, *pNode = NULL;
 	
@@ -228,6 +262,7 @@ ASTNode * Parser::params(){
 	return parent;
 }
 
+//method for param procution rule
 ASTNode * Parser::param(){
 	ASTParamNode * pNode = new ASTParamNode;
 	ASTDeclarationNode * dNode = NULL;
@@ -262,6 +297,7 @@ ASTNode * Parser::param(){
 	return pNode;
 }
 
+//method for statement production rule
 ASTNode * Parser::statement(){
     switch(lookahead.getTokenType()){
         case sc->ID:
@@ -294,6 +330,12 @@ ASTNode * Parser::statement(){
     }
 }
 
+
+//method for id-stmt production rule (including call-tail production rule)
+/*idSmt contains the id-stmt produciton rule as well as call-tail production rule. 
+ * This is so we could properly cast the Astnode to either ASTAssignmentnode or
+ * ASTFunctionCall node, while providing the relevant information for the node
+ */
 ASTNode * Parser::idStmt(){
 	int id = lookahead.getAttributeValue();
 	ASTStatementNode * sNode = NULL;
@@ -305,15 +347,18 @@ ASTNode * Parser::idStmt(){
 		((ASTAssignmentNode *)sNode)->id = id;
     }
     else{
+        //Start call-tail production rule
         //sNode = ((ASTStatementNode *)transition("callTail", &Parser::callTail));
 		sNode = dynamic_cast<ASTStatementNode *>(transition("callTail", &Parser::callTail));
 		((ASTFunctionCallNode *)sNode)->id = id;
 		match(sc->SEMI);
+       //end call-tail production rule
     }
 	
 	return sNode;
 }
 
+//method for assign-stmt-tail production rule
 ASTNode * Parser::assignStmtTail(){
 	ASTAssignmentNode * aNode = new ASTAssignmentNode;
 	ASTExpressionNode * eNode = NULL;
@@ -337,6 +382,7 @@ ASTNode * Parser::assignStmtTail(){
 	return aNode;
 }
 
+//method for call-tail production rule
 ASTNode * Parser::callTail(){
 	ASTFunctionCallNode * fNode = new ASTFunctionCallNode;
 	ASTExpressionNode * argument = NULL;
@@ -354,6 +400,7 @@ ASTNode * Parser::callTail(){
 	return ((ASTExpressionNode *)fNode);
 }
 
+//method for arguments production rule
 ASTNode * Parser::arguments(){
 	ASTExpressionNode * parent = NULL, *eNode = NULL;
     //parent = ((ASTExpressionNode *)transition("expression", &Parser::expression));
@@ -369,6 +416,7 @@ ASTNode * Parser::arguments(){
 	return parent;
 }
 
+//method for compound-stm production rule
 ASTNode * Parser::compoundStmt(){
 	int decType = 0;
 	int id =0;
@@ -424,6 +472,7 @@ ASTNode * Parser::compoundStmt(){
 	return cNode;
 }
 
+//method for if-stmt production rule
 ASTNode * Parser::ifStmt(){
 	ASTIfNode * iNode = new ASTIfNode;
 	
@@ -444,6 +493,7 @@ ASTNode * Parser::ifStmt(){
 	return iNode;
 }
 
+//method for loop-stmt production rule
 ASTNode * Parser::loopStmt(){
 	ASTLoopNode * lNode = new ASTLoopNode;
 	ASTNode * current = lNode;
@@ -462,6 +512,7 @@ ASTNode * Parser::loopStmt(){
 	return lNode;
 }
 
+//method for exit-stmt production rule
 ASTNode * Parser::exitStmt(){
 	ASTMarkerNode * marker = new ASTMarkerNode;
 	
@@ -472,6 +523,7 @@ ASTNode * Parser::exitStmt(){
 	return marker;
 }
 
+//method for continue-stmt production rule
 ASTNode * Parser::continueStmt(){
     ASTMarkerNode * marker = new ASTMarkerNode;
     
@@ -483,6 +535,7 @@ ASTNode * Parser::continueStmt(){
     return marker;
 }
 
+//method for return-stmt production rule
 ASTNode * Parser::returnStmt(){
     ASTReturnNode * rNode = new ASTReturnNode;
 
@@ -496,6 +549,7 @@ ASTNode * Parser::returnStmt(){
     return rNode;
 }
 
+//method for null-stmt production rule
 ASTNode * Parser::nullStmt(){   
     ASTMarkerNode * marker = new ASTMarkerNode;
     marker ->type = sc->NULLSTMT;
@@ -504,6 +558,7 @@ ASTNode * Parser::nullStmt(){
     return marker;
 }
 
+//method for branch-stmt production rule
 ASTNode * Parser::branchStmt(){
     ASTBranchNode * bNode = new ASTBranchNode;
     ASTCaseNode *current = NULL;
@@ -529,6 +584,7 @@ ASTNode * Parser::branchStmt(){
     return bNode;
 }
 
+//method for case-stmt production rule
 ASTNode * Parser::caseStmt(){
     ASTCaseNode * cNode = new ASTCaseNode;
     if(lookahead.getTokenType() == sc->CASE){
@@ -551,6 +607,7 @@ ASTNode * Parser::caseStmt(){
     return cNode;
 }
 
+//method for expression production rule
 // Commented out expression types because they will be taken care of later during semantic analysis
 ASTNode * Parser::expression(){
     //ASTExpressionNode * exp = ((ASTExpressionNode *)transition("addExp", &Parser::addExp));
@@ -570,12 +627,17 @@ ASTNode * Parser::expression(){
 	return exp;
 }
 
+//method for add-exp production rule (containing uminus and addop production rules )
+/*
+ */
 ASTNode * Parser::addExp(){
 	bool isNeg = false;
 	ASTExpressionNode * exp = NULL;
 	
     if(lookahead.getTokenType() == sc->MINUS){
+        //start uMinus production rule
         match(sc->MINUS);
+        //end uminus production rule
 		isNeg = true;
     }
     //exp = ((ASTExpressionNode *)transition("term", &Parser::term));
@@ -601,6 +663,7 @@ ASTNode * Parser::addExp(){
 	return exp;
 }
 
+//method for term production rule
 ASTNode * Parser::term(){
     //ASTExpressionNode * exp = ((ASTExpressionNode *)transition("factor", &Parser::factor));
     ASTExpressionNode * exp = dynamic_cast<ASTExpressionNode *>(transition("factor", &Parser::factor));
@@ -618,6 +681,7 @@ ASTNode * Parser::term(){
 	return exp;
 }
 
+//method for factor production rule
 ASTNode * Parser::factor(){
     if(lookahead.getTokenType() == sc->ID){
         return transition("idFactor", &Parser::idFactor);
@@ -627,6 +691,7 @@ ASTNode * Parser::factor(){
     }
 }
 
+//method for nid-factor production rule
 ASTNode * Parser::nidFactor(){
 	ASTExpressionNode * eNode = NULL;
     switch(lookahead.getTokenType()){
@@ -661,11 +726,20 @@ ASTNode * Parser::nidFactor(){
 	return eNode;
 }
 
+//method for id-factor production rule (containing id-tail production rule (containing var-tail production rule))
+/*contains id-factor production rule and id-tail production rule so that we can
+ * correctly cast the ASTNode to either ASTFunctioncallNode or ASTvariableNode
+ * while getting all relevant information for the node.
+ * The var-tail production rule was encompassed so that we could attain the
+ * isArray information for the Node
+ */
 ASTNode * Parser::idFactor(){
 	int id = lookahead.getAttributeValue();
 	ASTExpressionNode * exp = NULL;
 	
     match(sc->ID);
+    
+    //Start id-tail production rule
     if(lookahead.getTokenType() == sc->LPAREN){
         //exp = ((ASTExpressionNode *)transition("callTail", &Parser::callTail));
 		exp = dynamic_cast<ASTExpressionNode *>(transition("callTail", &Parser::callTail));
@@ -674,7 +748,8 @@ ASTNode * Parser::idFactor(){
     else {
 		exp = new ASTVariableNode;
 		((ASTVariableNode *)exp)->id = id;
-	
+                
+                //Start var-tail production rule
 		if(lookahead.getTokenType() == sc->LSQR){
 			match(sc->LSQR);
 			//((ASTVariableNode *)exp)->arrayExp = ((ASTExpressionNode *)transition("addExp", &Parser::addExp));
@@ -683,10 +758,18 @@ ASTNode * Parser::idFactor(){
 
 			((ASTVariableNode *)exp)->isArray = true;
 		}
+                //end var-tail production rule
 	}
+    //end id-tail production rule
 	
 	return exp;
 }
+
+/*matches terminal symbols by checking if the lookahead is equal to the expected
+ * terminal symbol. If so, it gets the next token as the new lookahead and sends
+ * match and load information to the admin for traceing. if not in
+ * sends error information to the admin for logging.
+ */
 
 void Parser:: match(int expected){
     if(lookahead.getTokenType() == expected){
@@ -701,6 +784,7 @@ void Parser:: match(int expected){
     }
 }
 
+//returns true if lookahead is part of statement first set
 bool Parser:: isStatementLookahead(){
    
     switch(lookahead.getTokenType()){
@@ -717,7 +801,8 @@ bool Parser:: isStatementLookahead(){
     return false;
 }
 
-//is same for Arguments; Expression; addExp;
+//returns true if lookahead is part of arguments/expression/addExp first set
+//same first set for Arguments; Expression; addExp;
 bool Parser:: isExpressionLookahead(){
     switch(lookahead.getTokenType()){
         case sc->MINUS:
@@ -730,6 +815,7 @@ bool Parser:: isExpressionLookahead(){
     return false;
 }
 
+//returns true if lookahead is part of relop first set
 bool Parser:: isRelopLookahead(){
     switch(lookahead.getTokenType()){
         case sc->LTEQ:
@@ -742,6 +828,7 @@ bool Parser:: isRelopLookahead(){
     return false;
 }
 
+//returns true if lookahead is part of addop first set
 bool Parser:: isAddopLookahead(){
     switch(lookahead.getTokenType()){
         case sc->PLUS:
@@ -752,6 +839,7 @@ bool Parser:: isAddopLookahead(){
     return false;
 }
 
+//returns true if lookahead is part of multop first set
 bool Parser:: isMultopLookahead(){
     switch(lookahead.getTokenType()){
         case sc->MULT:

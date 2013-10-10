@@ -10,6 +10,14 @@
 
 #include "ASTExpressionNode.h"
 
+/*The ASTBinaryNode represents binary operations within the code, such as 
+ * multiplication, addition, subtraction, division. It is a subclass of 
+ * ASTExpressionNode. It contains an override of the
+ * print statement. It has pointers to the left and right side of the operation,
+ * which are expressions. It also has the type of operation as an int representing
+ * and ENUM.
+*/
+
 class ASTBinaryNode : public ASTExpressionNode {
 public:
     ASTBinaryNode();

@@ -9,9 +9,14 @@ class Scanner;
 
 using namespace std;
 
-/* In its current state, the Parser class solely loops through requests on the Scanner.
+/* In the Scanner phase, the Parser class solely loops through requests on the Scanner.
  * Each iteration of its main loop in the loopScanner() function produces one single token.
  * These tokens are sent to the Admin instance for reporting purposes, and then subsequently discarded.
+ */
+
+/*In the Parser Basic phase, the parser uses a top-down, recursive descent parsing
+ * style to parse the code. if errors are encountered, the compiler terminates and
+ * an error message is printed. It also creates the Abstract syntax tree.
  */
 class Parser
 {

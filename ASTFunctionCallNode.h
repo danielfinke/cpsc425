@@ -15,6 +15,16 @@
 
 using namespace std;
 
+/*ASTFunctionCallNode represents a function call in the code. It is a subclass
+ * of both ASTExpressionNode and ASTStatementNode. This is because setting a
+ * variable to the returning value from a function call (e.g. x=foo()) is 
+ * considered an expression, where as a function call on its own (e.g. foo()) is
+ * a statement. It overrides the print function
+ * The ASTFunctionCallNode keeps track of:
+ *              -the id of the function (the function's name)
+ *              - the arguments as a list
+ */
+
 class ASTFunctionCallNode : public ASTStatementNode, ASTExpressionNode {
 public:
     ASTFunctionCallNode();
