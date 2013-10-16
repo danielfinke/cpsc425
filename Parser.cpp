@@ -102,7 +102,12 @@ void Parser::startParsing(){
 	
     astTop = transition("program", &Parser::program, emptySyncSet);
 	
-	admin->parserLog(astTop);
+	if(errorCount == 0) {
+		admin->parserLog(astTop);
+	}
+	else if(admin->getOutputAST()) {
+		admin->cancelAST();
+	}
 }
 
 /*The following methods are based on the parsing grammar given by Jernej Polajner
@@ -146,7 +151,7 @@ ASTNode * Parser::program(vector<int> syncSet){
  */
 ASTNode * Parser::declaration(vector<int> syncSet){
 	int id = 0;
-	ASTNode * dNode = NULL;
+	ASTNode * dNode = new ASTFunctionNode;
 	
     if(lookahead.getTokenType() == sc->VOID) {
 		
@@ -302,8 +307,8 @@ ASTNode * Parser::varName(vector<int> syncSet){
 //method for fun-dec-tail production rule
 ASTNode * Parser::funDecTail(vector<int> syncSet){
 	ASTFunctionNode * fNode = new ASTFunctionNode;
-	ASTParamNode * pNode = NULL;
-	ASTCompoundNode * cNode = NULL;
+	ASTParamNode * pNode = new ASTParamNode;
+	ASTCompoundNode * cNode = new ASTCompoundNode;
 	
     if(match(sc->LPAREN, syncSet)) {
 	
@@ -323,7 +328,7 @@ ASTNode * Parser::funDecTail(vector<int> syncSet){
 
 //method for params production rule
 ASTNode * Parser::params(vector<int> syncSet){
-	ASTParamNode * parent = NULL, *pNode = NULL;
+	ASTParamNode * parent = new ASTParamNode, *pNode = parent;
 	//vector<int> firstSet;
 	
     if(lookahead.getTokenType() == sc->REF ||
@@ -360,7 +365,7 @@ ASTNode * Parser::params(vector<int> syncSet){
 //method for param procution rule
 ASTNode * Parser::param(vector<int> syncSet){
 	ASTParamNode * pNode = new ASTParamNode;
-	ASTDeclarationNode * dNode = NULL;
+	ASTDeclarationNode * dNode = new ASTDeclarationNode;
 	int id =0;
 	//vector<int> firstSet;
 	
@@ -448,7 +453,7 @@ ASTNode * Parser::statement(vector<int> syncSet){
             break;
 		default:
 			syntaxError("statement", syncSet);
-			return NULL;
+			return new ASTStatementNode;
     }
 }
 
@@ -460,7 +465,7 @@ ASTNode * Parser::statement(vector<int> syncSet){
  */
 ASTNode * Parser::idStmt(vector<int> syncSet){
 	int id = lookahead.getAttributeValue();
-	ASTStatementNode * sNode = NULL;
+	ASTStatementNode * sNode = new ASTStatementNode;
 	
     if(match(sc->ID, syncSet)) {
 	
@@ -488,7 +493,7 @@ ASTNode * Parser::idStmt(vector<int> syncSet){
 //method for assign-stmt-tail production rule
 ASTNode * Parser::assignStmtTail(vector<int> syncSet){
 	ASTAssignmentNode * aNode = new ASTAssignmentNode;
-	ASTExpressionNode * eNode = NULL;
+	ASTExpressionNode * eNode = new ASTBinaryNode;
 	/*vector<int> firstSet;
 	
 	firstSet.push_back(sc->LSQR); firstSet.push_back(sc->ASSIGN);
@@ -525,7 +530,7 @@ ASTNode * Parser::assignStmtTail(vector<int> syncSet){
 //method for call-tail production rule
 ASTNode * Parser::callTail(vector<int> syncSet){
 	ASTFunctionCallNode * fNode = new ASTFunctionCallNode;
-	ASTExpressionNode * argument = NULL;
+	ASTExpressionNode * argument = new ASTBinaryNode;
 	//vector<int> firstSet;
 	
     if(match(sc->LPAREN, syncSet)) {
@@ -552,7 +557,7 @@ ASTNode * Parser::callTail(vector<int> syncSet){
 
 //method for arguments production rule
 ASTNode * Parser::arguments(vector<int> syncSet){
-	ASTExpressionNode * parent = NULL, *eNode = NULL;
+	ASTExpressionNode * parent = new ASTBinaryNode, *eNode = parent;
 	//vector<int> firstSet;
 	
 	parent = dynamic_cast<ASTExpressionNode *>(transition("expression", &Parser::expression, syncSet));
@@ -584,7 +589,7 @@ ASTNode * Parser::compoundStmt(vector<int> syncSet){
 	int id =0;
 	ASTCompoundNode * cNode = new ASTCompoundNode;
 	ASTDeclarationNode * dNode = new ASTDeclarationNode;
-	ASTStatementNode * sNode = NULL;
+	ASTStatementNode * sNode = new ASTStatementNode;
 	ASTNode * current = cNode;
 	
     if(match(sc->LCRLY, syncSet)) {
@@ -1147,6 +1152,8 @@ bool Parser:: isMultopLookahead(){
 void Parser::syntaxError(int expected, vector<int> syncSet) {
 	admin->syntaxError(Scanner::namesRev[expected], lookahead.getTokenType());
 	
+	errorCount++;
+	
 	while(find(syncSet.begin(), syncSet.end(), lookahead.getTokenType()) == syncSet.end()) {
 		lookahead = sc->getToken();
 		admin->vec.push_back(lookahead);
@@ -1155,6 +1162,8 @@ void Parser::syntaxError(int expected, vector<int> syncSet) {
 }
 void Parser::syntaxError(string expected, vector<int> syncSet) {
 	admin->syntaxError(expected, lookahead.getTokenType());
+	
+	errorCount++;
 	
 	while(find(syncSet.begin(), syncSet.end(), lookahead.getTokenType()) == syncSet.end()) {
 		lookahead = sc->getToken();

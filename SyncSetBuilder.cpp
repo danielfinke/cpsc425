@@ -17,6 +17,9 @@ SyncSetBuilder::SyncSetBuilder(const SyncSetBuilder& orig) {
 SyncSetBuilder::~SyncSetBuilder() {
 }
 
+/* Looks up the sync set for a given function name or nickname
+ * Returns an empty set if the function name not in the map
+ */
 vector<int> SyncSetBuilder::getSyncSet(string functionName) {
 	if(syncSetMap.find(functionName) != syncSetMap.end()) {
 		return syncSetMap.at(functionName);
@@ -28,6 +31,8 @@ vector<int> SyncSetBuilder::getSyncSet(string functionName) {
 
 unordered_map<string, vector<int> > SyncSetBuilder::syncSetMap;
 
+/* A massive list of all the sync/follow sets of various productions and options
+ */
 void SyncSetBuilder::buildSyncSetMap() {
 	vector<int> syncSet;
 	

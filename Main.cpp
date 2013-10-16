@@ -155,7 +155,7 @@ int main(int argc, const char * argv[]) {
 			cout << "Output redirected to file: " << outputFile << endl;
 		}
 		if(astOutput) {
-			cout << "  AST will be included after output" << endl;
+			cout << "AST will be included after output" << endl;
 		}
 		if(errFileOutput) {
 			cout << "Error output redirected to file: " << errOutputFile << endl;
@@ -182,6 +182,8 @@ int main(int argc, const char * argv[]) {
 		if(processTo != 0 && processTo != 5) {
 			cout << " phase" << endl;
 		}
+		
+		cout << endl;
 	}
 	
 	// Make sure these get appended for multiple files
@@ -198,7 +200,7 @@ int main(int argc, const char * argv[]) {
 		}
 		
 		if(!unattended) {
-			output << "-- Starting " << filenames[i] << endl << endl;
+			(fileOutput ? output : cout) << "-- Starting " << filenames[i] << endl << endl;
 		}
 		
 		Admin admin(file, filenames[i], cout, verbose);
@@ -217,7 +219,7 @@ int main(int argc, const char * argv[]) {
 		admin.compile(processTo);
 		
 		if(!unattended) {
-			output << endl << endl << "-- Ending " << filenames[i] << endl << endl;
+			(fileOutput ? output : cout) << endl << endl << "-- Ending " << filenames[i] << endl << endl;
 		}
 	}
 	

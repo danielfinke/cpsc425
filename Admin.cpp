@@ -80,6 +80,10 @@ bool Admin::isInvisibleCharacter(char c) {
 		|| c == 144 || c == 157;
 }
 
+// Returns true if the output AST is designated to be displayed
+bool Admin::getOutputAST() {
+	return outputAST;
+}
 void Admin::setOutputAST(bool outputAST) {
 	this->outputAST = outputAST;
 }
@@ -276,6 +280,12 @@ void Admin::parserLog(ASTNode * topNode) {
 		*output << endl;
 		topNode->printNode(0, output);
 	}
+}
+
+// Called if the AST was not built due to syntax errors
+void Admin::cancelAST() {
+	*output << endl;
+	*output << "One or more syntax errors detected. AST could not be built" << endl;
 }
 
 // Go back one character in the input line.
