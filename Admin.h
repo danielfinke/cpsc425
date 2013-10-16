@@ -46,6 +46,7 @@ public:
 	~Admin(void);
 
 	// Getters/setters
+	bool getOutputAST();
 	void setOutputAST(bool outputAST);
 	void setOutputStream(ostream & out);
 	void setErrOutputStream(ostream & out);
@@ -57,6 +58,7 @@ public:
 	void parserLog(int type, int mode);
 	void parserLog(ASTNode * topNode);
     void syntaxError(string expected, int found);
+	void cancelAST();
 	
 	// Other functions
 	void compile(int processTo);
