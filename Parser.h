@@ -2,6 +2,7 @@
 #define Parser_H
 
 #include <string>
+#include <vector>
 #include "Token.h"
 #include "ASTNode.h"
 class Admin;
@@ -21,50 +22,55 @@ using namespace std;
 class Parser
 {
 private:
+	int errorCount;
 	Admin* admin;
 	Scanner* sc;
 	Token lookahead;
 	ASTNode * astTop;
 
-	typedef ASTNode *(Parser::*functionPtr)();
+	typedef ASTNode *(Parser::*functionPtr)(vector<int>);
 
-	ASTNode * transition(string functionName, functionPtr ptr);
+	ASTNode * transition(string functionName, functionPtr ptr, vector<int> syncSet);
 
-	void match(int expected);       
-	ASTNode * program();
-	ASTNode * declaration();
-	ASTNode * nonVoidSpecifier();
-	ASTNode * varDecTail();
-	ASTNode * varName();
-	ASTNode * funDecTail();
-	ASTNode * params();
-	ASTNode * param();
-	ASTNode * statement();
-	ASTNode * idStmt();
-	ASTNode * assignStmtTail();
-	ASTNode * callTail();
-	ASTNode * arguments();
-	ASTNode * compoundStmt();
-	ASTNode * ifStmt();
-	ASTNode * loopStmt();
-	ASTNode * exitStmt();
-	ASTNode * continueStmt();
-	ASTNode * returnStmt();
-	ASTNode * nullStmt();
-	ASTNode * branchStmt();
-	ASTNode * caseStmt();
-	ASTNode * expression();
-	ASTNode * addExp();
-	ASTNode * term();
-	ASTNode * factor();
-	ASTNode * nidFactor();
-	ASTNode * idFactor();
+	bool match(int expected, vector<int> syncSet);
+	ASTNode * program(vector<int> syncSet);
+	ASTNode * declaration(vector<int> syncSet);
+	ASTNode * nonVoidSpecifier(vector<int> syncSet);
+	ASTNode * varDecTail(vector<int> syncSet);
+	ASTNode * varName(vector<int> syncSet);
+	ASTNode * funDecTail(vector<int> syncSet);
+	ASTNode * params(vector<int> syncSet);
+	ASTNode * param(vector<int> syncSet);
+	ASTNode * statement(vector<int> syncSet);
+	ASTNode * idStmt(vector<int> syncSet);
+	ASTNode * assignStmtTail(vector<int> syncSet);
+	ASTNode * callTail(vector<int> syncSet);
+	ASTNode * arguments(vector<int> syncSet);
+	ASTNode * compoundStmt(vector<int> syncSet);
+	ASTNode * ifStmt(vector<int> syncSet);
+	ASTNode * loopStmt(vector<int> syncSet);
+	ASTNode * exitStmt(vector<int> syncSet);
+	ASTNode * continueStmt(vector<int> syncSet);
+	ASTNode * returnStmt(vector<int> syncSet);
+	ASTNode * nullStmt(vector<int> syncSet);
+	ASTNode * branchStmt(vector<int> syncSet);
+	ASTNode * caseStmt(vector<int> syncSet);
+	ASTNode * expression(vector<int> syncSet);
+	ASTNode * addExp(vector<int> syncSet);
+	ASTNode * term(vector<int> syncSet);
+	ASTNode * factor(vector<int> syncSet);
+	ASTNode * nidFactor(vector<int> syncSet);
+	ASTNode * idFactor(vector<int> syncSet);
 
 	bool isStatementLookahead();
 	bool isExpressionLookahead();
 	bool isRelopLookahead();
 	bool isAddopLookahead();
 	bool isMultopLookahead();
+	
+	//void syntaxCheck(vector<int> syncSet);
+	void syntaxError(int expected, vector<int> syncSet);
+	void syntaxError(string expected, vector<int> syncSet);
         
 public:
 	// Constructors/deconstructors/related
@@ -76,9 +82,7 @@ public:
 
 	// Main functions
 	void loopScanner();
-        void startParsing();
-        
-        
+    void startParsing();
 };
 
 #endif

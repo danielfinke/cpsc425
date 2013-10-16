@@ -143,7 +143,7 @@ int main(int argc, const char * argv[]) {
 	}
 
 	if(!unattended && filenames.size() > 0) {
-		cout << "CAD Compiler v1.1" << endl;
+		cout << "CAD Compiler v1.2" << endl;
 		cout << "Source files: " << endl;
 		for(int i = 0; i < filenames.size(); i++) {
 			cout << "  " << filenames[i] << endl;

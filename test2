@@ -1,15 +1,13 @@
-int boo(int input[]) {
-					-- Some sort of compound statement
-	{
-		int t;
-		t := 42;
-		; -- Check out this null statement. AH YEAH
-	}
+void main(void)
+{
+	int t[4];
+	t[0] := 1;
+	t[int] := 2;
+	t[2] := 3;
 
-	branch (input[0])
-		case 4:
-			return input[*input[0]] * 2;
-		default:
-			return input[0] * 500;
-	end;
+	int y;
+}
+
+void doMe2(void) {
+	;
 }

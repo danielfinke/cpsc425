@@ -286,12 +286,10 @@ void Admin::unget() { linePos--; }
  * @param expected		token type expected to be found at current parse locn
  * @param found			token type found at current parse locn
  */
-void Admin :: syntaxError(int expected, int found){
+void Admin :: syntaxError(string expected, int found){
 	if(fileName != "") {
 		*errOutput << fileName << ":";
 	}
 	*errOutput << lineCount << ": Syntax error. Found " << sc->namesRev[found]
-			<< " (expected " << sc->namesRev[expected] << ")" << endl;
-	*errOutput << "Terminating..." << endl;
-    exit(-1);
+			<< " (expected " << expected << ")" << endl;
 }

@@ -24,16 +24,18 @@
       </nativedebugger>
       <runprofile version="9">
         <runcommandpicklist>
-          <runcommandpicklistitem>"${OUTPUT_PATH}"</runcommandpicklistitem>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" -s test</runcommandpicklistitem>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" -v -s test</runcommandpicklistitem>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" -v -s test -o out</runcommandpicklistitem>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" -v test</runcommandpicklistitem>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" -v test -o out</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" -v -o out test</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" -v -o out -ast test test2</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -v testdev</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -v test</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" test</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -ast test</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -ast test2</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -v -ast test2</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -v test2</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" test2</runcommandpicklistitem>
         </runcommandpicklist>
-        <runcommand>"${OUTPUT_PATH}" -v -o out -ast test test2</runcommand>
+        <runcommand>"${OUTPUT_PATH}" test2</runcommand>
         <rundir></rundir>
         <buildfirst>true</buildfirst>
         <terminal-type>0</terminal-type>

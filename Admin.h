@@ -56,7 +56,7 @@ public:
     void parserLog(string functionName, int mode);
 	void parserLog(int type, int mode);
 	void parserLog(ASTNode * topNode);
-    void syntaxError(int expected, int found);
+    void syntaxError(string expected, int found);
 	
 	// Other functions
 	void compile(int processTo);

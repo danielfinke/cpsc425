@@ -59,6 +59,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Main.o \
 	${OBJECTDIR}/Parser.o \
 	${OBJECTDIR}/Scanner.o \
+	${OBJECTDIR}/SyncSetBuilder.o \
 	${OBJECTDIR}/Token.o
 
 
@@ -205,6 +206,11 @@ ${OBJECTDIR}/Scanner.o: Scanner.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Scanner.o Scanner.cpp
+
+${OBJECTDIR}/SyncSetBuilder.o: SyncSetBuilder.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/SyncSetBuilder.o SyncSetBuilder.cpp
 
 ${OBJECTDIR}/Token.o: Token.cpp 
 	${MKDIR} -p ${OBJECTDIR}
