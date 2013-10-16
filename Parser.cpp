@@ -997,6 +997,7 @@ ASTNode * Parser::nidFactor(vector<int> syncSet){
             match(sc->BLIT, syncSet);
             break;
 		default:
+                    // should never get called. left in for completeness of pattern
 			syntaxError("nid-factor", syncSet);
     }
 	

@@ -58,10 +58,12 @@ void ILikeBigButts(int booty, big){ --errors here (i)
 	continue ;
 
 	branch (IAmAnId)
-	CASE 7: bitchPlease;
+	CASE 7: bitchPlease; -- error here (j)
 	case 9: holla;
 	default; forADolla;
 	end;
-}
+} -- fixed by here (j)
+
+
 
 
