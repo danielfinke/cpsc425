@@ -1,13 +1,67 @@
-void main(void)
+int x;
+float y; -- gives error (a)
+
+void main(void) -- recovered by here (a)
 {
 	int t[4];
 	t[0] := 1;
-	t[int] := 2;
+	t[int] := 2; -- gives error (b)
 	t[2] := 3;
 
 	int y;
 }
 
-void doMe2(void) {
+void doMe2(void) {-- recovers by here (b)
 	;
 }
+
+int testing )insideOut( --gives error (c)
+{
+	int x,y,z;  -- recoveres by here (c)
+}
+
+int mine(void){
+	float a; -- give error (d)
+	int b;
+	b := 0;
+
+	if(b = 4){
+	b := b+1;
+	}
+} -- recovers here(d)
+
+int yours (void){
+	8 ; -- gives error (e)
+
+	exit ; -- recovers here (e)
+}
+
+void myID(ref float){ -- gives error (f)
+	continue ;-- recovers by here (f)
+} 
+
+void myID2 (ref float big){ --errors here (g)
+	/*really messes it up with the 2 "ID"s
+	won't recover in this scope*/
+} -- recovers here (g)
+
+void howAboutMe(,int a){ -- error here (h)
+	/*confuses the hell out of the compiler
+	gets out of scope*/
+	;
+	continue ;
+	exit ;
+} --recovers here (h)
+
+void ILikeBigButts(int booty, big){ --errors here (i)
+	;	--fixed by here (i)
+	continue ;
+
+	branch (IAmAnId)
+	CASE 7: bitchPlease;
+	case 9: holla;
+	default; forADolla;
+	end;
+}
+
+
