@@ -25,8 +25,10 @@
       <itemPath>ASTVariableDeclarationNode.h</itemPath>
       <itemPath>ASTVariableNode.h</itemPath>
       <itemPath>Admin.h</itemPath>
+      <itemPath>IdentificationTableItem.h</itemPath>
       <itemPath>Parser.h</itemPath>
       <itemPath>Scanner.h</itemPath>
+      <itemPath>ScopeTable.h</itemPath>
       <itemPath>SemanticAnalyzer.h</itemPath>
       <itemPath>SyncSetBuilder.h</itemPath>
       <itemPath>Token.h</itemPath>
@@ -59,9 +61,11 @@
       <itemPath>ASTVariableDeclarationNode.cpp</itemPath>
       <itemPath>ASTVariableNode.cpp</itemPath>
       <itemPath>Admin.cpp</itemPath>
+      <itemPath>IdentificationTableItem.cpp</itemPath>
       <itemPath>Main.cpp</itemPath>
       <itemPath>Parser.cpp</itemPath>
       <itemPath>Scanner.cpp</itemPath>
+      <itemPath>ScopeTable.cpp</itemPath>
       <itemPath>SemanticAnalyzer.cpp</itemPath>
       <itemPath>SyncSetBuilder.cpp</itemPath>
       <itemPath>Token.cpp</itemPath>
@@ -90,6 +94,7 @@
       <compileType>
         <ccTool>
           <standard>8</standard>
+          <commandlineTool>g++</commandlineTool>
         </ccTool>
       </compileType>
       <item path="ASTAssignmentNode.cpp" ex="false" tool="1" flavor2="0">
@@ -176,6 +181,10 @@
       </item>
       <item path="Admin.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="IdentificationTableItem.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="IdentificationTableItem.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Main.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Parser.cpp" ex="false" tool="1" flavor2="0">
@@ -185,6 +194,10 @@
       <item path="Scanner.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Scanner.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ScopeTable.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ScopeTable.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="SemanticAnalyzer.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -304,6 +317,10 @@
       </item>
       <item path="Admin.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="IdentificationTableItem.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="IdentificationTableItem.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Main.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Parser.cpp" ex="false" tool="1" flavor2="0">
@@ -313,6 +330,10 @@
       <item path="Scanner.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Scanner.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ScopeTable.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ScopeTable.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="SemanticAnalyzer.cpp" ex="false" tool="1" flavor2="0">
       </item>

@@ -56,9 +56,11 @@ OBJECTFILES= \
 	${OBJECTDIR}/ASTVariableDeclarationNode.o \
 	${OBJECTDIR}/ASTVariableNode.o \
 	${OBJECTDIR}/Admin.o \
+	${OBJECTDIR}/IdentificationTableItem.o \
 	${OBJECTDIR}/Main.o \
 	${OBJECTDIR}/Parser.o \
 	${OBJECTDIR}/Scanner.o \
+	${OBJECTDIR}/ScopeTable.o \
 	${OBJECTDIR}/SemanticAnalyzer.o \
 	${OBJECTDIR}/SyncSetBuilder.o \
 	${OBJECTDIR}/Token.o
@@ -193,6 +195,11 @@ ${OBJECTDIR}/Admin.o: Admin.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Admin.o Admin.cpp
 
+${OBJECTDIR}/IdentificationTableItem.o: IdentificationTableItem.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/IdentificationTableItem.o IdentificationTableItem.cpp
+
 ${OBJECTDIR}/Main.o: Main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
@@ -207,6 +214,11 @@ ${OBJECTDIR}/Scanner.o: Scanner.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Scanner.o Scanner.cpp
+
+${OBJECTDIR}/ScopeTable.o: ScopeTable.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ScopeTable.o ScopeTable.cpp
 
 ${OBJECTDIR}/SemanticAnalyzer.o: SemanticAnalyzer.cpp 
 	${MKDIR} -p ${OBJECTDIR}

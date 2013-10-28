@@ -44,6 +44,7 @@ class Scanner {
 
 		// Miscellaneous functions
 		Token getToken(pair<string, int> tok);
+		void populateSymbolsReadWrite();
 		void populateWordTable();
 	public:
 		// All available token types
@@ -67,6 +68,7 @@ class Scanner {
 
 		// Main functions
 		int getErrorCount();
+		int getIdentifierCount();
 		Token getToken();
 		string getIdentifierName(int id);
 		string getErrorName(int id);
