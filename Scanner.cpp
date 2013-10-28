@@ -260,6 +260,21 @@ int Scanner::getSpecial(char c) {
 	}
 }
 
+void Scanner::populateSymbolsReadWrite() {
+	symbolTable.insert(make_pair("readint", make_pair(ID, symbolCount++)));
+	spellingTable.push_back("readint");
+	symbolTable.insert(make_pair("writeint", make_pair(ID, symbolCount++)));
+	spellingTable.push_back("writeint");
+	symbolTable.insert(make_pair("outint", make_pair(ID, symbolCount++)));
+	spellingTable.push_back("outint");
+	symbolTable.insert(make_pair("readbool", make_pair(ID, symbolCount++)));
+	spellingTable.push_back("readbool");
+	symbolTable.insert(make_pair("writebool", make_pair(ID, symbolCount++)));
+	spellingTable.push_back("writebool");
+	symbolTable.insert(make_pair("outbool", make_pair(ID, symbolCount++)));
+	spellingTable.push_back("outbool");
+}
+
 // Fills out the word table with reserved keywords and their values
 void Scanner::populateWordTable() {
 	wordTable.insert(make_pair("and", make_pair(AND, -2)));
@@ -285,6 +300,7 @@ void Scanner::populateWordTable() {
 }
 
 int Scanner::getErrorCount() { return errorCount; }
+int Scanner::getIdentifierCount() { return symbolTable.size(); }
 
 // Wraps getToken(pair<string, int> tok)
 Token Scanner::getToken() {
