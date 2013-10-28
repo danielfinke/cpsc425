@@ -32,6 +32,25 @@ ASTUnaryNode::~ASTUnaryNode() {
     delete operand;
 }
 
+void ASTUnaryNode::semAnalyze(){
+    
+    if(init || !this->isGlobalDec){
+        this->scopeAnalyze();
+        if(init)
+            return;
+    }
+     if(this->next != NULL)
+        this->next->semAnalyze();
+    
+    //this->typeAnalyze();
+    
+}
+
+void ASTUnaryNode::scopeAnalyze(){
+    
+    
+}
+
 void ASTUnaryNode::printNode(int indent, ostream * output) {
 	this->output = output;
 	

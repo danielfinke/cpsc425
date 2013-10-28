@@ -127,15 +127,19 @@ ASTNode * Parser::program(vector<int> syncSet){
 	
 	parent = ((ASTDeclarationNode *)transition("declaration", &Parser::declaration, syncSet));
 	current = parent;
+        current->isGlobalDec=false;
 	
 	while(current->next != NULL) {
 		current = ((ASTDeclarationNode *)current->next);
+                current->isGlobalDec=false;
 	}
 	//while(lookahead.getTokenType() == sc->INT || lookahead.getTokenType() == sc->BOOL || lookahead.getTokenType() == sc->VOID) {
 	while(lookahead.getTokenType() != sc->ENDFILE) {
 		current->next = ((ASTDeclarationNode *)transition("declaration", &Parser::declaration, syncSet));
-		while(current->next != NULL) {
+		current->isGlobalDec=false;
+                while(current->next != NULL) {
 			current = ((ASTDeclarationNode *)current->next);
+                        current->isGlobalDec=false;
 		}
 	}
 	

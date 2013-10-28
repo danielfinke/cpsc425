@@ -27,4 +27,3 @@ ASTExpressionNode& ASTExpressionNode::operator= (const ASTExpressionNode &rhs)
 
 ASTExpressionNode::~ASTExpressionNode() {
 }
-

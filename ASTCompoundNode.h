@@ -25,6 +25,8 @@ public:
     ASTCompoundNode& operator= (const ASTCompoundNode &rhs);
     virtual ~ASTCompoundNode();
 	
+        virtual void semAnalyze();
+        virtual void scopeAnalyze();
 	virtual void printNode(int indent, ostream * output);
 	
 	ASTDeclarationNode * dec;

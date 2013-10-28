@@ -32,6 +32,26 @@ ASTFunctionCallNode::~ASTFunctionCallNode() {
     delete argument;
 }
 
+void ASTFunctionCallNode::semAnalyze(){
+    
+    if(init || !this->isGlobalDec){
+        this->scopeAnalyze();
+        if(init)
+            return;
+    }
+    
+    this->argument->semAnalyze();
+    
+     if(this->next != NULL)
+        this->next->semAnalyze();
+    //this->typeAnalyze();
+    
+}
+
+void ASTFunctionCallNode::scopeAnalyze(){
+    
+    
+}
 void ASTFunctionCallNode::printNode(int indent, ostream * output) {
 	this->ASTStatementNode::output = output;
 	

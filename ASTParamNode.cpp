@@ -30,6 +30,28 @@ ASTParamNode& ASTParamNode::operator= (const ASTParamNode &rhs)
 ASTParamNode::~ASTParamNode() {
 }
 
+void ASTParamNode::semAnalyze(){
+    
+    if(init || !this->isGlobalDec){
+        this->scopeAnalyze();
+        if(init)
+            return;
+    }
+    
+    if(this->isArray)
+       this->arrayExp->semAnalyze();
+    
+    if(this->next != NULL)
+        this->next->semAnalyze();
+    //this->typeAnalyze();
+    
+}
+
+void ASTParamNode::scopeAnalyze(){
+    
+    
+}
+
 void ASTParamNode::printNode(int indent, ostream * output) {
 	ostringstream oss;
 	

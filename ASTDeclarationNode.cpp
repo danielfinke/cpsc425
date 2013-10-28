@@ -31,6 +31,26 @@ ASTDeclarationNode& ASTDeclarationNode::operator= (const ASTDeclarationNode &rhs
 ASTDeclarationNode::~ASTDeclarationNode() {
 }
 
+
+void ASTDeclarationNode::semAnalyze(){
+    
+    if(init || !this->isGlobalDec){
+        this->scopeAnalyze();
+        if(init)
+            return;
+    }
+    
+    if(this->next != NULL)
+        this->next->semAnalyze();
+    //this->typeAnalyze();
+    
+}
+
+void ASTDeclarationNode::scopeAnalyze(){
+    
+    
+}
+
 void ASTDeclarationNode::printNode(int indent, ostream * output) {
 	this->output = output;
 	

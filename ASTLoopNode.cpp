@@ -29,6 +29,28 @@ ASTLoopNode::~ASTLoopNode() {
     delete statement;
 }
 
+void ASTLoopNode::semAnalyze(){
+    
+    if(init || !this->isGlobalDec){
+        this->scopeAnalyze();
+        if(init)
+            return;
+    }
+    
+    this->statement->semAnalyze();
+    
+     if(this->next != NULL)
+        this->next->semAnalyze();
+    
+    //this->typeAnalyze();
+    
+}
+
+void ASTLoopNode::scopeAnalyze(){
+    
+    
+}
+
 void ASTLoopNode::printNode(int indent, ostream * output) {
 	this->output = output;
 	

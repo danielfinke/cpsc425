@@ -27,6 +27,26 @@ ASTLiteralNode& ASTLiteralNode::operator= (const ASTLiteralNode &rhs)
 ASTLiteralNode::~ASTLiteralNode() {
 }
 
+void ASTLiteralNode::semAnalyze(){
+    
+    if(init || !this->isGlobalDec){
+        this->scopeAnalyze();
+        if(init)
+            return;
+    }
+    
+     if(this->next != NULL)
+        this->next->semAnalyze();
+    
+    //this->typeAnalyze();
+    
+}
+
+void ASTLiteralNode::scopeAnalyze(){
+    
+    
+}
+
 void ASTLiteralNode::printNode(int indent, ostream * output) {
 	ostringstream oss;
 	

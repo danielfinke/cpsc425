@@ -25,7 +25,8 @@ public:
     ASTCaseNode(const ASTCaseNode& orig);
     ASTCaseNode& operator = (const ASTCaseNode &rhs);
     virtual ~ASTCaseNode();
-	
+	void semAnalyze();
+        void scopeAnalyze();
 	void printNode(int indent, ostream * output);
     
     int type;

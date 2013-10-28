@@ -28,6 +28,8 @@ public:
     ASTDeclarationNode& operator= (const ASTDeclarationNode &rhs);
     virtual ~ASTDeclarationNode();
 	
+        virtual void semAnalyze();
+        virtual void scopeAnalyze();
 	// todo: make pure virtual
 	virtual void printNode(int indent, ostream * output);
 	

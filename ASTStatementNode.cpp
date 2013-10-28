@@ -24,6 +24,25 @@ ASTStatementNode& ASTStatementNode::operator= (const ASTStatementNode &rhs)
 ASTStatementNode::~ASTStatementNode() {
 }
 
+void ASTStatementNode::semAnalyze(){
+    
+    if(init || !this->isGlobalDec){
+        this->scopeAnalyze();
+        if(init)
+            return;
+    }
+    
+    if(this->next != NULL)
+        this->next->semAnalyze();
+    //this->typeAnalyze();
+    
+}
+
+void ASTStatementNode::scopeAnalyze(){
+    
+    
+}
+
 void ASTStatementNode::printNode(int indent, ostream * output) {
 	this->output = output;
 	

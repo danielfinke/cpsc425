@@ -22,6 +22,8 @@ public:
         ASTParamNode& operator= (const ASTParamNode &rhs);
 	virtual ~ASTParamNode();
 	
+        void semAnalyze();
+        void scopeAnalyze();
 	void printNode(int indent, ostream * output);
 	
 	bool isRef;

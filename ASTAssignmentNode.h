@@ -31,6 +31,8 @@ public:
 	ASTAssignmentNode& operator= (const ASTAssignmentNode &rhs);
 	virtual ~ASTAssignmentNode();
 	
+        void semAnalyze();
+        void scopeAnalyze();
 	void printNode(int indent, ostream * output);
 	
 	bool isArray;

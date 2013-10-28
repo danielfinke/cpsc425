@@ -29,6 +29,28 @@ ASTReturnNode::~ASTReturnNode() {
     delete expression;
 }
 
+void ASTReturnNode::semAnalyze(){
+    
+    if(init || !this->isGlobalDec){
+        this->scopeAnalyze();
+        if(init)
+            return;
+    }
+    
+    this->expression->semAnalyze();
+    
+     if(this->next != NULL)
+        this->next->semAnalyze();
+    
+    //this->typeAnalyze();
+    
+}
+
+void ASTReturnNode::scopeAnalyze(){
+    
+    
+}
+
 void ASTReturnNode::printNode(int indent, ostream * output) {
 	this->output = output;
 	

@@ -25,6 +25,8 @@ public:
     ASTBinaryNode& operator= (const ASTBinaryNode &rhs);
     virtual ~ASTBinaryNode();
     
+        void semAnalyze();
+        void scopeAnalyze();
 	void printNode(int indent, ostream * output);
 	
 	int oper;

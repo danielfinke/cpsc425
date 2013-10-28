@@ -21,6 +21,8 @@ public:
         ASTLoopNode& operator= (const ASTLoopNode &rhs);
 	virtual ~ASTLoopNode();
 	
+        void semAnalyze();
+        void scopeAnalyze();
 	void printNode(int indent, ostream * output);
 	
 	ASTStatementNode * statement;

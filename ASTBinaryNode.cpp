@@ -33,6 +33,29 @@ ASTBinaryNode::~ASTBinaryNode() {
     delete right;
 }
 
+
+void ASTBinaryNode ::semAnalyze(){
+    
+    if(init || !this->isGlobalDec){
+        this->scopeAnalyze();
+        if(init)
+            return;
+    }
+    
+    this->left->semAnalyze();
+    this->right->semAnalyze();
+    //this->typeAnalyze();
+
+    if(this->next != NULL)
+        this->next->semAnalyze();
+    
+}
+
+void ASTBinaryNode::scopeAnalyze(){
+    
+    
+}
+
 void ASTBinaryNode::printNode(int indent, ostream * output) {
 	this->output = output;
 	

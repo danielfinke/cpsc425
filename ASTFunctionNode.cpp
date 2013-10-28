@@ -32,6 +32,27 @@ ASTFunctionNode::~ASTFunctionNode() {
     delete compound;
 }
 
+void ASTFunctionNode::semAnalyze(){
+    
+    if(init || !this->isGlobalDec){
+        this->scopeAnalyze();
+        if(init)
+            return;
+    }
+    this->param->semAnalyze();
+    this->compound->semAnalyze();
+    
+     if(this->next != NULL)
+        this->next->semAnalyze();
+    //this->typeAnalyze();
+    
+}
+
+void ASTFunctionNode::scopeAnalyze(){
+    
+    
+}
+
 void ASTFunctionNode::printNode(int indent, ostream * output) {
 	this->output = output;
 	

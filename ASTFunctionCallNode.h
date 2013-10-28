@@ -32,6 +32,8 @@ public:
     ASTFunctionCallNode& operator= (const ASTFunctionCallNode &rhs);
     virtual ~ASTFunctionCallNode();
 	
+        void semAnalyze();
+        void scopeAnalyze();
 	void printNode(int indent, ostream * output);
 	
 	int id;

@@ -23,6 +23,8 @@ public:
         ASTLiteralNode& operator= (const ASTLiteralNode &rhs);
 	virtual ~ASTLiteralNode();
 	
+        void semAnalyze();
+        void scopeAnalyze();
 	void printNode(int indent, ostream * output);
 	
 	int value;

@@ -7,7 +7,7 @@
 
 #include "ASTCompoundNode.h"
 
-ASTCompoundNode::ASTCompoundNode() : ASTStatementNode(), dec(0), statement(0) {
+ASTCompoundNode::ASTCompoundNode() : ASTStatementNode(), dec(NULL), statement(NULL) {
 }
 
 ASTCompoundNode::ASTCompoundNode(const ASTCompoundNode& orig):ASTStatementNode(orig),
@@ -29,6 +29,28 @@ ASTCompoundNode& ASTCompoundNode::operator= (const ASTCompoundNode &rhs)
 ASTCompoundNode::~ASTCompoundNode() {
 	delete dec;
 	delete statement;
+}
+
+void ASTCompoundNode::semAnalyze(){
+    
+    if(init || !this->isGlobalDec){
+        this->scopeAnalyze();
+        if(init)
+            return;
+    }
+    this->dec->semAnalyze();
+    this->statement->semAnalyze();
+    
+     if(this->next != NULL)
+        this->next->semAnalyze();
+    
+    //this->typeAnalyze();
+    
+}
+
+void ASTCompoundNode::scopeAnalyze(){
+    
+    
 }
 
 void ASTCompoundNode::printNode(int indent, ostream * output) {

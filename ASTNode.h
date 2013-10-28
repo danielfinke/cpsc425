@@ -22,12 +22,16 @@ public:
     ASTNode& operator= (const ASTNode& rhs);
     virtual ~ASTNode();
 	
+        virtual void semAnalyze();
+        virtual void scopeAnalyze();
 	virtual void printNode(int indent, ostream * output) = 0;
 	
+        bool isGlobalDec;
 	ASTNode * next;
 	ostream * output;
 	
 	static Scanner * lookup;
+        static bool init;
 protected:
     void printIndented(string text, int indent);
 private:

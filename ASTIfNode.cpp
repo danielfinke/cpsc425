@@ -35,6 +35,33 @@ ASTIfNode::~ASTIfNode() {
     delete elseStatement;
 }
 
+void ASTIfNode::semAnalyze(){
+    
+    if(init || !this->isGlobalDec){
+        this->scopeAnalyze();
+        if(init)
+            return;
+    }
+    
+    this->exp->semAnalyze();
+    this->statement->semAnalyze();
+    
+     if(this->next != NULL)
+        this->next->semAnalyze();
+    
+    if(elseStatement != NULL)
+        this->elseStatement->semAnalyze();
+    
+    
+    //this->typeAnalyze();
+    
+}
+
+void ASTIfNode::scopeAnalyze(){
+    
+    
+}
+
 void ASTIfNode::printNode(int indent, ostream * output) {
 	this->output = output;
 	

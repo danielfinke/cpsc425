@@ -32,6 +32,28 @@ ASTVariableDeclarationNode::~ASTVariableDeclarationNode() {
     delete arrayExp;
 }
 
+void ASTVariableDeclarationNode::semAnalyze(){
+    
+    if(init || !isGlobalDec){
+        this->scopeAnalyze();
+        if(init) return;
+    }
+    
+    if(isArray)
+        arrayExp->semAnalyze();
+    
+    if(this->next != NULL)
+        this->next->semAnalyze();
+    
+    
+    //this->typeAnalyze();
+}
+
+void ASTVariableDeclarationNode :: scopeAnalyze(){
+    
+    
+}
+
 void ASTVariableDeclarationNode::printNode(int indent, ostream * output) {
 	ostringstream oss;
 	

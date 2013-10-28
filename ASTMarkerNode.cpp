@@ -27,6 +27,25 @@ ASTMarkerNode& ASTMarkerNode::operator= (const ASTMarkerNode &rhs)
 ASTMarkerNode::~ASTMarkerNode() {
 }
 
+void ASTMarkerNode::semAnalyze(){
+    
+    if(init || !this->isGlobalDec){
+        this->scopeAnalyze();
+        if(init)
+            return;
+    }
+    
+     if(this->next != NULL)
+        this->next->semAnalyze();
+    //this->typeAnalyze();
+    
+}
+
+void ASTMarkerNode::scopeAnalyze(){
+    
+    
+}
+
 void ASTMarkerNode::printNode(int indent, ostream * output) {
 	this->output = output;
 	

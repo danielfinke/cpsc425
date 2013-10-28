@@ -13,7 +13,7 @@ ASTVariableNode::ASTVariableNode() : ASTExpressionNode(), id(0), isArray(false),
 }
 
 ASTVariableNode::ASTVariableNode(const ASTVariableNode& orig) : ASTExpressionNode(orig),
-        id(orig.id), isArray(orig.isArray)
+        id(orig.id), isArray(orig.isArray), arrayExp(orig.arrayExp)
 {
 }
 
@@ -24,12 +24,36 @@ ASTVariableNode& ASTVariableNode::operator= (const ASTVariableNode &rhs)
     // do the copy
         id = rhs.id;
         isArray = rhs.isArray;
+        arrayExp = rhs.arrayExp;
  
     // return the existing object
     return *this;
 }
 
 ASTVariableNode::~ASTVariableNode() {
+    delete arrayExp;
+}
+
+void ASTVariableNode::semAnalyze(){
+    
+    if(init || !this->isGlobalDec){
+        this->scopeAnalyze();
+        if(init)
+            return;
+    }
+    
+    if(this->isArray)
+        this->arrayExp->semAnalyze();
+    
+     if(this->next != NULL)
+        this->next->semAnalyze();
+    //this->typeAnalyze();
+    
+}
+
+void ASTVariableNode::scopeAnalyze(){
+    
+    
 }
 
 void ASTVariableNode::printNode(int indent, ostream * output) {

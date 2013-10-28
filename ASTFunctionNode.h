@@ -24,6 +24,8 @@ public:
     ASTFunctionNode& operator= (const ASTFunctionNode &rhs);
     virtual ~ASTFunctionNode();
 	
+        void semAnalyze();
+        void scopeAnalyze();
 	void printNode(int indent, ostream * output);
 	
 	ASTParamNode * param;

@@ -26,6 +26,8 @@ public:
     ASTBranchNode& operator = (const ASTBranchNode &rhs);
     virtual ~ASTBranchNode();
 	
+        void semAnalyze();
+        void scopeAnalyze();
 	void printNode(int indent, ostream * output);
     
     ASTExpressionNode * expression;

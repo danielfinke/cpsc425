@@ -34,6 +34,28 @@ ASTCaseNode::~ASTCaseNode() {
     delete nextCase;
 }
 
+void ASTCaseNode::semAnalyze(){
+    
+    if(init || !this->isGlobalDec){
+        this->scopeAnalyze();
+        if(init)
+            return;
+    }
+    
+    this->statement->semAnalyze();
+    this->nextCase->semAnalyze();
+    
+     if(this->next != NULL)
+        this->next->semAnalyze();
+    //this->typeAnalyze();
+    
+}
+
+void ASTCaseNode::scopeAnalyze(){
+    
+    
+}
+
 void ASTCaseNode::printNode(int indent, ostream * output) {
 	ostringstream oss;
 	

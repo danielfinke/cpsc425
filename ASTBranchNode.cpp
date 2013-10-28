@@ -34,6 +34,29 @@ ASTBranchNode::~ASTBranchNode() {
     delete firstCase;
 }
 
+void ASTBranchNode ::semAnalyze(){
+    
+    if(init || !this->isGlobalDec){
+        this->scopeAnalyze();
+        if(init)
+            return;
+    }
+    
+    this->expression->semAnalyze();
+    this-> firstCase->semAnalyze();
+    
+     if(this->next != NULL)
+        this->next->semAnalyze();
+    
+    //this->typeAnalyze();
+    
+}
+
+void ASTBranchNode:: scopeAnalyze(){
+    
+    
+}
+
 void ASTBranchNode::printNode(int indent, ostream * output) {
 	this->output = output;
 	

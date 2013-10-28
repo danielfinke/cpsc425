@@ -35,7 +35,31 @@ ASTAssignmentNode::~ASTAssignmentNode() {
 	delete exp;
 	delete arrayExp;
 }
+void ASTAssignmentNode::semAnalyze(){
+    
+    if(init || !this->isGlobalDec){
+        this->scopeAnalyze();
+        if(init)
+            return;
+    }
+    
+    if(this->isArray)
+        this->arrayExp->semAnalyze();
+    
+    this->exp->semAnalyze();
+    
+    if(this->next != NULL)
+        this->next->semAnalyze();
+    
+    
+    //this->typeAnalyze();
+    
+}
 
+void ASTAssignmentNode::scopeAnalyze(){
+    
+    
+}
 void ASTAssignmentNode::printNode(int indent, ostream * output) {
 	ostringstream oss;
 	

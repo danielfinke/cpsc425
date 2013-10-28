@@ -8,22 +8,46 @@
 #include "ASTNode.h"
 
 Scanner * ASTNode::lookup = 0;
+bool ASTNode::init = true;
 
-ASTNode::ASTNode() : next(NULL), output(NULL) {
+ASTNode::ASTNode() : next(NULL), output(NULL), isGlobalDec(false){
 }
 
-ASTNode::ASTNode(const ASTNode& orig) : next(orig.next), output(orig.output) {
+ASTNode::ASTNode(const ASTNode& orig) : next(orig.next), output(orig.output),
+        isGlobalDec(orig.isGlobalDec)
+{
 }
 
 ASTNode& ASTNode:: operator = (const ASTNode& rhs){
 	next = rhs.next;
 	output = rhs.output;
+        isGlobalDec = rhs.isGlobalDec;
 	
     return *this;
 }
 
 ASTNode::~ASTNode() {
     delete next;
+}
+
+void ASTNode::semAnalyze(){
+    
+    if(init || !this->isGlobalDec){
+        this->scopeAnalyze();
+        if(init)
+            return;
+    }
+    
+     if(this->next != NULL)
+        this->next->semAnalyze();
+    
+    //this->typeAnalyze();
+    
+}
+
+void ASTNode::scopeAnalyze(){
+    
+    
 }
 
 void ASTNode::printIndented(string text, int indent) {
