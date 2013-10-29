@@ -106,6 +106,14 @@ void Admin::compile(int processTo) {
 		default:
 			// Will be changed as phases get added
 			ps->startParsing();
+                        /*if(parsing successful)
+                         * {
+                         *      sa->semAnalyze(ps.topNode);
+                         * 
+                         * //could we not just have a single method 
+                         * in the parser. ?
+                         * }
+                         */
 	}
 }
 

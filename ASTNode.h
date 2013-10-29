@@ -12,6 +12,7 @@
 #include <string>
 #include <sstream>
 #include "Scanner.h"
+//#include "ScopeTable.h"
 
 using namespace std;
 
@@ -31,6 +32,7 @@ public:
 	ostream * output;
 	
 	static Scanner * lookup;
+       // static ScopeTable * ST;
         static bool init;
 protected:
     void printIndented(string text, int indent);
