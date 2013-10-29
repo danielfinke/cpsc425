@@ -24,9 +24,11 @@ public:
     ASTFunctionNode& operator= (const ASTFunctionNode &rhs);
     virtual ~ASTFunctionNode();
 	
-        void semAnalyze();
-        void scopeAnalyze();
+	void semAnalyze();
+	void scopeAnalyze();
 	void printNode(int indent, ostream * output);
+	
+	int getParamCount();
 	
 	ASTParamNode * param;
 	ASTCompoundNode * compound;

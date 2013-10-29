@@ -25,14 +25,17 @@ public:
     ASTBinaryNode& operator= (const ASTBinaryNode &rhs);
     virtual ~ASTBinaryNode();
     
-        void semAnalyze();
-        void scopeAnalyze();
+	void semAnalyze();
+	void scopeAnalyze();
+	void typeAnalyze();
 	void printNode(int indent, ostream * output);
 	
 	int oper;
 	ASTExpressionNode * left, *right;
 private:
-
+	bool isArithmeticOper();
+	bool isLogicOper();
+	bool isRelationalOper();
 };
 
 #endif	/* ASTBINARYNODE_H */

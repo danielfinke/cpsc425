@@ -44,7 +44,7 @@ void ASTBinaryNode ::semAnalyze(){
     
     this->left->semAnalyze();
     this->right->semAnalyze();
-    //this->typeAnalyze();
+    this->typeAnalyze();
 
     if(this->next != NULL)
         this->next->semAnalyze();
@@ -54,6 +54,71 @@ void ASTBinaryNode ::semAnalyze(){
 void ASTBinaryNode::scopeAnalyze(){
     
     
+}
+
+void ASTBinaryNode::typeAnalyze() {
+	if(left == NULL || right == NULL) {
+		// Throw exception
+	}
+	
+	if(left->type == -1 || right->type == -1) {
+		type = -1;
+		return;
+	}
+	
+	if(isArithmeticOper()) {
+		if(left->type != Scanner::INT ||
+				right->type != Scanner::INT) {
+			// Semantic error - incorrect types for operator
+			type = -1;
+		}
+		else {
+			type = Scanner::INT;
+		}
+	}
+	else if(isLogicOper()) {
+		if(left->type != Scanner::BOOL ||
+				right->type != Scanner::BOOL) {
+			// Semantic error - incorrect types for operator
+			type = -1;
+		}
+		else {
+			type = Scanner::BOOL;
+		}
+	}
+	else if(isRelationalOper()) {
+		if(left->type != right->type) {
+			// Semantic error - mismatched types
+			type = -1;
+		}
+		else {
+			type = Scanner::BOOL;
+		}
+	}
+}
+
+bool ASTBinaryNode::isArithmeticOper() {
+	return oper == Scanner::PLUS ||
+			oper == Scanner::MINUS ||
+			oper == Scanner::MULT ||
+			oper == Scanner::DIV ||
+			oper == Scanner::MOD;
+}
+
+bool ASTBinaryNode::isLogicOper() {
+	return oper == Scanner::AND ||
+			oper == Scanner::ANDTHEN ||
+			oper == Scanner::OR ||
+			oper == Scanner::ORELSE;
+}
+
+bool ASTBinaryNode::isRelationalOper() {
+	return oper == Scanner::LTEQ ||
+			oper == Scanner::LT ||
+			oper == Scanner::GT ||
+			oper == Scanner::GTEQ ||
+			oper == Scanner::EQ ||
+			oper == Scanner::NEQ;
 }
 
 void ASTBinaryNode::printNode(int indent, ostream * output) {

@@ -72,3 +72,20 @@ void ASTFunctionNode::printNode(int indent, ostream * output) {
 		next->printNode(indent, output);
 	}
 }
+
+int ASTFunctionNode::getParamCount() {
+	int count = 0;
+	ASTParamNode * p = param;
+	
+	// VOID param
+	if(p->declarationType == 0) {
+		return 0;
+	}
+	
+	while(p != NULL) {
+		count++;
+		p = p->next;
+	}
+	
+	return count;
+}

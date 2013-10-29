@@ -43,13 +43,17 @@ void ASTNode::semAnalyze(){
      if(this->next != NULL)
         this->next->semAnalyze();
     
-    //this->typeAnalyze();
+    this->typeAnalyze();
     
 }
 
 void ASTNode::scopeAnalyze(){
     
     
+}
+
+void ASTNode::typeAnalyze() {
+	
 }
 
 void ASTNode::printIndented(string text, int indent) {

@@ -9,6 +9,7 @@
 #define	ASTVARIABLENODE_H
 
 #include "ASTFunctionCallNode.h"
+#include "ASTVariableDeclarationNode.h"
 
 /*ASTVariable Node represents variables in the language.
  * It is a subclass of ASTExpressionNode.and overrides the print method
@@ -25,11 +26,13 @@ public:
         ASTVariableNode& operator= (const ASTVariableNode &rhs);
 	virtual ~ASTVariableNode();
 	
-        void semAnalyze();
-        void scopeAnalyze();
+	void semAnalyze();
+	void scopeAnalyze();
+	void typeAnalyze();
 	void printNode(int indent, ostream * output);
 	
 	int id;
+	ASTVariableDeclarationNode * varDec;
 	bool isArray;
 	ASTExpressionNode * arrayExp;
 private:

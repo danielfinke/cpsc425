@@ -7,11 +7,13 @@
 
 #include "ASTFunctionCallNode.h"
 
-ASTFunctionCallNode::ASTFunctionCallNode() : ASTStatementNode(), ASTExpressionNode(), id(0), argument(NULL) {
+ASTFunctionCallNode::ASTFunctionCallNode() : ASTStatementNode(), ASTExpressionNode(), id(0),
+		funcDec(NULL), argument(NULL) {
 }
 
 ASTFunctionCallNode::ASTFunctionCallNode(const ASTFunctionCallNode& orig): ASTStatementNode(orig), 
-        ASTExpressionNode(orig), id(orig.id),argument(orig.argument)
+        ASTExpressionNode(orig), id(orig.id), funcDec(orig.funcDec),
+		argument(orig.argument)
 {
 }
 
@@ -21,8 +23,9 @@ ASTFunctionCallNode& ASTFunctionCallNode::operator= (const ASTFunctionCallNode &
         ASTExpressionNode::operator = (rhs);
 	
     // do the copy
-        id= rhs.id;
-        argument = rhs.argument;
+	id = rhs.id;
+	funcDec = rhs.funcDec;
+	argument = rhs.argument;
  
     // return the existing object
     return *this;
@@ -44,7 +47,7 @@ void ASTFunctionCallNode::semAnalyze(){
     
      if(this->next != NULL)
         this->next->semAnalyze();
-    //this->typeAnalyze();
+    this->typeAnalyze();
     
 }
 
@@ -52,6 +55,29 @@ void ASTFunctionCallNode::scopeAnalyze(){
     
     
 }
+
+void ASTFunctionCallNode::typeAnalyze() {
+	if(funcDec == NULL) {
+		// Throw exception
+	}
+	
+	type = funcDec->declarationType;
+	
+	if(funcDec->getParamCount() != getArgCount()) {
+		// Semantic error - incorrect number of parameters
+		return;
+	}
+	
+	// Check all of the params for correct types
+	ASTExpressionNode * arg = argument;
+	ASTParamNode * param = funcDec->param;
+	while(arg != NULL && param != NULL) {
+		if(arg->type != param->declarationType) {
+			// Semantic error - mismatched argument types
+		}
+	}
+}
+
 void ASTFunctionCallNode::printNode(int indent, ostream * output) {
 	this->ASTStatementNode::output = output;
 	
@@ -68,4 +94,16 @@ void ASTFunctionCallNode::printNode(int indent, ostream * output) {
 	if(ASTStatementNode::next != NULL) {
 		ASTStatementNode::next->printNode(indent, output);
 	}
+}
+
+int ASTFunctionCallNode::getArgCount() {
+	int count = 0;
+	ASTExpressionNode * arg = argument;
+	
+	while(arg != NULL) {
+		count++;
+		arg = arg->next;
+	}
+	
+	return count;
 }

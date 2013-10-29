@@ -47,13 +47,19 @@ void ASTCaseNode::semAnalyze(){
     
      if(this->next != NULL)
         this->next->semAnalyze();
-    //this->typeAnalyze();
+    this->typeAnalyze();
     
 }
 
 void ASTCaseNode::scopeAnalyze(){
     
     
+}
+
+void ASTCaseNode::typeAnalyze() {
+	if(type != Scanner::NUM || type != Scanner::DEFAULT) {
+		// Semantic error - expected NUM or DEFAULT
+	}
 }
 
 void ASTCaseNode::printNode(int indent, ostream * output) {

@@ -42,13 +42,43 @@ void ASTUnaryNode::semAnalyze(){
      if(this->next != NULL)
         this->next->semAnalyze();
     
-    //this->typeAnalyze();
+    this->typeAnalyze();
     
 }
 
 void ASTUnaryNode::scopeAnalyze(){
     
     
+}
+
+void ASTUnaryNode::typeAnalyze() {
+	if(operand == NULL) {
+		// Throw exception
+	}
+	
+	if(operand->type == -1) {
+		type = -1;
+		return;
+	}
+	
+	if(operation == Scanner::MINUS) {
+		if(operand->type != Scanner::INT) {
+			// Semantic error - incorrect types for operator
+			type = -1;
+		}
+		else {
+			type = Scanner::INT;
+		}
+	}
+	else if(operation == Scanner::NOT) {
+		if(operand->type != Scanner::BOOL) {
+			// Semantic error - incorrect types for operator
+			type = -1;
+		}
+		else {
+			type = Scanner::BOOL;
+		}
+	}
 }
 
 void ASTUnaryNode::printNode(int indent, ostream * output) {

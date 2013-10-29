@@ -17,7 +17,7 @@ using namespace std;
  * is a subclass of ASTNode and is a superclass to ASTVariableDelcarationNode
  * and to ASTfunctionNode. It contains an override of the print statement.
  * It keeps track of the:
- *      -delcaration type as en ENUM (int, void, bool)
+ *      -declaration type as an ENUM (int, void, bool)
  *      -id of what is being declared
  */
 

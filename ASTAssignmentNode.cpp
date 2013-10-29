@@ -8,12 +8,13 @@
 #include "ASTAssignmentNode.h"
 
 ASTAssignmentNode::ASTAssignmentNode() : ASTStatementNode(), isArray(false),
-		id(0), exp(NULL), arrayExp(NULL)
+		id(0), left(NULL), exp(NULL), arrayExp(NULL)
 {
 }
 
 ASTAssignmentNode::ASTAssignmentNode(const ASTAssignmentNode& orig) : ASTStatementNode(orig),
-		isArray(orig.isArray), id(orig.id), exp(orig.exp), arrayExp(orig.arrayExp)
+		isArray(orig.isArray), id(orig.id), left(NULL),
+		exp(orig.exp), arrayExp(orig.arrayExp)
 {
 }
 
@@ -24,6 +25,7 @@ ASTAssignmentNode& ASTAssignmentNode::operator= (const ASTAssignmentNode &rhs)
     // do the copy
     isArray = rhs.isArray;
 	id = rhs.id;
+	left = rhs.left;
 	exp = rhs.exp;
 	arrayExp = rhs.arrayExp;
  
@@ -52,7 +54,7 @@ void ASTAssignmentNode::semAnalyze(){
         this->next->semAnalyze();
     
     
-    //this->typeAnalyze();
+    this->typeAnalyze();
     
 }
 
@@ -60,6 +62,18 @@ void ASTAssignmentNode::scopeAnalyze(){
     
     
 }
+
+void ASTAssignmentNode::typeAnalyze() {
+	if(left == NULL || exp == NULL) {
+		// Throw exception
+	}
+	
+	if(left->declarationType != exp->type &&
+			exp->type != -1) {
+		// Semantic error - assigning wrongly typed value
+	}
+}
+
 void ASTAssignmentNode::printNode(int indent, ostream * output) {
 	ostringstream oss;
 	
