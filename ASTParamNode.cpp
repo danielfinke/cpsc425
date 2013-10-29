@@ -6,6 +6,7 @@
  */
 
 #include "ASTParamNode.h"
+#include "ScopeTable.h"
 
 ASTParamNode::ASTParamNode() : ASTVariableDeclarationNode(), isRef(false) {
 }
@@ -49,6 +50,7 @@ void ASTParamNode::semAnalyze(){
 
 void ASTParamNode::scopeAnalyze(){
     
+    ST->insertDeclaration(id, this);
     
 }
 

@@ -6,6 +6,7 @@
  */
 
 #include "ASTFunctionCallNode.h"
+#include "ScopeTable.h"
 
 ASTFunctionCallNode::ASTFunctionCallNode() : ASTStatementNode(), ASTExpressionNode(), id(0), argument(NULL) {
 }
@@ -40,7 +41,8 @@ void ASTFunctionCallNode::semAnalyze(){
             return;
     }
     
-    this->argument->semAnalyze();
+    if(this->argument != NULL)
+        this->argument->semAnalyze();
     
      if(this->next != NULL)
         this->next->semAnalyze();
@@ -50,6 +52,10 @@ void ASTFunctionCallNode::semAnalyze(){
 
 void ASTFunctionCallNode::scopeAnalyze(){
     
+    if(! ST->isInScope(this->id))
+   {
+       //throw scope error
+   }
     
 }
 void ASTFunctionCallNode::printNode(int indent, ostream * output) {

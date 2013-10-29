@@ -46,12 +46,12 @@ void ASTIfNode::semAnalyze(){
     this->exp->semAnalyze();
     this->statement->semAnalyze();
     
-     if(this->next != NULL)
-        this->next->semAnalyze();
-    
     if(elseStatement != NULL)
         this->elseStatement->semAnalyze();
     
+    
+    if(this->next != NULL)
+        this->next->semAnalyze();
     
     //this->typeAnalyze();
     
@@ -59,7 +59,7 @@ void ASTIfNode::semAnalyze(){
 
 void ASTIfNode::scopeAnalyze(){
     
-    
+    //nothin to do
 }
 
 void ASTIfNode::printNode(int indent, ostream * output) {

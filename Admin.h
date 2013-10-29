@@ -31,6 +31,7 @@ private:
 	ostream * output, * errOutput;
 	Scanner* sc;
 	Parser* ps;
+        SemanticAnalyzer* sa;
 	
 	bool isWhiteSpace(char c);
 	bool isInvisibleCharacter(char c);

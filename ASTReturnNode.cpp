@@ -37,7 +37,8 @@ void ASTReturnNode::semAnalyze(){
             return;
     }
     
-    this->expression->semAnalyze();
+    if(this->expression !=NULL)
+          this->expression->semAnalyze();
     
      if(this->next != NULL)
         this->next->semAnalyze();

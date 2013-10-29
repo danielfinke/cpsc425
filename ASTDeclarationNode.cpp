@@ -6,6 +6,7 @@
  */
 
 #include "ASTDeclarationNode.h"
+#include "ScopeTable.h"
 
 ASTDeclarationNode::ASTDeclarationNode() : ASTNode(), declarationType(0), id(0) {
 }
@@ -47,7 +48,7 @@ void ASTDeclarationNode::semAnalyze(){
 }
 
 void ASTDeclarationNode::scopeAnalyze(){
-    
+    ST->insertDeclaration(this->id, this);
     
 }
 

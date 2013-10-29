@@ -16,3 +16,10 @@ SemanticAnalyzer::SemanticAnalyzer(const SemanticAnalyzer& orig) {
 SemanticAnalyzer::~SemanticAnalyzer() {
 }
 
+SemanticAnalyzer ::semAnalyze(ASTNode* topNode){
+    
+    topNode->init = true;
+    topNode->semAnalyze();
+    topNode->init = false;
+    topNode->semAnalyze();
+}

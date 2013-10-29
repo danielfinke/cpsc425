@@ -54,7 +54,7 @@ void ASTBranchNode ::semAnalyze(){
 
 void ASTBranchNode:: scopeAnalyze(){
     
-    
+    //nothing?
 }
 
 void ASTBranchNode::printNode(int indent, ostream * output) {

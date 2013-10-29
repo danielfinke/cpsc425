@@ -6,6 +6,7 @@
  */
 
 #include "ASTAssignmentNode.h"
+#include "ScopeTable.h"
 
 ASTAssignmentNode::ASTAssignmentNode() : ASTStatementNode(), isArray(false),
 		id(0), exp(NULL), arrayExp(NULL)
@@ -58,6 +59,11 @@ void ASTAssignmentNode::semAnalyze(){
 
 void ASTAssignmentNode::scopeAnalyze(){
     
+   if(! ST->isInScope(this->id))
+   {
+       //throw scope error
+   }
+       
     
 }
 void ASTAssignmentNode::printNode(int indent, ostream * output) {

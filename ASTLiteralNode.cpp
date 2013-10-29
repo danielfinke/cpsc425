@@ -43,7 +43,7 @@ void ASTLiteralNode::semAnalyze(){
 }
 
 void ASTLiteralNode::scopeAnalyze(){
-    
+    //nothing
     
 }
 

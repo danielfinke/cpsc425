@@ -91,7 +91,7 @@ void Parser::loopScanner() {
  * 
  * Calls to the admin are made to do logging
  */
-void Parser::startParsing(){
+ASTNode* Parser::startParsing(){
 	vector<int> emptySyncSet;
 	
 	SyncSetBuilder::buildSyncSetMap();
@@ -104,9 +104,11 @@ void Parser::startParsing(){
 	
 	if(errorCount == 0) {
 		admin->parserLog(astTop);
+                return astTop;
 	}
 	else if(admin->getOutputAST()) {
 		admin->cancelAST();
+                return NULL;
 	}
 }
 

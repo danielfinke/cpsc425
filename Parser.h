@@ -82,7 +82,7 @@ public:
 
 	// Main functions
 	void loopScanner();
-    void startParsing();
+        ASTNode * startParsing();
 };
 
 #endif

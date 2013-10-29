@@ -47,7 +47,7 @@ void ASTLoopNode::semAnalyze(){
 }
 
 void ASTLoopNode::scopeAnalyze(){
-    
+    //nothing
     
 }
 

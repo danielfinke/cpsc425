@@ -6,6 +6,7 @@
  */
 
 #include "ASTVariableDeclarationNode.h"
+#include "ScopeTable.h"
 
 ASTVariableDeclarationNode::ASTVariableDeclarationNode() : ASTDeclarationNode(), isArray(false), arrayExp(NULL)
 {
@@ -51,6 +52,7 @@ void ASTVariableDeclarationNode::semAnalyze(){
 
 void ASTVariableDeclarationNode :: scopeAnalyze(){
     
+    ST->insertDeclaration(this-> id, this);
     
 }
 

@@ -6,6 +6,7 @@
  */
 
 #include "ASTCompoundNode.h"
+#include "ScopeTable.h"
 
 ASTCompoundNode::ASTCompoundNode() : ASTStatementNode(), dec(NULL), statement(NULL) {
 }
@@ -38,8 +39,13 @@ void ASTCompoundNode::semAnalyze(){
         if(init)
             return;
     }
-    this->dec->semAnalyze();
+    ST->enterBlock();
+    
+    if(this->dec != NULL)
+        this->dec->semAnalyze();
+    
     this->statement->semAnalyze();
+    ST->exitBlock();
     
      if(this->next != NULL)
         this->next->semAnalyze();
@@ -50,7 +56,7 @@ void ASTCompoundNode::semAnalyze(){
 
 void ASTCompoundNode::scopeAnalyze(){
     
-    
+    //nothing
 }
 
 void ASTCompoundNode::printNode(int indent, ostream * output) {

@@ -29,6 +29,7 @@ public:
 	
         bool isGlobalDec;
 	ASTNode * next;
+        int lineNumber;
 	ostream * output;
 	
 	static Scanner * lookup;

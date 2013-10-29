@@ -6,7 +6,7 @@
 Admin::Admin(void) : linePos(0), lineCount(0), traceScanner(false),
         traceParser(false), outputAST(false), almostDone(false), line(""),
 		fileName(""),
-	source(NULL), output(&cout), errOutput(&cout), sc(NULL), ps(NULL)
+	source(NULL), output(&cout), errOutput(&cout), sc(NULL), ps(NULL), sa(NULL)
 {
 	ASTNode::lookup = NULL;
 }
@@ -15,7 +15,7 @@ Admin::Admin(ifstream & file, string fileName, ostream & out) : linePos(0), line
         traceScanner(false), traceParser(false), outputAST(false),
 		almostDone(false), fileName(fileName),
 	line(""), source(&file), output(&out), errOutput(&out),
-	sc(new Scanner(*this)), ps(new Parser(*this, *sc))
+	sc(new Scanner(*this)), ps(new Parser(*this, *sc)), sa(new SemanticAnalyzer())
 {
 	ASTNode::lookup = sc;
 }
@@ -24,7 +24,7 @@ Admin::Admin(ifstream & file, string fileName, ostream & out, bool traceEnabled)
         traceScanner(traceEnabled), traceParser(traceEnabled),
 		outputAST(false),
 	almostDone(false), line(""), fileName(fileName), source(&file), output(&out),
-	errOutput(&out), sc(new Scanner(*this)), ps(new Parser(*this, *sc))
+	errOutput(&out), sc(new Scanner(*this)), ps(new Parser(*this, *sc)), sa(new SemanticAnalyzer())
 {
 	ASTNode::lookup = sc;
 }
@@ -33,7 +33,7 @@ Admin::Admin(const Admin &other) : linePos(other.linePos), lineCount(other.lineC
         traceScanner(other.traceScanner), traceParser(other.traceParser),
 		outputAST(other.outputAST), almostDone(other.almostDone), fileName(other.fileName),
         line(other.line), source(other.source), output(other.output), errOutput(other.errOutput),
-		sc(new Scanner(*this)), ps(new Parser(*this, *sc))
+		sc(new Scanner(*this)), ps(new Parser(*this, *sc)), sa(new SemanticAnalyzer())
 {
 	ASTNode::lookup = sc;
 }
@@ -103,17 +103,23 @@ void Admin::compile(int processTo) {
 		case 2:
 			ps->startParsing();
 			break;
+                case 3:
+                        ASTNode top =ps->startParsing();
+                        if(top != NULL)
+                          {
+                               sa->semAnalyze(top);
+                          
+                          }
+                        break;
 		default:
 			// Will be changed as phases get added
-			ps->startParsing();
-                        /*if(parsing successful)
-                         * {
-                         *      sa->semAnalyze(ps.topNode);
-                         * 
-                         * //could we not just have a single method 
-                         * in the parser. ?
-                         * }
-                         */
+			ASTNode top =ps->startParsing();
+                        if(top != NULL)
+                          {
+                               sa->semAnalyze(top);
+                          
+                          }
+                         
 	}
 }
 

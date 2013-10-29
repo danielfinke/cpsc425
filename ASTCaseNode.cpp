@@ -53,7 +53,7 @@ void ASTCaseNode::semAnalyze(){
 
 void ASTCaseNode::scopeAnalyze(){
     
-    
+    //nothing
 }
 
 void ASTCaseNode::printNode(int indent, ostream * output) {

@@ -6,6 +6,7 @@
  */
 
 #include "ASTFunctionNode.h"
+#include "ScopeTable.h"
 
 ASTFunctionNode::ASTFunctionNode() : ASTDeclarationNode(), param(NULL), compound(NULL) {
 }
@@ -50,7 +51,7 @@ void ASTFunctionNode::semAnalyze(){
 
 void ASTFunctionNode::scopeAnalyze(){
     
-    
+    ST->insertDeclaration(id, this);
 }
 
 void ASTFunctionNode::printNode(int indent, ostream * output) {

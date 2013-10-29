@@ -8,11 +8,15 @@
 #ifndef SEMANTICANALYZER_H
 #define	SEMANTICANALYZER_H
 
+#include "ASTNode.h" 
+
 class SemanticAnalyzer {
 public:
 	SemanticAnalyzer();
 	SemanticAnalyzer(const SemanticAnalyzer& orig);
 	virtual ~SemanticAnalyzer();
+        
+        void semAnalyze(ASTNode* topNode);
 private:
 
 };

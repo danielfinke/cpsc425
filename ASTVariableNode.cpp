@@ -53,6 +53,10 @@ void ASTVariableNode::semAnalyze(){
 
 void ASTVariableNode::scopeAnalyze(){
     
+    if(! ST->isInScope(this->id))
+   {
+       //throw scope error
+   }
     
 }
 

@@ -53,7 +53,7 @@ void ASTBinaryNode ::semAnalyze(){
 
 void ASTBinaryNode::scopeAnalyze(){
     
-    
+    //nothing to do?
 }
 
 void ASTBinaryNode::printNode(int indent, ostream * output) {
