@@ -16,7 +16,7 @@ public:
 	SemanticAnalyzer(const SemanticAnalyzer& orig);
 	virtual ~SemanticAnalyzer();
         
-        void semAnalyze(ASTNode* topNode);
+    void semAnalyze(ASTNode* topNode);
 private:
 
 };

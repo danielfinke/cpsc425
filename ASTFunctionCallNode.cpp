@@ -108,7 +108,7 @@ int ASTFunctionCallNode::getArgCount() {
 	
 	while(arg != NULL) {
 		count++;
-		arg = arg->next;
+		arg = dynamic_cast<ASTExpressionNode *>(arg->next);
 	}
 	
 	return count;

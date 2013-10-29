@@ -85,7 +85,7 @@ int ASTFunctionNode::getParamCount() {
 	
 	while(p != NULL) {
 		count++;
-		p = p->next;
+		p = dynamic_cast<ASTParamNode *>(p->next);
 	}
 	
 	return count;

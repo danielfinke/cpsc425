@@ -5,6 +5,7 @@
 #include <ostream>
 #include <vector>
 #include "ASTNode.h"
+#include "SemanticAnalyzer.h"
 class Scanner;
 class Parser;
 class Token;

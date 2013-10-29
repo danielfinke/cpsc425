@@ -6,6 +6,7 @@
  */
 
 #include "ASTVariableNode.h"
+#include "ScopeTable.h"
 
 ASTVariableNode::ASTVariableNode() : ASTExpressionNode(), id(0),
 		varDec(NULL), isArray(false),

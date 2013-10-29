@@ -96,6 +96,8 @@ void Admin::setErrOutputStream(ostream &out) {
 
 // Process up to the desired point as specified by processTo
 void Admin::compile(int processTo) {
+	ASTNode * top = NULL;
+	
 	switch(processTo) {
 		case 1:
 			ps->loopScanner();
@@ -103,22 +105,22 @@ void Admin::compile(int processTo) {
 		case 2:
 			ps->startParsing();
 			break;
-                case 3:
-                        ASTNode top =ps->startParsing();
-                        if(top != NULL)
-                          {
-                               sa->semAnalyze(top);
-                          
-                          }
-                        break;
+		case 3:
+			top = ps->startParsing();
+			if(top != NULL)
+			  {
+				   sa->semAnalyze(top);
+
+			  }
+			break;
 		default:
 			// Will be changed as phases get added
-			ASTNode top =ps->startParsing();
-                        if(top != NULL)
-                          {
-                               sa->semAnalyze(top);
-                          
-                          }
+			top = ps->startParsing();
+			if(top != NULL)
+			  {
+				   sa->semAnalyze(top);
+
+			  }
                          
 	}
 }
