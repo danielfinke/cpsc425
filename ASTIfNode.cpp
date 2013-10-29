@@ -53,13 +53,23 @@ void ASTIfNode::semAnalyze(){
     if(this->next != NULL)
         this->next->semAnalyze();
     
-    //this->typeAnalyze();
+    this->typeAnalyze();
     
 }
 
 void ASTIfNode::scopeAnalyze(){
     
-    //nothin to do
+    
+}
+
+void ASTIfNode::typeAnalyze() {
+	if(exp == NULL) {
+		// Throw exception
+	}
+	
+	if(exp->type != Scanner::BOOL) {
+		// Semantic error - expression must be of boolean type
+	}
 }
 
 void ASTIfNode::printNode(int indent, ostream * output) {

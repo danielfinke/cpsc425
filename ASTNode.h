@@ -23,11 +23,12 @@ public:
     ASTNode& operator= (const ASTNode& rhs);
     virtual ~ASTNode();
 	
-        virtual void semAnalyze();
-        virtual void scopeAnalyze();
+	virtual void semAnalyze();
+	virtual void scopeAnalyze();
+	virtual void typeAnalyze();
 	virtual void printNode(int indent, ostream * output) = 0;
 	
-        bool isGlobalDec;
+	bool isGlobalDec;
 	ASTNode * next;
         int lineNumber;
 	ostream * output;

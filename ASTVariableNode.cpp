@@ -7,13 +7,15 @@
 
 #include "ASTVariableNode.h"
 
-ASTVariableNode::ASTVariableNode() : ASTExpressionNode(), id(0), isArray(false),
+ASTVariableNode::ASTVariableNode() : ASTExpressionNode(), id(0),
+		varDec(NULL), isArray(false),
 		arrayExp(NULL)
 {
 }
 
 ASTVariableNode::ASTVariableNode(const ASTVariableNode& orig) : ASTExpressionNode(orig),
-        id(orig.id), isArray(orig.isArray), arrayExp(orig.arrayExp)
+        id(orig.id), varDec(NULL),
+		isArray(orig.isArray), arrayExp(orig.arrayExp)
 {
 }
 
@@ -22,9 +24,10 @@ ASTVariableNode& ASTVariableNode::operator= (const ASTVariableNode &rhs)
 	ASTExpressionNode::operator=(rhs);
 	
     // do the copy
-        id = rhs.id;
-        isArray = rhs.isArray;
-        arrayExp = rhs.arrayExp;
+	id = rhs.id;
+	varDec = rhs.varDec;
+	isArray = rhs.isArray;
+	arrayExp = rhs.arrayExp;
  
     // return the existing object
     return *this;
@@ -47,7 +50,7 @@ void ASTVariableNode::semAnalyze(){
     
      if(this->next != NULL)
         this->next->semAnalyze();
-    //this->typeAnalyze();
+    this->typeAnalyze();
     
 }
 
@@ -58,6 +61,14 @@ void ASTVariableNode::scopeAnalyze(){
        //throw scope error
    }
     
+}
+
+void ASTVariableNode::typeAnalyze() {
+	if(varDec == NULL) {
+		// Throw exception
+	}
+	
+	type = varDec->declarationType;
 }
 
 void ASTVariableNode::printNode(int indent, ostream * output) {

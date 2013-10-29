@@ -24,8 +24,9 @@ public:
     ASTUnaryNode& operator= (const ASTUnaryNode &rhs);
     virtual ~ASTUnaryNode();
 	
-        void semAnalyze();
-        void scopeAnalyze();
+	void semAnalyze();
+	void scopeAnalyze();
+	void typeAnalyze();
 	void printNode(int indent, ostream * output);
 	
 	int operation;

@@ -12,6 +12,7 @@
 #include "ASTNode.h"
 #include "ASTExpressionNode.h"
 #include "ASTStatementNode.h"
+#include "ASTFunctionNode.h"
 
 using namespace std;
 
@@ -32,14 +33,16 @@ public:
     ASTFunctionCallNode& operator= (const ASTFunctionCallNode &rhs);
     virtual ~ASTFunctionCallNode();
 	
-        void semAnalyze();
-        void scopeAnalyze();
+	void semAnalyze();
+	void scopeAnalyze();
+	void typeAnalyze();
 	void printNode(int indent, ostream * output);
 	
 	int id;
+	ASTFunctionNode * funcDec;
 	ASTExpressionNode * argument;
 private:
-
+	int getArgCount();
 };
 
 #endif	/* ASTFUNCTIONCALLNODE_H */

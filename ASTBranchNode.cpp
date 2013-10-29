@@ -48,13 +48,23 @@ void ASTBranchNode ::semAnalyze(){
      if(this->next != NULL)
         this->next->semAnalyze();
     
-    //this->typeAnalyze();
+    this->typeAnalyze();
     
 }
 
 void ASTBranchNode:: scopeAnalyze(){
     
     //nothing?
+}
+
+void ASTBranchNode::typeAnalyze() {
+	if(expression == NULL) {
+		// Throw exception
+	}
+	
+	if(expression->type != Scanner::INT) {
+		// Semantic error - integral expression expected
+	}
 }
 
 void ASTBranchNode::printNode(int indent, ostream * output) {

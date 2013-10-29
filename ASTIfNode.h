@@ -24,8 +24,9 @@ public:
         ASTIfNode& operator= (const ASTIfNode &rhs);
 	virtual ~ASTIfNode();
 	
-        void semAnalyze();
-        void scopeAnalyze();
+	void semAnalyze();
+	void scopeAnalyze();
+	void typeAnalyze();
 	void printNode(int indent, ostream * output);
 	
 	ASTExpressionNode * exp;

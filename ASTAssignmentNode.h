@@ -11,6 +11,7 @@
 #include <string>
 #include "ASTExpressionNode.h"
 #include "ASTStatementNode.h"
+#include "ASTDeclarationNode.h"
 
 using namespace std;
 
@@ -31,12 +32,14 @@ public:
 	ASTAssignmentNode& operator= (const ASTAssignmentNode &rhs);
 	virtual ~ASTAssignmentNode();
 	
-        void semAnalyze();
-        void scopeAnalyze();
+	void semAnalyze();
+	void scopeAnalyze();
+	void typeAnalyze();
 	void printNode(int indent, ostream * output);
 	
 	bool isArray;
 	int id;
+	ASTDeclarationNode * left;
 	ASTExpressionNode * exp, *arrayExp;
 private:
 

@@ -992,7 +992,7 @@ ASTNode * Parser::nidFactor(vector<int> syncSet){
             break;
         case Scanner::NUM:
 			eNode = new ASTLiteralNode;
-			eNode->type = sc->INT;
+			eNode->type = sc->NUM;
 			((ASTLiteralNode *)eNode)->value = lookahead.getAttributeValue();
             match(sc->NUM, syncSet);
             break;
