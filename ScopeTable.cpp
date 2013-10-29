@@ -6,6 +6,7 @@
  */
 
 #include "ScopeTable.h"
+#include "ASTDeclarationNode.h"
 
 ScopeTable::ScopeTable() : blockLevel(0), accessTable(vector<int>()),
 		identificationTable(vector<IdentificationTableItem>())

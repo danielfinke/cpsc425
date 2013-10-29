@@ -6,9 +6,10 @@
  */
 
 #include "ASTNode.h"
+#include "ScopeTable.h"
 
 Scanner * ASTNode::lookup = 0;
-//ScopeTable * ASTNode::ST = 0;
+ScopeTable * ASTNode::ST = 0;
 bool ASTNode::init = true;
 
 ASTNode::ASTNode() : next(NULL), output(NULL), isGlobalDec(false){

@@ -9,8 +9,8 @@
 #define	SCOPETABLE_H
 
 #include <vector>
-#include "ASTDeclarationNode.h"
 #include "IdentificationTableItem.h"
+class ASTDeclarationNode;
 
 /* This class handles the access and identification tables for the scope
  * analyzer. At any level of scope, this class can produce the set of
