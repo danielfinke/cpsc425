@@ -48,10 +48,11 @@ void ASTVariableNode::semAnalyze(){
     
     if(this->isArray)
         this->arrayExp->semAnalyze();
+     
+    this->typeAnalyze();
     
      if(this->next != NULL)
         this->next->semAnalyze();
-    this->typeAnalyze();
     
 }
 

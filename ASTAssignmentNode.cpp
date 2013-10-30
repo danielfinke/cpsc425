@@ -55,6 +55,7 @@ void ASTAssignmentNode::semAnalyze(){
     
     if(this->next != NULL)
         this->next->semAnalyze();
+    
 }
 
 void ASTAssignmentNode::scopeAnalyze(){

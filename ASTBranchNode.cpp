@@ -45,11 +45,11 @@ void ASTBranchNode ::semAnalyze(){
     
     this->expression->semAnalyze();
     this-> firstCase->semAnalyze();
+    this->typeAnalyze();
     
      if(this->next != NULL)
         this->next->semAnalyze();
     
-    this->typeAnalyze();
     
 }
 

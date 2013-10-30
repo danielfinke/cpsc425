@@ -41,10 +41,12 @@ void ASTNode::semAnalyze(){
             return;
     }
     
+    this->typeAnalyze();
+    
      if(this->next != NULL)
         this->next->semAnalyze();
     
-    this->typeAnalyze();
+    
     
 }
 
