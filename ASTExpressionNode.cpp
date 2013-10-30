@@ -7,10 +7,12 @@
 
 #include "ASTExpressionNode.h"
 
-ASTExpressionNode::ASTExpressionNode() : ASTNode(), type(0) {
+ASTExpressionNode::ASTExpressionNode() : ASTNode(), type(0), value(0) {
 }
 
-ASTExpressionNode::ASTExpressionNode(const ASTExpressionNode& orig):ASTNode(orig), type(orig.type) {
+ASTExpressionNode::ASTExpressionNode(const ASTExpressionNode& orig):ASTNode(orig), type(orig.type),
+		value(orig.value)
+{
 }
 
 ASTExpressionNode& ASTExpressionNode::operator= (const ASTExpressionNode &rhs)
@@ -18,12 +20,16 @@ ASTExpressionNode& ASTExpressionNode::operator= (const ASTExpressionNode &rhs)
 	ASTNode::operator=(rhs);
 	
     // do the copy
-        type = rhs.type;
+    type = rhs.type;
+	value = rhs.value;
  
     // return the existing object
     return *this;
 }
 
+ASTLiteralNode * ASTExpressionNode::calc() {
+	return NULL;
+}
 
 ASTExpressionNode::~ASTExpressionNode() {
 }

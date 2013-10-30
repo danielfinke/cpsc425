@@ -37,6 +37,7 @@ void ASTDeclarationNode::semAnalyze(){
     
     if(init || !this->isGlobalDec){
         this->scopeAnalyze();
+		
         if(init)
             return;
     }
@@ -48,7 +49,7 @@ void ASTDeclarationNode::semAnalyze(){
 }
 
 void ASTDeclarationNode::scopeAnalyze(){
-    ST->insertDeclaration(this->id, this);
+    sa->getST()->insertDeclaration(this->id, this);
     
 }
 

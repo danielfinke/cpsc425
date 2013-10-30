@@ -9,33 +9,37 @@ Admin::Admin(void) : linePos(0), lineCount(0), traceScanner(false),
 	source(NULL), output(&cout), errOutput(&cout), sc(NULL), ps(NULL), sa(NULL)
 {
 	ASTNode::lookup = NULL;
+	ASTNode::sa = NULL;
 }
 
 Admin::Admin(ifstream & file, string fileName, ostream & out) : linePos(0), lineCount(0),
         traceScanner(false), traceParser(false), outputAST(false),
 		almostDone(false), fileName(fileName),
 	line(""), source(&file), output(&out), errOutput(&out),
-	sc(new Scanner(*this)), ps(new Parser(*this, *sc)), sa(new SemanticAnalyzer())
+	sc(new Scanner(*this)), ps(new Parser(*this, *sc)), sa(new SemanticAnalyzer(this))
 {
 	ASTNode::lookup = sc;
+	ASTNode::sa = sa;
 }
 
 Admin::Admin(ifstream & file, string fileName, ostream & out, bool traceEnabled) : linePos(0), lineCount(0),
         traceScanner(traceEnabled), traceParser(traceEnabled),
 		outputAST(false),
 	almostDone(false), line(""), fileName(fileName), source(&file), output(&out),
-	errOutput(&out), sc(new Scanner(*this)), ps(new Parser(*this, *sc)), sa(new SemanticAnalyzer())
+	errOutput(&out), sc(new Scanner(*this)), ps(new Parser(*this, *sc)), sa(new SemanticAnalyzer(this))
 {
 	ASTNode::lookup = sc;
+	ASTNode::sa = sa;
 }
 
 Admin::Admin(const Admin &other) : linePos(other.linePos), lineCount(other.lineCount),
         traceScanner(other.traceScanner), traceParser(other.traceParser),
 		outputAST(other.outputAST), almostDone(other.almostDone), fileName(other.fileName),
         line(other.line), source(other.source), output(other.output), errOutput(other.errOutput),
-		sc(new Scanner(*this)), ps(new Parser(*this, *sc)), sa(new SemanticAnalyzer())
+		sc(new Scanner(*this)), ps(new Parser(*this, *sc)), sa(new SemanticAnalyzer(this))
 {
 	ASTNode::lookup = sc;
+	ASTNode::sa = sa;
 }
 
 Admin& Admin::operator= (const Admin &rhs)
@@ -55,8 +59,10 @@ Admin& Admin::operator= (const Admin &rhs)
 
     sc = new Scanner(*this);
     ps = new Parser(*this, *sc);
+	sa = new SemanticAnalyzer(this);
 	
 	ASTNode::lookup = sc;
+	ASTNode::sa = sa;
  
     // return the existing object
     return *this;
@@ -67,6 +73,7 @@ Admin::~Admin(void)
 	vec.clear();
 	delete sc;
 	delete ps;
+	delete sa;
 }
 
 // Returns true if a character is a whitespace character
@@ -121,6 +128,7 @@ void Admin::compile(int processTo) {
 				   sa->semAnalyze(top);
 
 			  }
+			int t = 4;
                          
 	}
 }
@@ -307,15 +315,27 @@ void Admin::cancelAST() {
 // Go back one character in the input line.
 void Admin::unget() { linePos--; }
 
+string Admin::getIdentifierName(int id) {
+	return sc->getIdentifierName(id);
+}
+
 /* syntaxError - prints syntax error information. In the basic parser,
  *				this results in the parser terminating abruptly
  * @param expected		token type expected to be found at current parse locn
  * @param found			token type found at current parse locn
  */
-void Admin :: syntaxError(string expected, int found){
+void Admin::syntaxError(string expected, int found){
 	if(fileName != "") {
 		*errOutput << fileName << ":";
 	}
 	*errOutput << lineCount << ": Syntax error. Found " << sc->namesRev[found]
 			<< " (expected " << expected << ")" << endl;
+}
+
+void Admin::semanticError(string desc, int lineNumber) {
+	if(fileName != "") {
+		*errOutput << fileName << ":";
+	}
+	*errOutput << lineNumber << ": Semantic error. " << desc << endl;
+	sa->incError();
 }

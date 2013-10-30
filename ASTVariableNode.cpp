@@ -55,18 +55,37 @@ void ASTVariableNode::semAnalyze(){
     
 }
 
+void ASTVariableNode::semAnalyze(bool restrictIdents){
+	
+	if(restrictIdents) {
+		sa->semanticError("Array size must be static", lineNumber);
+		restrictIdents = false;
+	}
+    
+    if(init || !this->isGlobalDec){
+        this->scopeAnalyze();
+        if(init)
+            return;
+    }
+    
+    if(this->isArray)
+        this->arrayExp->semAnalyze(restrictIdents);
+    
+     if(this->next != NULL)
+        this->next->semAnalyze();
+    this->typeAnalyze();
+    
+}
+
 void ASTVariableNode::scopeAnalyze(){
     
-    if(! ST->isInScope(this->id))
-   {
-       //throw scope error
-   }
+	varDec = (ASTVariableDeclarationNode *)(sa->getST()->getDeclaration(id, lineNumber));
     
 }
 
 void ASTVariableNode::typeAnalyze() {
 	if(varDec == NULL) {
-		// Throw exception
+		throw "NULL in varDec";
 	}
 	
 	type = varDec->declarationType;

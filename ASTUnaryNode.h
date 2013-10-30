@@ -25,8 +25,11 @@ public:
     virtual ~ASTUnaryNode();
 	
 	void semAnalyze();
+	void semAnalyze(bool restrictIdents);
 	void scopeAnalyze();
 	void typeAnalyze();
+	
+	ASTLiteralNode * calc();
 	void printNode(int indent, ostream * output);
 	
 	int operation;

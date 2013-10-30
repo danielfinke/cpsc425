@@ -17,11 +17,13 @@ Scanner::Scanner() : symbolCount(0), commentDepth(0), errorCount(0), wordTable(u
 	symbolTable(unordered_map<string, pair<int, int>>())
 {
 	populateWordTable();
+	populateSymbolsReadWrite();
 }
 Scanner::Scanner(Admin& adminMod) : symbolCount(0), commentDepth(0), errorCount(0), wordTable(unordered_map<string, pair<int, int>>()),
 	symbolTable(unordered_map<string, pair<int, int>>()), admin(&adminMod)
 {
 	populateWordTable();
+	populateSymbolsReadWrite();
 }
 /* We do not create new instances of Admin or Parser in either of the copy constructor/assignment operators
  * because there should only be one instance available (these functions should rarely be used)

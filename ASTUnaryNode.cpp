@@ -6,6 +6,8 @@
  */
 
 #include "ASTUnaryNode.h"
+#include "ASTLiteralNode.h"
+#include "SemanticAnalyzer.h"
 
 ASTUnaryNode::ASTUnaryNode() : ASTExpressionNode(), operation(0), type(0), operand(NULL) {
 }
@@ -39,6 +41,26 @@ void ASTUnaryNode::semAnalyze(){
         if(init)
             return;
     }
+	
+	operand->semAnalyze();
+	
+     if(this->next != NULL)
+        this->next->semAnalyze();
+    
+    this->typeAnalyze();
+    
+}
+
+void ASTUnaryNode::semAnalyze(bool restrictIdents){
+    
+    if(init || !this->isGlobalDec){
+        this->scopeAnalyze();
+        if(init)
+            return;
+    }
+	
+	operand->semAnalyze(restrictIdents);
+	
      if(this->next != NULL)
         this->next->semAnalyze();
     
@@ -53,7 +75,7 @@ void ASTUnaryNode::scopeAnalyze(){
 
 void ASTUnaryNode::typeAnalyze() {
 	if(operand == NULL) {
-		// Throw exception
+		throw "NULL in operand";
 	}
 	
 	if(operand->type == -1) {
@@ -64,6 +86,8 @@ void ASTUnaryNode::typeAnalyze() {
 	if(operation == Scanner::MINUS) {
 		if(operand->type != Scanner::INT) {
 			// Semantic error - incorrect types for operator
+			sa->semanticError("Incorrect types for operator: " +
+				Scanner::namesRev[Scanner::MINUS], lineNumber);
 			type = -1;
 		}
 		else {
@@ -73,12 +97,35 @@ void ASTUnaryNode::typeAnalyze() {
 	else if(operation == Scanner::NOT) {
 		if(operand->type != Scanner::BOOL) {
 			// Semantic error - incorrect types for operator
+			sa->semanticError("Incorrect types for operator: " +
+				Scanner::namesRev[Scanner::NOT], lineNumber);
 			type = -1;
 		}
 		else {
 			type = Scanner::BOOL;
 		}
 	}
+}
+
+ASTLiteralNode * ASTUnaryNode::calc() {
+	ASTLiteralNode * ret = new ASTLiteralNode, * operandVal;
+	ret->type = type;
+	
+	operandVal = operand->calc();
+	if(operandVal == NULL) {
+		return NULL;
+	}
+	
+	switch(operation) {
+		case Scanner::MINUS:
+			ret->value = 0 - operandVal->value;
+			break;
+		case Scanner::NOT:
+			ret->value = !operandVal->value;
+			break;
+	}
+	
+	return ret;
 }
 
 void ASTUnaryNode::printNode(int indent, ostream * output) {

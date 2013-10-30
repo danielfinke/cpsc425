@@ -9,6 +9,7 @@
 #define	ASTBINARYNODE_H
 
 #include "ASTExpressionNode.h"
+class ASTLiteralNode;
 
 /*The ASTBinaryNode represents binary operations within the code, such as 
  * multiplication, addition, subtraction, division. It is a subclass of 
@@ -26,8 +27,11 @@ public:
     virtual ~ASTBinaryNode();
     
 	void semAnalyze();
+	void semAnalyze(bool restrictIdents);
 	void scopeAnalyze();
 	void typeAnalyze();
+	
+	ASTLiteralNode * calc();
 	void printNode(int indent, ostream * output);
 	
 	int oper;

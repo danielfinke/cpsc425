@@ -7,10 +7,10 @@
 
 #include "ASTLiteralNode.h"
 
-ASTLiteralNode::ASTLiteralNode() : ASTExpressionNode(), value(0) {
+ASTLiteralNode::ASTLiteralNode() : ASTExpressionNode() {
 }
 
-ASTLiteralNode::ASTLiteralNode(const ASTLiteralNode& orig) : ASTExpressionNode(orig), value(orig.value) {
+ASTLiteralNode::ASTLiteralNode(const ASTLiteralNode& orig) : ASTExpressionNode(orig) {
 }
 
 ASTLiteralNode& ASTLiteralNode::operator= (const ASTLiteralNode &rhs)
@@ -18,7 +18,6 @@ ASTLiteralNode& ASTLiteralNode::operator= (const ASTLiteralNode &rhs)
 	ASTExpressionNode::operator=(rhs);
 	
     // do the copy
-        value = rhs.value;
  
     // return the existing object
     return *this;
@@ -42,9 +41,28 @@ void ASTLiteralNode::semAnalyze(){
     
 }
 
+void ASTLiteralNode::semAnalyze(bool restrictIdents) {
+	
+    if(init || !this->isGlobalDec){
+        this->scopeAnalyze();
+        if(init)
+            return;
+    }
+    
+     if(this->next != NULL)
+        this->next->semAnalyze();
+    
+    //this->typeAnalyze();
+    
+}
+
 void ASTLiteralNode::scopeAnalyze(){
     //nothing
     
+}
+
+ASTLiteralNode * ASTLiteralNode::calc() {
+	return this;
 }
 
 void ASTLiteralNode::printNode(int indent, ostream * output) {

@@ -7,6 +7,7 @@
 
 #include "ASTVariableDeclarationNode.h"
 #include "ScopeTable.h"
+#include "ASTLiteralNode.h"
 
 ASTVariableDeclarationNode::ASTVariableDeclarationNode() : ASTDeclarationNode(), isArray(false), arrayExp(NULL)
 {
@@ -40,8 +41,16 @@ void ASTVariableDeclarationNode::semAnalyze(){
         if(init) return;
     }
     
-    if(isArray)
-        arrayExp->semAnalyze();
+    if(isArray) {
+		// Analyze with restriction that vars not allowed
+        arrayExp->semAnalyze(true);
+		// Check that the value is a positive number
+		ASTLiteralNode * sizeVal = arrayExp->calc();
+		if(sizeVal == NULL ||
+				sizeVal->value < 0) {
+			sa->semanticError("Array size must be a positive integer", lineNumber);
+		}
+	}
     
     if(this->next != NULL)
         this->next->semAnalyze();
@@ -52,7 +61,7 @@ void ASTVariableDeclarationNode::semAnalyze(){
 
 void ASTVariableDeclarationNode :: scopeAnalyze(){
     
-    ST->insertDeclaration(this-> id, this);
+    sa->getST()->insertDeclaration(this-> id, this);
     
 }
 

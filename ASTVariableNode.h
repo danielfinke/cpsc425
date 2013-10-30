@@ -27,6 +27,7 @@ public:
 	virtual ~ASTVariableNode();
 	
 	void semAnalyze();
+	void semAnalyze(bool restrictIdents);
 	void scopeAnalyze();
 	void typeAnalyze();
 	void printNode(int indent, ostream * output);

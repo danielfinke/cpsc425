@@ -32,7 +32,7 @@ private:
 	ostream * output, * errOutput;
 	Scanner* sc;
 	Parser* ps;
-        SemanticAnalyzer* sa;
+	SemanticAnalyzer* sa;
 	
 	bool isWhiteSpace(char c);
 	bool isInvisibleCharacter(char c);
@@ -60,6 +60,7 @@ public:
 	void parserLog(int type, int mode);
 	void parserLog(ASTNode * topNode);
     void syntaxError(string expected, int found);
+	void semanticError(string desc, int lineNumber);
 	void cancelAST();
 	
 	// Other functions
@@ -68,6 +69,7 @@ public:
 	char getCh(bool skipWs);
 	void endLine();
 	void unget();
+	string getIdentifierName(int id);
 };
 
 #endif

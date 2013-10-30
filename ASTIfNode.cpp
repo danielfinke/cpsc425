@@ -6,6 +6,7 @@
  */
 
 #include "ASTIfNode.h"
+#include "SemanticAnalyzer.h"
 
 ASTIfNode::ASTIfNode() : ASTStatementNode(), exp(NULL), statement(NULL), elseStatement(NULL) {
 }
@@ -64,11 +65,12 @@ void ASTIfNode::scopeAnalyze(){
 
 void ASTIfNode::typeAnalyze() {
 	if(exp == NULL) {
-		// Throw exception
+		throw "NULL in exp";
 	}
 	
 	if(exp->type != Scanner::BOOL) {
 		// Semantic error - expression must be of boolean type
+		sa->semanticError("Expression must be of boolean type", lineNumber);
 	}
 }
 

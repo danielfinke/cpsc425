@@ -61,22 +61,29 @@ void ASTAssignmentNode::semAnalyze(){
 
 void ASTAssignmentNode::scopeAnalyze(){
     
-   if(! ST->isInScope(this->id))
-   {
-       //throw scope error
-   }
-       
+	left = sa->getST()->getDeclaration(id, lineNumber);
     
 }
 
 void ASTAssignmentNode::typeAnalyze() {
 	if(left == NULL || exp == NULL) {
-		// Throw exception
+		throw "NULL in left or exp";
 	}
 	
-	if(left->declarationType != exp->type &&
-			exp->type != -1) {
+	// Already complained about an error
+	if(exp->type == -1) {
+		return;
+	}
+	
+	if(left->declarationType == Scanner::INT &&
+			(exp->type != Scanner::INT && exp->type != Scanner::NUM)) {
 		// Semantic error - assigning wrongly typed value
+		sa->semanticError("Assigning wrongly typed value", lineNumber);
+	}
+	else if(left->declarationType == Scanner::BOOL &&
+			(exp->type != Scanner::BOOL && exp->type != Scanner::BLIT)) {
+		// Semantic error - assigning wrongly typed value
+		sa->semanticError("Assigning wrongly typed value", lineNumber);
 	}
 }
 

@@ -6,6 +6,8 @@
  */
 
 #include "ASTBinaryNode.h"
+#include "ASTLiteralNode.h"
+#include "SemanticAnalyzer.h"
 
 ASTBinaryNode::ASTBinaryNode() : ASTExpressionNode(), oper(0), left(NULL), right(NULL) {
 }
@@ -51,6 +53,23 @@ void ASTBinaryNode ::semAnalyze(){
     
 }
 
+void ASTBinaryNode::semAnalyze(bool restrictIdents){
+    
+    if(init || !this->isGlobalDec){
+        this->scopeAnalyze();
+        if(init)
+            return;
+    }
+    
+    this->left->semAnalyze(restrictIdents);
+    this->right->semAnalyze(restrictIdents);
+    this->typeAnalyze();
+
+    if(this->next != NULL)
+        this->next->semAnalyze();
+    
+}
+
 void ASTBinaryNode::scopeAnalyze(){
     
     //nothing to do?
@@ -58,7 +77,7 @@ void ASTBinaryNode::scopeAnalyze(){
 
 void ASTBinaryNode::typeAnalyze() {
 	if(left == NULL || right == NULL) {
-		// Throw exception
+		throw "NULL in left or right";
 	}
 	
 	if(left->type == -1 || right->type == -1) {
@@ -67,9 +86,14 @@ void ASTBinaryNode::typeAnalyze() {
 	}
 	
 	if(isArithmeticOper()) {
-		if(left->type != Scanner::INT ||
-				right->type != Scanner::INT) {
+		if((left->type != Scanner::INT &&
+				left->type != Scanner::NUM)
+				||
+				(right->type != Scanner::INT &&
+				right->type != Scanner::NUM)) {
 			// Semantic error - incorrect types for operator
+			sa->semanticError("Incorrect types for operator: " +
+					Scanner::namesRev[oper], lineNumber);
 			type = -1;
 		}
 		else {
@@ -77,9 +101,14 @@ void ASTBinaryNode::typeAnalyze() {
 		}
 	}
 	else if(isLogicOper()) {
-		if(left->type != Scanner::BOOL ||
-				right->type != Scanner::BOOL) {
+		if((left->type != Scanner::BOOL &&
+				left->type != Scanner::BLIT)
+				||
+				(right->type != Scanner::BOOL &&
+				right->type != Scanner::BLIT)) {
 			// Semantic error - incorrect types for operator
+			sa->semanticError("Incorrect types for operator: " +
+					Scanner::namesRev[oper], lineNumber);
 			type = -1;
 		}
 		else {
@@ -87,12 +116,27 @@ void ASTBinaryNode::typeAnalyze() {
 		}
 	}
 	else if(isRelationalOper()) {
-		if(left->type != right->type) {
-			// Semantic error - mismatched types
-			type = -1;
+		if((left->type == Scanner::INT ||
+				left->type == Scanner::NUM) &&
+				(right->type == Scanner::INT || 
+				right->type == Scanner::NUM)) {
+			// OK
+			type = Scanner::BOOL;
+		}
+		else if((left->type == Scanner::BOOL ||
+				left->type == Scanner::BLIT) &&
+				(right->type == Scanner::BOOL || 
+				right->type == Scanner::BLIT)) {
+			// OK
+			type = Scanner::BOOL;
 		}
 		else {
-			type = Scanner::BOOL;
+			// Semantic error - mismatched types
+			sa->semanticError("Mismatched types for operator: " +
+					Scanner::namesRev[oper] +
+					" Found " + Scanner::namesRev[left->type] +
+					" and " + Scanner::namesRev[right->type], lineNumber);
+			type = -1;
 		}
 	}
 }
@@ -119,6 +163,79 @@ bool ASTBinaryNode::isRelationalOper() {
 			oper == Scanner::GTEQ ||
 			oper == Scanner::EQ ||
 			oper == Scanner::NEQ;
+}
+
+ASTLiteralNode * ASTBinaryNode::calc() {
+	ASTLiteralNode * ret = new ASTLiteralNode, * leftVal, * rightVal;
+	ret->type = type;
+	
+	leftVal = left->calc();
+	if(leftVal == NULL) {
+		return NULL;
+	}
+	
+	// Short circuit exceptions
+	if(oper == Scanner::AND) {
+		if(!leftVal) {
+			ret->value = leftVal->value;
+			return ret;
+		}
+	}
+	else if(oper == Scanner::OR) {
+		if(leftVal) {
+			ret->value = leftVal->value;
+			return ret;
+		}
+	}
+	
+	rightVal = right->calc();
+	if(rightVal == NULL) {
+		return NULL;
+	}
+	
+	switch(oper) {
+		case Scanner::PLUS:
+			ret->value = leftVal->value + rightVal->value;
+			break;
+		case Scanner::MINUS:
+			ret->value = leftVal->value - rightVal->value;
+			break;
+		case Scanner::MULT:
+			ret->value = leftVal->value * rightVal->value;
+			break;
+		case Scanner::DIV:
+			ret->value = leftVal->value / rightVal->value;
+			break;
+		case Scanner::MOD:
+			ret->value = leftVal->value % rightVal->value;
+			break;
+		case Scanner::ANDTHEN:
+			ret->value = leftVal->value && rightVal->value;
+			break;
+		case Scanner::ORELSE:
+			ret->value = leftVal->value || rightVal->value;
+			break;
+		case Scanner::LTEQ:
+			ret->value = leftVal->value <= rightVal->value;
+			break;
+		case Scanner::LT:
+			ret->value = leftVal->value < rightVal->value;
+			break;
+		case Scanner::GT:
+			ret->value = leftVal->value > rightVal->value;
+			break;
+		case Scanner::GTEQ:
+			ret->value = leftVal->value >= rightVal->value;
+			break;
+		case Scanner::EQ:
+			ret->value = leftVal->value == rightVal->value;
+			break;
+		case Scanner::NEQ:
+			ret->value = leftVal->value != rightVal->value;
+			break;
+	}
+	
+	return ret;
 }
 
 void ASTBinaryNode::printNode(int indent, ostream * output) {

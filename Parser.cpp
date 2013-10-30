@@ -112,7 +112,7 @@ ASTNode* Parser::startParsing(){
 	}
 }
 
-/*The following methods are based on the parsing grammar given by Jernej Polajner
+/*The following methods are based on the parsing grammar given by Jernej Polajnar
  * and are a set of mutually recursive methods.
  * Each production is represented a method which matches terminal symbols and 
  * calls the methods of the non-terminal symbols. There a few exceptions where
@@ -129,19 +129,19 @@ ASTNode * Parser::program(vector<int> syncSet){
 	
 	parent = ((ASTDeclarationNode *)transition("declaration", &Parser::declaration, syncSet));
 	current = parent;
-        current->isGlobalDec=false;
+    current->isGlobalDec = true;
 	
 	while(current->next != NULL) {
 		current = ((ASTDeclarationNode *)current->next);
-                current->isGlobalDec=false;
+        current->isGlobalDec = true;
 	}
 	//while(lookahead.getTokenType() == sc->INT || lookahead.getTokenType() == sc->BOOL || lookahead.getTokenType() == sc->VOID) {
 	while(lookahead.getTokenType() != sc->ENDFILE) {
 		current->next = ((ASTDeclarationNode *)transition("declaration", &Parser::declaration, syncSet));
-		current->isGlobalDec=false;
-                while(current->next != NULL) {
+		current->isGlobalDec = true;
+        while(current->next != NULL) {
 			current = ((ASTDeclarationNode *)current->next);
-                        current->isGlobalDec=false;
+            current->isGlobalDec = true;
 		}
 	}
 	

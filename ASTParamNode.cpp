@@ -39,8 +39,8 @@ void ASTParamNode::semAnalyze(){
             return;
     }
     
-    if(this->isArray)
-       this->arrayExp->semAnalyze();
+    /*if(this->isArray)
+       this->arrayExp->semAnalyze();*/
     
     if(this->next != NULL)
         this->next->semAnalyze();
@@ -50,7 +50,7 @@ void ASTParamNode::semAnalyze(){
 
 void ASTParamNode::scopeAnalyze(){
     
-    ST->insertDeclaration(id, this);
+    sa->getST()->insertDeclaration(id, this);
     
 }
 

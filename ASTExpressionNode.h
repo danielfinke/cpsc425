@@ -9,6 +9,7 @@
 #define	ASTEXPRESSIONNODE_H
 
 #include "ASTNode.h"
+class ASTLiteralNode;
 
 /*ASTExpressionNode represents general expressions within the language. It is a
  * subclass of ASTNode and an superclass to ASTBinaryNode, ASTUnaryNode ASTLiteralNode,
@@ -25,11 +26,15 @@ public:
     ASTExpressionNode& operator= (const ASTExpressionNode &rhs);
     virtual ~ASTExpressionNode();
 	
-        virtual void semAnalyze() = 0;
-        virtual void scopeAnalyze() = 0;
+	virtual void semAnalyze() = 0;
+	virtual void semAnalyze(bool restrictIdents) = 0;
+	virtual void scopeAnalyze() = 0;
+	
+	virtual ASTLiteralNode * calc();
 	virtual void printNode(int indent, ostream * output) = 0;
 	
 	int type;
+	int value;
 private:
 
 };

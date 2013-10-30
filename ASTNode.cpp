@@ -9,7 +9,7 @@
 #include "ScopeTable.h"
 
 Scanner * ASTNode::lookup = 0;
-ScopeTable * ASTNode::ST = 0;
+SemanticAnalyzer * ASTNode::sa = 0;
 bool ASTNode::init = true;
 
 ASTNode::ASTNode() : next(NULL), output(NULL), isGlobalDec(false){

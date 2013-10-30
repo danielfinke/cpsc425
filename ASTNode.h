@@ -13,6 +13,7 @@
 #include <sstream>
 #include "Scanner.h"
 class ScopeTable;
+class SemanticAnalyzer;
 
 using namespace std;
 
@@ -30,11 +31,11 @@ public:
 	
 	bool isGlobalDec;
 	ASTNode * next;
-        int lineNumber;
+	int lineNumber;
 	ostream * output;
 	
 	static Scanner * lookup;
-    static ScopeTable * ST;
+    static SemanticAnalyzer * sa;
     static bool init;
 protected:
     void printIndented(string text, int indent);

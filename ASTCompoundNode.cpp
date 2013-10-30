@@ -39,13 +39,13 @@ void ASTCompoundNode::semAnalyze(){
         if(init)
             return;
     }
-    ST->enterBlock();
+    sa->getST()->enterBlock();
     
     if(this->dec != NULL)
         this->dec->semAnalyze();
     
     this->statement->semAnalyze();
-    ST->exitBlock();
+    sa->getST()->exitBlock();
     
      if(this->next != NULL)
         this->next->semAnalyze();

@@ -40,7 +40,10 @@ void ASTFunctionNode::semAnalyze(){
         if(init)
             return;
     }
-    this->param->semAnalyze();
+	
+	if(getParamCount() > 0) {
+		this->param->semAnalyze();
+	}
     this->compound->semAnalyze();
     
      if(this->next != NULL)
@@ -51,7 +54,7 @@ void ASTFunctionNode::semAnalyze(){
 
 void ASTFunctionNode::scopeAnalyze(){
     
-    ST->insertDeclaration(id, this);
+    sa->getST()->insertDeclaration(id, this);
 }
 
 void ASTFunctionNode::printNode(int indent, ostream * output) {

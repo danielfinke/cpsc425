@@ -6,6 +6,7 @@
  */
 
 #include "ASTBranchNode.h"
+#include "SemanticAnalyzer.h"
 
 ASTBranchNode::ASTBranchNode(): ASTStatementNode(), expression(NULL), firstCase(NULL){
 }
@@ -59,11 +60,12 @@ void ASTBranchNode:: scopeAnalyze(){
 
 void ASTBranchNode::typeAnalyze() {
 	if(expression == NULL) {
-		// Throw exception
+		throw "NULL in expression";
 	}
 	
 	if(expression->type != Scanner::INT) {
 		// Semantic error - integral expression expected
+		sa->semanticError("Integral expression expected", lineNumber);
 	}
 }
 

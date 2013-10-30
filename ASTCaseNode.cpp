@@ -6,6 +6,7 @@
  */
 
 #include "ASTCaseNode.h"
+#include "SemanticAnalyzer.h"
 
 ASTCaseNode::ASTCaseNode() : ASTStatementNode(),statement(NULL), nextCase(NULL), type(0), num(0) {
 }
@@ -43,7 +44,9 @@ void ASTCaseNode::semAnalyze(){
     }
     
     this->statement->semAnalyze();
-    this->nextCase->semAnalyze();
+	if(nextCase != NULL) {
+		this->nextCase->semAnalyze();
+	}
     
      if(this->next != NULL)
         this->next->semAnalyze();
@@ -57,9 +60,10 @@ void ASTCaseNode::scopeAnalyze(){
 }
 
 void ASTCaseNode::typeAnalyze() {
-	if(type != Scanner::NUM || type != Scanner::DEFAULT) {
+	/*if(type != Scanner::NUM && type != Scanner::DEFAULT) {
 		// Semantic error - expected NUM or DEFAULT
-	}
+		sa->semanticError("Expected NUM or DEFAULT", lineNumber);
+	}*/
 }
 
 void ASTCaseNode::printNode(int indent, ostream * output) {

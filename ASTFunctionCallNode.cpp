@@ -53,24 +53,45 @@ void ASTFunctionCallNode::semAnalyze(){
     
 }
 
+void ASTFunctionCallNode::semAnalyze(bool restrictIdents){
+	
+	// Should not be making a call here
+	if(restrictIdents) {
+		sa->semanticError("Array size must be static", lineNumber);
+		restrictIdents = false;
+	}
+    
+    if(init || !this->isGlobalDec){
+        this->scopeAnalyze();
+        if(init)
+            return;
+    }
+    
+    if(this->argument != NULL)
+        this->argument->semAnalyze(restrictIdents);
+    
+     if(this->next != NULL)
+        this->next->semAnalyze();
+    this->typeAnalyze();
+    
+}
+
 void ASTFunctionCallNode::scopeAnalyze(){
     
-    if(! ST->isInScope(this->id))
-   {
-       //throw scope error
-   }
+	funcDec = (ASTFunctionNode *)(sa->getST()->getDeclaration(id, lineNumber));
     
 }
 
 void ASTFunctionCallNode::typeAnalyze() {
 	if(funcDec == NULL) {
-		// Throw exception
+		throw "NULL in funcDec";
 	}
 	
 	type = funcDec->declarationType;
 	
 	if(funcDec->getParamCount() != getArgCount()) {
 		// Semantic error - incorrect number of parameters
+		sa->semanticError("Incorrect number of arguments", lineNumber);
 		return;
 	}
 	
@@ -80,7 +101,11 @@ void ASTFunctionCallNode::typeAnalyze() {
 	while(arg != NULL && param != NULL) {
 		if(arg->type != param->declarationType) {
 			// Semantic error - mismatched argument types
+			//cout << sa->admin->getIdentifierName(id) << endl;
+			sa->semanticError("Mismatched argument types", lineNumber);
 		}
+		arg = dynamic_cast<ASTExpressionNode *>(arg->next);
+		param = (ASTParamNode *)(param->next);
 	}
 }
 

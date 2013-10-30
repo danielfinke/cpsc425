@@ -28,8 +28,8 @@ public:
     ASTVariableDeclarationNode& operator= (const ASTVariableDeclarationNode &rhs);
     virtual ~ASTVariableDeclarationNode();
 	
-        virtual void semAnalyze();
-        virtual void scopeAnalyze();
+	virtual void semAnalyze();
+	virtual void scopeAnalyze();
 	virtual void printNode(int indent, ostream * output);
 	
 	bool isArray;
