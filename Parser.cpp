@@ -20,13 +20,14 @@
 #include <algorithm>
 
 Parser::Parser(void) : errorCount(0), loopNesting(0),
-		admin(NULL), sc(NULL), lookahead(Token()), astTop(NULL)
+		admin(NULL), sc(NULL), lookahead(Token()), astTop(NULL),
+		curFunc(NULL)
 {
 }
 Parser::Parser(Admin& adminMod, Scanner& scanner) : errorCount(0),
 		loopNesting(0),
 		admin(&adminMod), sc(&scanner),lookahead(Token()),
-		astTop(NULL)
+		astTop(NULL), curFunc(NULL)
 {
 }
 /* We do not create new instances of Admin or Scanner in either of the copy constructor/assignment operators
@@ -35,7 +36,7 @@ Parser::Parser(Admin& adminMod, Scanner& scanner) : errorCount(0),
 Parser::Parser(const Parser &other) : errorCount(other.errorCount),
 		loopNesting(other.loopNesting),
 		admin(other.admin), sc(other.sc),lookahead(other.lookahead),
-		astTop(other.astTop)
+		astTop(other.astTop), curFunc(other.curFunc)
 {
 }
 Parser& Parser::operator= (const Parser &rhs)
@@ -47,6 +48,7 @@ Parser& Parser::operator= (const Parser &rhs)
 	sc = rhs.sc;
     lookahead = rhs.lookahead;
 	astTop = rhs.astTop;
+	curFunc = rhs.curFunc;
  
     // return the existing object
     return *this;
@@ -325,6 +327,9 @@ ASTNode * Parser::funDecTail(vector<int> syncSet){
         fNode->lineNumber = admin->getLineNumber();
 	ASTParamNode * pNode = new ASTParamNode;
 	ASTCompoundNode * cNode = new ASTCompoundNode;
+				
+	// For semantic purpose of "return", set the current function
+	curFunc = fNode;
 	
     if(match(sc->LPAREN, syncSet)) {
 	
@@ -338,6 +343,8 @@ ASTNode * Parser::funDecTail(vector<int> syncSet){
 			fNode->compound = cNode;
 		}
 	}
+	
+	curFunc = NULL;
 	
 	return fNode;
 }
@@ -778,6 +785,10 @@ ASTNode * Parser::returnStmt(vector<int> syncSet){
 
 		match(sc->SEMI, syncSet);
 	}
+	
+	// Set the function this is returning from
+	rNode->funcScope = curFunc;
+	
     return rNode;
 }
 

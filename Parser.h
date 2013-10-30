@@ -5,6 +5,7 @@
 #include <vector>
 #include "Token.h"
 #include "ASTNode.h"
+#include "ASTFunctionNode.h"
 class Admin;
 class Scanner;
 
@@ -27,6 +28,7 @@ private:
 	Scanner* sc;
 	Token lookahead;
 	ASTNode * astTop;
+	ASTFunctionNode * curFunc;
 
 	typedef ASTNode *(Parser::*functionPtr)(vector<int>);
 
