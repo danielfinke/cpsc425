@@ -22,7 +22,6 @@ SemanticAnalyzer::SemanticAnalyzer(Admin * adminRef) : errorCount(0),
 	fn->declarationType = Scanner::INT;
 	fn->id = 0;
 	ASTParamNode * p = new ASTParamNode;
-	p->declarationType = Scanner::VOID;
 	fn->param = p;
 	
 	ST->insertDeclaration(0, fn);
@@ -42,7 +41,6 @@ SemanticAnalyzer::SemanticAnalyzer(Admin * adminRef) : errorCount(0),
 	fn->declarationType = Scanner::BOOL;
 	fn->id = 3;
 	p = new ASTParamNode;
-	p->declarationType = Scanner::VOID;
 	fn->param = p;
 	
 	ST->insertDeclaration(3, fn);

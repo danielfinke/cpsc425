@@ -73,6 +73,9 @@ void ASTAssignmentNode::typeAnalyze() {
 	if(exp->type == -1) {
 		return;
 	}
+	if(exp->type == Scanner::VOID) {
+		return;
+	}
 	
 	if(left->declarationType == Scanner::INT &&
 			(exp->type != Scanner::INT && exp->type != Scanner::NUM)) {
