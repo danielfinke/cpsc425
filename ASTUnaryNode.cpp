@@ -9,11 +9,11 @@
 #include "ASTLiteralNode.h"
 #include "SemanticAnalyzer.h"
 
-ASTUnaryNode::ASTUnaryNode() : ASTExpressionNode(), operation(0), type(0), operand(NULL) {
+ASTUnaryNode::ASTUnaryNode() : ASTExpressionNode(), operation(0), operand(NULL) {
 }
 
 ASTUnaryNode::ASTUnaryNode(const ASTUnaryNode& orig) :ASTExpressionNode(orig),
-        operation(orig.operation), type(orig.type), operand(orig.operand)
+        operation(orig.operation), operand(orig.operand)
 {
 }
 
@@ -44,11 +44,10 @@ void ASTUnaryNode::semAnalyze(){
 	
 	operand->semAnalyze();
 	
+    this->typeAnalyze();
+	
      if(this->next != NULL)
         this->next->semAnalyze();
-    
-    this->typeAnalyze();
-    
 }
 
 void ASTUnaryNode::semAnalyze(bool restrictIdents){
@@ -61,11 +60,10 @@ void ASTUnaryNode::semAnalyze(bool restrictIdents){
 	
 	operand->semAnalyze(restrictIdents);
 	
+    this->typeAnalyze();
+	
      if(this->next != NULL)
         this->next->semAnalyze();
-    
-    this->typeAnalyze();
-    
 }
 
 void ASTUnaryNode::scopeAnalyze(){
@@ -84,7 +82,7 @@ void ASTUnaryNode::typeAnalyze() {
 	}
 	
 	if(operation == Scanner::MINUS) {
-		if(operand->type != Scanner::INT) {
+		if(operand->type != Scanner::INT && operand->type != Scanner::NUM) {
 			// Semantic error - incorrect types for operator
 			sa->semanticError("Incorrect types for operator: " +
 				Scanner::namesRev[Scanner::MINUS], lineNumber);
@@ -95,7 +93,7 @@ void ASTUnaryNode::typeAnalyze() {
 		}
 	}
 	else if(operation == Scanner::NOT) {
-		if(operand->type != Scanner::BOOL) {
+		if(operand->type != Scanner::BOOL && operand->type != Scanner::BLIT) {
 			// Semantic error - incorrect types for operator
 			sa->semanticError("Incorrect types for operator: " +
 				Scanner::namesRev[Scanner::NOT], lineNumber);
