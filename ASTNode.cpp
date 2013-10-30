@@ -45,9 +45,6 @@ void ASTNode::semAnalyze(){
     
      if(this->next != NULL)
         this->next->semAnalyze();
-    
-    
-    
 }
 
 void ASTNode::scopeAnalyze(){

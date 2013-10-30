@@ -16,7 +16,7 @@ int boo(int input[]) {
 	end;
 }
 
-int foo(void) {
+void foo(void) {
 	return 5;
 }
 
@@ -28,7 +28,8 @@ int main(void) {
 
 	x[0] := 0+1;
 	x[1] := boo(x);
-	y := foo();
+	y := 4 + foo();
+	y := 4 + x[foo()];
 	foo();
 	if(t) {
 		main(param, not t);

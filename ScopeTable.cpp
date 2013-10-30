@@ -9,6 +9,7 @@
 #include "ASTDeclarationNode.h"
 
 ScopeTable::ScopeTable() : blockLevel(0), accessTable(vector<int>()),
+		errEnc(vector<EncounteredError>()),
 		identificationTable(vector<IdentificationTableItem>()), admin(NULL)
 {
 	// Push the null item onto the identification stack
@@ -16,6 +17,7 @@ ScopeTable::ScopeTable() : blockLevel(0), accessTable(vector<int>()),
 }
 
 ScopeTable::ScopeTable(Admin * adminRef) : blockLevel(0), accessTable(vector<int>()),
+		errEnc(vector<EncounteredError>()),
 		identificationTable(vector<IdentificationTableItem>()), admin(adminRef)
 {
 	// Push the null item onto the identification stack
@@ -23,13 +25,14 @@ ScopeTable::ScopeTable(Admin * adminRef) : blockLevel(0), accessTable(vector<int
 }
 
 ScopeTable::ScopeTable(const ScopeTable& orig) : blockLevel(0),
-accessTable(orig.accessTable),
+accessTable(orig.accessTable), errEnc(orig.errEnc),
 		identificationTable(orig.identificationTable)
 {
 }
 
 ScopeTable::~ScopeTable() {
 	accessTable.clear();
+	errEnc.clear();
 	identificationTable.clear();
 }
 
@@ -76,12 +79,16 @@ void ScopeTable::insertDeclaration(int id, ASTDeclarationNode * decNode) {
 		identificationTable.push_back(IdentificationTableItem(blockLevel, accessTable[id], id, decNode));
 		accessTable[id] = identificationTable.size()-1;
 	}
+	else if(isInErrEnc(id)) {
+		// Skip reporting error
+	}
 	// Semantic error - double definition
 	else {
 		ASTDeclarationNode * decPtr = identificationTable[accessTable[id]].getDecPtr();
 		admin->semanticError("Identifier redefinition: "
 				+ decPtr->lookup->getIdentifierName(id),
 				decPtr->lineNumber);
+		addToErrEnc(id);
 	}
 }
 
@@ -90,10 +97,14 @@ void ScopeTable::insertDeclaration(int id, ASTDeclarationNode * decNode) {
  * in the current scope
  */
 ASTDeclarationNode * ScopeTable::getDeclaration(int id, int lineNumber) {
+	if(isInErrEnc(id)) {
+		// Skip reporting error
+	}
 	// Semantic error - undeclared identifier
-	if(id >= accessTable.size()) {
+	else if(id >= accessTable.size()) {
 		admin->semanticError("Undeclared identifier: " + admin->getIdentifierName(id),
 				lineNumber);
+		addToErrEnc(id);
 	}
 	// Pre-declared identifier - return it
 	else if(accessTable[id] != 0) {
@@ -103,12 +114,17 @@ ASTDeclarationNode * ScopeTable::getDeclaration(int id, int lineNumber) {
 	else {
 		admin->semanticError("Undeclared identifier: " + admin->getIdentifierName(id),
 				lineNumber);
+		addToErrEnc(id);
 	}
+	
+	return NULL;
 }
 
 /* Increase the block level
  */
-void ScopeTable::enterBlock() { blockLevel++; }
+void ScopeTable::enterBlock() {
+	blockLevel++;
+}
 /* Decrease the block level and remove all identifiers from the scope that is
  * being left. Also, update the access table so that identifiers which hid
  * external definitions can now access those external definitions
@@ -125,5 +141,28 @@ void ScopeTable::exitBlock() {
 			identificationTable[i].getBlockLevel() > blockLevel; i--) {
 		accessTable[identificationTable[i].getLexicalIndex()] =
 				identificationTable[i].getNext();
+	}
+	
+	removeBlockFromErrEnc();
+}
+
+bool ScopeTable::isInErrEnc(int id) {
+	for(int i = 0; i < errEnc.size(); i++) {
+		if(errEnc[i].getId() == id) {
+			return true;
+		}
+	}
+	
+	return false;
+}
+
+void ScopeTable::addToErrEnc(int id) {
+	errEnc.push_back(EncounteredError(blockLevel, id));
+}
+
+void ScopeTable::removeBlockFromErrEnc() {
+	for(int i = errEnc.size()-1; i >= 0 &&
+			errEnc[i].getBlockLevel() > blockLevel; i--) {
+		errEnc.pop_back();
 	}
 }

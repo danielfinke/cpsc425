@@ -70,10 +70,11 @@ void ASTFunctionCallNode::semAnalyze(bool restrictIdents){
     
     if(this->argument != NULL)
         this->argument->semAnalyze(restrictIdents);
+	
+    this->typeAnalyze();
     
      if(this->next != NULL)
         this->next->semAnalyze();
-    this->typeAnalyze();
     
 }
 
@@ -85,7 +86,8 @@ void ASTFunctionCallNode::scopeAnalyze(){
 
 void ASTFunctionCallNode::typeAnalyze() {
 	if(funcDec == NULL) {
-		throw "NULL in funcDec";
+		type = -1;
+		return;
 	}
 	
 	type = funcDec->declarationType;

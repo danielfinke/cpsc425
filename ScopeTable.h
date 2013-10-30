@@ -9,6 +9,7 @@
 #define	SCOPETABLE_H
 
 #include <vector>
+#include "EncounteredError.h"
 #include "IdentificationTableItem.h"
 #include "Admin.h"
 class ASTDeclarationNode;
@@ -36,8 +37,13 @@ public:
 private:
 	int blockLevel;
 	vector<int> accessTable;
+	vector<EncounteredError> errEnc;
 	vector<IdentificationTableItem> identificationTable;
 	Admin * admin;
+	
+	bool isInErrEnc(int id);
+	void addToErrEnc(int id);
+	void removeBlockFromErrEnc();
 };
 
 #endif	/* SCOPETABLE_H */

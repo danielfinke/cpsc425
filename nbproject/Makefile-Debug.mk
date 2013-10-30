@@ -56,6 +56,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/ASTVariableDeclarationNode.o \
 	${OBJECTDIR}/ASTVariableNode.o \
 	${OBJECTDIR}/Admin.o \
+	${OBJECTDIR}/EncounteredError.o \
 	${OBJECTDIR}/IdentificationTableItem.o \
 	${OBJECTDIR}/Main.o \
 	${OBJECTDIR}/Parser.o \
@@ -84,11 +85,11 @@ LDLIBSOPTIONS=
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/cpsc425
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/parser
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/cpsc425: ${OBJECTFILES}
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/parser: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/cpsc425 ${OBJECTFILES} ${LDLIBSOPTIONS}
+	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/parser ${OBJECTFILES} ${LDLIBSOPTIONS}
 
 ${OBJECTDIR}/ASTAssignmentNode.o: ASTAssignmentNode.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -195,6 +196,11 @@ ${OBJECTDIR}/Admin.o: Admin.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Admin.o Admin.cpp
 
+${OBJECTDIR}/EncounteredError.o: EncounteredError.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/EncounteredError.o EncounteredError.cpp
+
 ${OBJECTDIR}/IdentificationTableItem.o: IdentificationTableItem.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
@@ -241,7 +247,7 @@ ${OBJECTDIR}/Token.o: Token.cpp
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r ${CND_BUILDDIR}/${CND_CONF}
-	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/cpsc425
+	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/parser
 
 # Subprojects
 .clean-subprojects:

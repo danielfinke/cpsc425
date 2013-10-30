@@ -45,16 +45,16 @@ void ASTIfNode::semAnalyze(){
     }
     
     this->exp->semAnalyze();
+	
+    this->typeAnalyze();
+	
     this->statement->semAnalyze();
     
     if(elseStatement != NULL)
         this->elseStatement->semAnalyze();
-    this->typeAnalyze();
     
     if(this->next != NULL)
         this->next->semAnalyze();
-    
-    
     
 }
 
@@ -65,7 +65,7 @@ void ASTIfNode::scopeAnalyze(){
 
 void ASTIfNode::typeAnalyze() {
 	if(exp == NULL) {
-		throw "NULL in exp";
+		return;
 	}
 	
 	if(exp->type != Scanner::BOOL) {

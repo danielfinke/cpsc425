@@ -66,7 +66,7 @@ void ASTAssignmentNode::scopeAnalyze(){
 
 void ASTAssignmentNode::typeAnalyze() {
 	if(left == NULL || exp == NULL) {
-		throw "NULL in left or exp";
+		return;
 	}
 	
 	// Already complained about an error

@@ -60,7 +60,7 @@ void ASTBranchNode:: scopeAnalyze(){
 
 void ASTBranchNode::typeAnalyze() {
 	if(expression == NULL) {
-		throw "NULL in expression";
+		return;
 	}
 	
 	if(expression->type != Scanner::INT) {

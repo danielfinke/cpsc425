@@ -76,7 +76,8 @@ void ASTBinaryNode::scopeAnalyze(){
 
 void ASTBinaryNode::typeAnalyze() {
 	if(left == NULL || right == NULL) {
-		throw "NULL in left or right";
+		type = -1;
+		return;
 	}
 	
 	if(left->type == -1 || right->type == -1) {

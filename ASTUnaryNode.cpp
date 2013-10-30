@@ -73,7 +73,8 @@ void ASTUnaryNode::scopeAnalyze(){
 
 void ASTUnaryNode::typeAnalyze() {
 	if(operand == NULL) {
-		throw "NULL in operand";
+		type = -1;
+		return;
 	}
 	
 	if(operand->type == -1) {

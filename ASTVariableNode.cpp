@@ -68,13 +68,14 @@ void ASTVariableNode::semAnalyze(bool restrictIdents){
         if(init)
             return;
     }
+	
+    this->typeAnalyze();
     
     if(this->isArray)
         this->arrayExp->semAnalyze(restrictIdents);
     
      if(this->next != NULL)
         this->next->semAnalyze();
-    this->typeAnalyze();
     
 }
 
@@ -86,7 +87,9 @@ void ASTVariableNode::scopeAnalyze(){
 
 void ASTVariableNode::typeAnalyze() {
 	if(varDec == NULL) {
-		throw "NULL in varDec";
+		//throw "NULL in varDec";
+		type = -1;
+		return;
 	}
 	
 	type = varDec->declarationType;
