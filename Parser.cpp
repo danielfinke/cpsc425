@@ -19,17 +19,22 @@
 #include <iostream>
 #include <algorithm>
 
-Parser::Parser(void) : errorCount(0), admin(NULL), sc(NULL), lookahead(Token()), astTop(NULL)
+Parser::Parser(void) : errorCount(0), loopNesting(0),
+		admin(NULL), sc(NULL), lookahead(Token()), astTop(NULL)
 {
 }
-Parser::Parser(Admin& adminMod, Scanner& scanner) : errorCount(0), admin(&adminMod), sc(&scanner),lookahead(Token()),
+Parser::Parser(Admin& adminMod, Scanner& scanner) : errorCount(0),
+		loopNesting(0),
+		admin(&adminMod), sc(&scanner),lookahead(Token()),
 		astTop(NULL)
 {
 }
 /* We do not create new instances of Admin or Scanner in either of the copy constructor/assignment operators
  * because there should only be one instance available (these functions should rarely be used)
  */
-Parser::Parser(const Parser &other) : errorCount(other.errorCount), admin(other.admin), sc(other.sc),lookahead(other.lookahead),
+Parser::Parser(const Parser &other) : errorCount(other.errorCount),
+		loopNesting(other.loopNesting),
+		admin(other.admin), sc(other.sc),lookahead(other.lookahead),
 		astTop(other.astTop)
 {
 }
@@ -37,6 +42,7 @@ Parser& Parser::operator= (const Parser &rhs)
 {
     // do the copy
 	errorCount = rhs.errorCount;
+	loopNesting = rhs.loopNesting;
     admin = rhs.admin;
 	sc = rhs.sc;
     lookahead = rhs.lookahead;
@@ -700,7 +706,10 @@ ASTNode * Parser::ifStmt(vector<int> syncSet){
 ASTNode * Parser::loopStmt(vector<int> syncSet){
 	ASTLoopNode * lNode = new ASTLoopNode;
 	ASTNode * current = lNode;
-        lNode->lineNumber = admin->getLineNumber();
+    lNode->lineNumber = admin->getLineNumber();
+	
+	// For supporting semantics for exit/continue
+	loopNesting++;
 	
     if(match(sc->LOOP, syncSet)) {
 	
@@ -715,6 +724,8 @@ ASTNode * Parser::loopStmt(vector<int> syncSet){
 		}
 	}
 	
+	loopNesting--;
+	
 	return lNode;
 }
 
@@ -725,6 +736,10 @@ ASTNode * Parser::exitStmt(vector<int> syncSet){
 	marker->type = sc->EXIT;
     if(match(sc->EXIT, syncSet)) {
 		match(sc->SEMI, syncSet);
+	}
+	
+	if(loopNesting > 0) {
+		marker->enabled = true;
 	}
 	
 	return marker;
@@ -738,6 +753,10 @@ ASTNode * Parser::continueStmt(vector<int> syncSet){
     
     if(match(sc->CONTINUE, syncSet)) {
 		match(sc->SEMI, syncSet);
+	}
+	
+	if(loopNesting > 0) {
+		marker->enabled = true;
 	}
     
     return marker;

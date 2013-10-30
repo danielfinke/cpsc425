@@ -22,7 +22,7 @@ using namespace std;
 class Parser
 {
 private:
-	int errorCount;
+	int errorCount, loopNesting;
 	Admin* admin;
 	Scanner* sc;
 	Token lookahead;

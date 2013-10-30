@@ -22,13 +22,14 @@ public:
         ASTMarkerNode& operator= (const ASTMarkerNode &rhs);
 	virtual ~ASTMarkerNode();
 	
-        void semAnalyze();
-        void scopeAnalyze();
+    void semAnalyze();
+    void scopeAnalyze();
 	void printNode(int indent, ostream * output);
 	
 	int type;
+	bool enabled; // Tells whether the node is within a semantically-acceptable block
 private:
-
+	void loopAnalyze();
 };
 
 #endif	/* ASTMARKERNODE_H */

@@ -6,11 +6,14 @@
  */
 
 #include "ASTMarkerNode.h"
+#include "SemanticAnalyzer.h"
 
-ASTMarkerNode::ASTMarkerNode() : ASTStatementNode(), type(0) {
+ASTMarkerNode::ASTMarkerNode() : ASTStatementNode(), type(0), enabled(false) {
 }
 
-ASTMarkerNode::ASTMarkerNode(const ASTMarkerNode& orig) : ASTStatementNode(orig),type(orig.type) {
+ASTMarkerNode::ASTMarkerNode(const ASTMarkerNode& orig) : ASTStatementNode(orig),type(orig.type),
+		enabled(orig.enabled)
+{
 }
 
 ASTMarkerNode& ASTMarkerNode::operator= (const ASTMarkerNode &rhs)
@@ -18,7 +21,8 @@ ASTMarkerNode& ASTMarkerNode::operator= (const ASTMarkerNode &rhs)
 	ASTStatementNode::operator=(rhs);
 	
     // do the copy
-        type = rhs.type;
+    type = rhs.type;
+	enabled = rhs.enabled;
  
     // return the existing object
     return *this;
@@ -34,6 +38,8 @@ void ASTMarkerNode::semAnalyze(){
         if(init)
             return;
     }
+	
+	loopAnalyze();
     
      if(this->next != NULL)
         this->next->semAnalyze();
@@ -44,6 +50,13 @@ void ASTMarkerNode::semAnalyze(){
 void ASTMarkerNode::scopeAnalyze(){
     
     
+}
+
+void ASTMarkerNode::loopAnalyze() {
+	if(!enabled && (type == Scanner::EXIT ||
+			type == Scanner::CONTINUE)) {
+		sa->semanticError("Use of exit or continue outside of loop body", lineNumber);
+	}
 }
 
 void ASTMarkerNode::printNode(int indent, ostream * output) {
