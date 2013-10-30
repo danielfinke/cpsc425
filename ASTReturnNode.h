@@ -10,6 +10,7 @@
 
 #include "ASTStatementNode.h"
 #include "ASTExpressionNode.h"
+#include "ASTFunctionNode.h"
 
 /*ASTReturnNode represents return statements within the code. It is a subclass of 
  * ASTStatementNode and overrides the print statement. It contains a pointer to 
@@ -22,13 +23,14 @@ public:
     ASTReturnNode& operator = (const ASTReturnNode &rhs);
     virtual ~ASTReturnNode();
 	
-        void semAnalyze();
-        void scopeAnalyze();
+	void semAnalyze();
+	void scopeAnalyze();
 	void printNode(int indent, ostream * output);
     
     ASTExpressionNode * expression;
+	ASTFunctionNode * funcScope;
 private:
-
+	void returnAnalyze();
 };
 
 #endif	/* ASTRETURNNODE_H */

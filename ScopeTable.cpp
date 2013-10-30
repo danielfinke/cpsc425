@@ -87,7 +87,7 @@ void ScopeTable::insertDeclaration(int id, ASTDeclarationNode * decNode) {
 		ASTDeclarationNode * decPtr = identificationTable[accessTable[id]].getDecPtr();
 		admin->semanticError("Identifier redefinition: "
 				+ decPtr->lookup->getIdentifierName(id),
-				decPtr->lineNumber);
+				decNode->lineNumber);
 		addToErrEnc(id);
 	}
 }
