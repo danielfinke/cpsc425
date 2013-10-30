@@ -49,6 +49,7 @@ public:
 
 	// Getters/setters
 	bool getOutputAST();
+        int getLineNumber();
 	void setOutputAST(bool outputAST);
 	void setOutputStream(ostream & out);
 	void setErrOutputStream(ostream & out);

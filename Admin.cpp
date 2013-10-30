@@ -84,6 +84,11 @@ bool Admin::isInvisibleCharacter(char c) {
 bool Admin::getOutputAST() {
 	return outputAST;
 }
+
+int Admin:: getLineNumber() {
+    return lineCount;
+}
+
 void Admin::setOutputAST(bool outputAST) {
 	this->outputAST = outputAST;
 }

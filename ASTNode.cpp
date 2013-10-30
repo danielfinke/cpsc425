@@ -12,11 +12,11 @@ Scanner * ASTNode::lookup = 0;
 ScopeTable * ASTNode::ST = 0;
 bool ASTNode::init = true;
 
-ASTNode::ASTNode() : next(NULL), output(NULL), isGlobalDec(false){
+ASTNode::ASTNode() : next(NULL), output(NULL), isGlobalDec(false), lineNumber(0){
 }
 
 ASTNode::ASTNode(const ASTNode& orig) : next(orig.next), output(orig.output),
-        isGlobalDec(orig.isGlobalDec)
+        isGlobalDec(orig.isGlobalDec), lineNumber(orig.lineNumber)
 {
 }
 
@@ -24,6 +24,7 @@ ASTNode& ASTNode:: operator = (const ASTNode& rhs){
 	next = rhs.next;
 	output = rhs.output;
         isGlobalDec = rhs.isGlobalDec;
+        lineNumber = rhs.lineNumber;
 	
     return *this;
 }

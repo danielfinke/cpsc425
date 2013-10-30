@@ -211,6 +211,7 @@ ASTNode * Parser::declaration(vector<int> syncSet){
 //method for nonvoid-specifier production rule
 ASTNode * Parser::nonVoidSpecifier(vector<int> syncSet){
 	ASTDeclarationNode * dNode = new ASTDeclarationNode;
+        dNode->lineNumber = admin->getLineNumber();
 	
     if(lookahead.getTokenType() == sc->INT) {
         if(match(sc->INT, syncSet)) {
@@ -232,6 +233,7 @@ ASTNode * Parser::nonVoidSpecifier(vector<int> syncSet){
 //method for var-dec-tail production rule
 ASTNode * Parser::varDecTail(vector<int> syncSet){
 	ASTVariableDeclarationNode * parent = new ASTVariableDeclarationNode, *vNode = parent;
+        parent->lineNumber = admin->getLineNumber();
 	/*vector<int> firstSet;
 	
 	firstSet.push_back(sc->LSQR); firstSet.push_back(sc->SEMI); firstSet.push_back(sc->COMMA);
@@ -280,6 +282,7 @@ ASTNode * Parser::varDecTail(vector<int> syncSet){
 ASTNode * Parser::varName(vector<int> syncSet){
 	int id = 0;
 	ASTVariableDeclarationNode * vNode = new ASTVariableDeclarationNode;
+        vNode->lineNumber = admin->getLineNumber();
 	//vector<int> firstSet;
 	
 	id = lookahead.getAttributeValue();
@@ -313,6 +316,7 @@ ASTNode * Parser::varName(vector<int> syncSet){
 //method for fun-dec-tail production rule
 ASTNode * Parser::funDecTail(vector<int> syncSet){
 	ASTFunctionNode * fNode = new ASTFunctionNode;
+        fNode->lineNumber = admin->getLineNumber();
 	ASTParamNode * pNode = new ASTParamNode;
 	ASTCompoundNode * cNode = new ASTCompoundNode;
 	
@@ -371,6 +375,7 @@ ASTNode * Parser::params(vector<int> syncSet){
 //method for param procution rule
 ASTNode * Parser::param(vector<int> syncSet){
 	ASTParamNode * pNode = new ASTParamNode;
+        pNode -> lineNumber = admin->getLineNumber();
 	ASTDeclarationNode * dNode = new ASTDeclarationNode;
 	int id =0;
 	//vector<int> firstSet;
@@ -499,6 +504,7 @@ ASTNode * Parser::idStmt(vector<int> syncSet){
 //method for assign-stmt-tail production rule
 ASTNode * Parser::assignStmtTail(vector<int> syncSet){
 	ASTAssignmentNode * aNode = new ASTAssignmentNode;
+        aNode->lineNumber=admin->getLineNumber();
 	ASTExpressionNode * eNode = new ASTBinaryNode;
 	/*vector<int> firstSet;
 	
@@ -536,6 +542,7 @@ ASTNode * Parser::assignStmtTail(vector<int> syncSet){
 //method for call-tail production rule
 ASTNode * Parser::callTail(vector<int> syncSet){
 	ASTFunctionCallNode * fNode = new ASTFunctionCallNode;
+        fNode->lineNumber = admin->getLineNumber();
 	ASTExpressionNode * argument = new ASTBinaryNode;
 	//vector<int> firstSet;
 	
@@ -594,6 +601,7 @@ ASTNode * Parser::compoundStmt(vector<int> syncSet){
 	int decType = 0;
 	int id =0;
 	ASTCompoundNode * cNode = new ASTCompoundNode;
+        cNode->lineNumber =admin->getLineNumber();
 	ASTDeclarationNode * dNode = new ASTDeclarationNode;
 	ASTStatementNode * sNode = new ASTStatementNode;
 	ASTNode * current = cNode;
@@ -659,6 +667,7 @@ ASTNode * Parser::compoundStmt(vector<int> syncSet){
 //method for if-stmt production rule
 ASTNode * Parser::ifStmt(vector<int> syncSet){
 	ASTIfNode * iNode = new ASTIfNode;
+        iNode->lineNumber = admin->getLineNumber();
 	
     if(match(sc->IF, syncSet)) {
 	
@@ -691,6 +700,7 @@ ASTNode * Parser::ifStmt(vector<int> syncSet){
 ASTNode * Parser::loopStmt(vector<int> syncSet){
 	ASTLoopNode * lNode = new ASTLoopNode;
 	ASTNode * current = lNode;
+        lNode->lineNumber = admin->getLineNumber();
 	
     if(match(sc->LOOP, syncSet)) {
 	
@@ -711,7 +721,7 @@ ASTNode * Parser::loopStmt(vector<int> syncSet){
 //method for exit-stmt production rule
 ASTNode * Parser::exitStmt(vector<int> syncSet){
 	ASTMarkerNode * marker = new ASTMarkerNode;
-	
+	marker->lineNumber = admin->getLineNumber();
 	marker->type = sc->EXIT;
     if(match(sc->EXIT, syncSet)) {
 		match(sc->SEMI, syncSet);
@@ -723,7 +733,7 @@ ASTNode * Parser::exitStmt(vector<int> syncSet){
 //method for continue-stmt production rule
 ASTNode * Parser::continueStmt(vector<int> syncSet){
     ASTMarkerNode * marker = new ASTMarkerNode;
-    
+    marker->lineNumber = admin->getLineNumber();
     marker ->type = sc->CONTINUE;
     
     if(match(sc->CONTINUE, syncSet)) {
@@ -736,7 +746,7 @@ ASTNode * Parser::continueStmt(vector<int> syncSet){
 //method for return-stmt production rule
 ASTNode * Parser::returnStmt(vector<int> syncSet){
     ASTReturnNode * rNode = new ASTReturnNode;
-
+    rNode->lineNumber = admin->getLineNumber();
     if(match(sc->RETURN, syncSet)) {
 	
 		if(isExpressionLookahead()){
@@ -755,6 +765,7 @@ ASTNode * Parser::returnStmt(vector<int> syncSet){
 //method for null-stmt production rule
 ASTNode * Parser::nullStmt(vector<int> syncSet){   
     ASTMarkerNode * marker = new ASTMarkerNode;
+    marker->lineNumber = admin->getLineNumber();
     marker ->type = sc->NULLSTMT;
     match(sc->SEMI, syncSet);
     
@@ -765,7 +776,8 @@ ASTNode * Parser::nullStmt(vector<int> syncSet){
 ASTNode * Parser::branchStmt(vector<int> syncSet){
     ASTBranchNode * bNode = new ASTBranchNode;
     ASTCaseNode *current = NULL;
-	
+    bNode->lineNumber = admin->getLineNumber();
+    
     if(match(sc->BRANCH, syncSet)) {
 	
 		if(match(sc->LPAREN, syncSet)) {
@@ -794,6 +806,7 @@ ASTNode * Parser::branchStmt(vector<int> syncSet){
 //method for case-stmt production rule
 ASTNode * Parser::caseStmt(vector<int> syncSet){
     ASTCaseNode * cNode = new ASTCaseNode;
+    cNode->lineNumber = admin->getLineNumber();
     if(lookahead.getTokenType() == sc->CASE){
         cNode->type = sc->CASE;
 		
@@ -976,6 +989,7 @@ ASTNode * Parser::nidFactor(vector<int> syncSet){
     switch(lookahead.getTokenType()){
         case Scanner::NOT:
 			eNode = new ASTUnaryNode;
+                        eNode->lineNumber = admin->getLineNumber();
             if(match(sc->NOT, syncSet)) {
 				((ASTUnaryNode *)eNode)->operand = dynamic_cast<ASTExpressionNode *>(transition("factor", &Parser::factor, syncSet));
 				((ASTUnaryNode *)eNode)->operation = sc->NOT;
@@ -992,12 +1006,14 @@ ASTNode * Parser::nidFactor(vector<int> syncSet){
             break;
         case Scanner::NUM:
 			eNode = new ASTLiteralNode;
+                        eNode->lineNumber = admin->getLineNumber();
 			eNode->type = sc->NUM;
 			((ASTLiteralNode *)eNode)->value = lookahead.getAttributeValue();
             match(sc->NUM, syncSet);
             break;
         case Scanner::BLIT:
 			eNode = new ASTLiteralNode;
+                        eNode->lineNumber = admin->getLineNumber();
 			eNode->type = sc->BLIT;
 			((ASTLiteralNode *)eNode)->value = lookahead.getAttributeValue();
             match(sc->BLIT, syncSet);
@@ -1031,6 +1047,7 @@ ASTNode * Parser::idFactor(vector<int> syncSet){
 		}
 		else {
 			exp = new ASTVariableNode;
+                        exp->lineNumber = admin->getLineNumber();
 			((ASTVariableNode *)exp)->id = id;
 
 			/*firstSet.push_back(sc->LSQR);
