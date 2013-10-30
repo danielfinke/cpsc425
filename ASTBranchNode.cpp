@@ -8,11 +8,14 @@
 #include "ASTBranchNode.h"
 #include "SemanticAnalyzer.h"
 
-ASTBranchNode::ASTBranchNode(): ASTStatementNode(), expression(NULL), firstCase(NULL){
+ASTBranchNode::ASTBranchNode(): ASTStatementNode(), expression(NULL), firstCase(NULL), 
+        defaultReached(false), caseList(0)
+{
 }
 
 ASTBranchNode::ASTBranchNode(const ASTBranchNode& orig):ASTStatementNode(orig),
-        expression(orig.expression), firstCase(orig.firstCase)
+        expression(orig.expression), firstCase(orig.firstCase), defaultReached(orig.defaultReached),
+        caseList(orig.caseList)
 {
 }
 
@@ -23,6 +26,8 @@ ASTBranchNode& ASTBranchNode::operator= (const ASTBranchNode &rhs)
     // do the copy
         expression = rhs.expression;
         firstCase = rhs.firstCase;
+        defaultReached = rhs.defaultReached;
+        caseList = rhs.caseList;
     
  
     // return the existing object
@@ -45,11 +50,31 @@ void ASTBranchNode ::semAnalyze(){
     
     this->expression->semAnalyze();
     this-> firstCase->semAnalyze();
+    this->caseAnalyze();
     this->typeAnalyze();
     
      if(this->next != NULL)
         this->next->semAnalyze();
     
+    
+}
+
+void ASTBranchNode :: caseAnalyze(){
+    ASTCaseNode * current = firstCase;
+    
+    do{
+        if(current->type == Scanner::DEFAULT){
+            if(defaultReached)
+                sa->semanticError("Multiple default statements found",lineNumber);
+            defaultReached = true;
+        }
+        else{
+            if(contains(current->num))
+                sa->semanticError("Case value repeated",lineNumber);
+            caseList.push_back(current->num);
+        }
+        current = dynamic_cast<ASTCaseNode *>(current->next);
+    }while(current!= NULL);
     
 }
 
@@ -81,4 +106,15 @@ void ASTBranchNode::printNode(int indent, ostream * output) {
 	if(next != NULL) {
 		next->printNode(indent, output);
 	}
+}
+
+//helper functions, checks caseList to see if contains x
+bool ASTBranchNode :: contains(int x){
+    
+    for(int i; i<caseList.size(); i++){
+        if(caseList.at(i)==x)
+            return true;
+    }
+    
+    return false;
 }

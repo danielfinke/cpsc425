@@ -8,11 +8,11 @@
 #include "ASTCaseNode.h"
 #include "SemanticAnalyzer.h"
 
-ASTCaseNode::ASTCaseNode() : ASTStatementNode(),statement(NULL), nextCase(NULL), type(0), num(0) {
+ASTCaseNode::ASTCaseNode() : ASTStatementNode(),statement(NULL), type(0), num(0) {
 }
 
 ASTCaseNode::ASTCaseNode(const ASTCaseNode& orig):ASTStatementNode(orig), statement(orig.statement),
-        nextCase(orig.nextCase), type(orig.type), num(orig.num)
+        type(orig.type), num(orig.num)
 {
 }
 
@@ -22,7 +22,6 @@ ASTCaseNode& ASTCaseNode::operator= (const ASTCaseNode &rhs)
 	
     // do the copy
         statement = rhs.statement;
-        nextCase = rhs.nextCase;
         type = rhs.type;
         num = rhs.num;
     
@@ -32,7 +31,6 @@ ASTCaseNode& ASTCaseNode::operator= (const ASTCaseNode &rhs)
 
 ASTCaseNode::~ASTCaseNode() {
     delete statement;
-    delete nextCase;
 }
 
 void ASTCaseNode::semAnalyze(){
@@ -44,8 +42,8 @@ void ASTCaseNode::semAnalyze(){
     }
     
     this->statement->semAnalyze();
-	if(nextCase != NULL) {
-		this->nextCase->semAnalyze();
+	if(next != NULL) {
+		this->next->semAnalyze();
 	}
     
     this->typeAnalyze();
@@ -84,8 +82,8 @@ void ASTCaseNode::printNode(int indent, ostream * output) {
 		statement->printNode(indent + 4, output);
 	}
 	
-	if(nextCase != NULL) {
-		nextCase->printNode(indent, output);
+	if(next != NULL) {
+		next->printNode(indent, output);
 	}
 	
 	if(next != NULL) {

@@ -33,7 +33,6 @@ public:
     int type;
     int num;
     ASTStatementNode * statement;
-    ASTCaseNode * nextCase;
 private:
 
 };
