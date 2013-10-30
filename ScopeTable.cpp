@@ -90,12 +90,13 @@ void ScopeTable::insertDeclaration(int id, ASTDeclarationNode * decNode) {
  * in the current scope
  */
 ASTDeclarationNode * ScopeTable::getDeclaration(int id, int lineNumber) {
+	// Semantic error - undeclared identifier
 	if(id >= accessTable.size()) {
-		throw "id out of range of access table";
+		admin->semanticError("Undeclared identifier: " + admin->getIdentifierName(id),
+				lineNumber);
 	}
-	
 	// Pre-declared identifier - return it
-	if(accessTable[id] != 0) {
+	else if(accessTable[id] != 0) {
 		return identificationTable[accessTable[id]].getDecPtr();
 	}
 	// Semantic error - undeclared identifier

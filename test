@@ -20,7 +20,7 @@ int foo(void) {
 	return 5;
 }
 
-void main(ref int param, bool t) {
+int main(void) {
 	int x[4], y;
 	bool yourFace;
 	bool youSuck;
