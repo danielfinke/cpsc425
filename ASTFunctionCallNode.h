@@ -42,6 +42,7 @@ public:
 	int id;
 	ASTFunctionNode * funcDec;
 	ASTExpressionNode * argument;
+        bool isStatement;
 private:
 	int getArgCount();
 };
