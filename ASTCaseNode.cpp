@@ -48,9 +48,11 @@ void ASTCaseNode::semAnalyze(){
 		this->nextCase->semAnalyze();
 	}
     
+    this->typeAnalyze();
+    
      if(this->next != NULL)
         this->next->semAnalyze();
-    this->typeAnalyze();
+    
     
 }
 

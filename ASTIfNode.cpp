@@ -49,12 +49,12 @@ void ASTIfNode::semAnalyze(){
     
     if(elseStatement != NULL)
         this->elseStatement->semAnalyze();
-    
+    this->typeAnalyze();
     
     if(this->next != NULL)
         this->next->semAnalyze();
     
-    this->typeAnalyze();
+    
     
 }
 

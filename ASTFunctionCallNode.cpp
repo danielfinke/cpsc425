@@ -47,9 +47,10 @@ void ASTFunctionCallNode::semAnalyze(){
     if(this->argument != NULL)
         this->argument->semAnalyze();
     
+    this->typeAnalyze();
+    
      if(this->next != NULL)
         this->next->semAnalyze();
-    this->typeAnalyze();
     
 }
 

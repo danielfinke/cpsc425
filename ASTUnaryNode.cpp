@@ -44,10 +44,12 @@ void ASTUnaryNode::semAnalyze(){
 	
 	operand->semAnalyze();
 	
+     this->typeAnalyze();   
+     
      if(this->next != NULL)
         this->next->semAnalyze();
     
-    this->typeAnalyze();
+    
     
 }
 
@@ -61,10 +63,12 @@ void ASTUnaryNode::semAnalyze(bool restrictIdents){
 	
 	operand->semAnalyze(restrictIdents);
 	
+        this->typeAnalyze();
+        
      if(this->next != NULL)
         this->next->semAnalyze();
     
-    this->typeAnalyze();
+    
     
 }
 

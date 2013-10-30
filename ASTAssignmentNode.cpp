@@ -51,11 +51,11 @@ void ASTAssignmentNode::semAnalyze(){
     
     this->exp->semAnalyze();
     
-    if(this->next != NULL)
-        this->next->semAnalyze();
-    
     
     this->typeAnalyze();
+    
+    if(this->next != NULL)
+        this->next->semAnalyze(); 
     
 }
 
