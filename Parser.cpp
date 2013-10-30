@@ -503,6 +503,7 @@ ASTNode * Parser::idStmt(vector<int> syncSet){
 			
 			sNode = dynamic_cast<ASTStatementNode *>(transition("callTail", &Parser::callTail, syncSet));
 			((ASTFunctionCallNode *)sNode)->id = id;
+                        ((ASTFunctionCallNode *) sNode) ->isStatement = true;
 			match(sc->SEMI, syncSet);
 			// End call-tail production rule
 		}

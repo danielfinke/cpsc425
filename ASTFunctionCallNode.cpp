@@ -9,12 +9,12 @@
 #include "ScopeTable.h"
 
 ASTFunctionCallNode::ASTFunctionCallNode() : ASTStatementNode(), ASTExpressionNode(), id(0),
-		funcDec(NULL), argument(NULL) {
+		funcDec(NULL), argument(NULL), isStatement(false) {
 }
 
 ASTFunctionCallNode::ASTFunctionCallNode(const ASTFunctionCallNode& orig): ASTStatementNode(orig), 
         ASTExpressionNode(orig), id(orig.id), funcDec(orig.funcDec),
-		argument(orig.argument)
+		argument(orig.argument), isStatement(orig.isStatement)
 {
 }
 
@@ -27,6 +27,7 @@ ASTFunctionCallNode& ASTFunctionCallNode::operator= (const ASTFunctionCallNode &
 	id = rhs.id;
 	funcDec = rhs.funcDec;
 	argument = rhs.argument;
+        isStatement = rhs.isStatement;
  
     // return the existing object
     return *this;
@@ -110,6 +111,13 @@ void ASTFunctionCallNode::typeAnalyze() {
 		arg = dynamic_cast<ASTExpressionNode *>(arg->next);
 		param = (ASTParamNode *)(param->next);
 	}
+        
+        //checks that stmt function calls are void and expression stmt calls are not
+         if (isStatement && type != Scanner::VOID)
+             sa->semanticError("Function call not void",lineNumber);
+        else if(!isStatement && (type != Scanner::INT && type!= Scanner::BOOL))
+                sa->semanticError("Function call must have return type",lineNumber);
+        
 }
 
 void ASTFunctionCallNode::printNode(int indent, ostream * output) {
