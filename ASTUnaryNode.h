@@ -33,7 +33,6 @@ public:
 	void printNode(int indent, ostream * output);
 	
 	int operation;
-	int type;
 	ASTExpressionNode * operand;
 private:
 

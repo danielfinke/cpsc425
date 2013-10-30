@@ -50,12 +50,11 @@ void ASTAssignmentNode::semAnalyze(){
         this->arrayExp->semAnalyze();
     
     this->exp->semAnalyze();
-    
-    
+	
     this->typeAnalyze();
     
     if(this->next != NULL)
-        this->next->semAnalyze(); 
+        this->next->semAnalyze();
     
 }
 

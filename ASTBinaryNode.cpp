@@ -67,7 +67,6 @@ void ASTBinaryNode::semAnalyze(bool restrictIdents){
 
     if(this->next != NULL)
         this->next->semAnalyze();
-    
 }
 
 void ASTBinaryNode::scopeAnalyze(){
