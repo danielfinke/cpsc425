@@ -789,6 +789,7 @@ ASTNode * Parser::returnStmt(vector<int> syncSet){
 	
 	// Set the function this is returning from
 	rNode->funcScope = curFunc;
+	curFunc->returnMet = true;
 	
     return rNode;
 }

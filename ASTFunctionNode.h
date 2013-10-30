@@ -30,10 +30,11 @@ public:
 	
 	int getParamCount();
 	
+	bool returnMet;
 	ASTParamNode * param;
 	ASTCompoundNode * compound;
 private:
-
+	void returnAnalyze();
 };
 
 #endif	/* ASTFUNCTIONNODE_H */

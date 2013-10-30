@@ -39,8 +39,8 @@ int main(void) {
 
 	x[0] := 0+1;
 	x[1] := boo(x);
-	y := foo();
-	boo(x);
+	/*y := foo();
+	boo(x);*/
 	if(y < 3) {
 		;
 	}
@@ -75,8 +75,6 @@ int main(void) {
 	}
 	end;
 
-	--return 3;
-
 	loop x:=x+1;
 	loop y:=y+1;
 		exit;
@@ -88,4 +86,6 @@ int main(void) {
 	end;
 
 	meaning_of_life := 42;
+
+	return 3;
 }

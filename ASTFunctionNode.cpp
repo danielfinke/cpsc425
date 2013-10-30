@@ -8,10 +8,12 @@
 #include "ASTFunctionNode.h"
 #include "ScopeTable.h"
 
-ASTFunctionNode::ASTFunctionNode() : ASTDeclarationNode(), param(NULL), compound(NULL) {
+ASTFunctionNode::ASTFunctionNode() : ASTDeclarationNode(), returnMet(false),
+		param(NULL), compound(NULL) {
 }
 
-ASTFunctionNode::ASTFunctionNode(const ASTFunctionNode& orig):ASTDeclarationNode(orig),param(orig.param),
+ASTFunctionNode::ASTFunctionNode(const ASTFunctionNode& orig):ASTDeclarationNode(orig),
+		returnMet(orig.returnMet), param(orig.param),
         compound(orig.compound)
 {
 }
@@ -21,8 +23,9 @@ ASTFunctionNode& ASTFunctionNode::operator= (const ASTFunctionNode &rhs)
 	ASTDeclarationNode::operator=(rhs);
 	
     // do the copy
-        param = rhs.param;
-        compound = rhs.compound;
+	returnMet = rhs.returnMet;
+	param = rhs.param;
+	compound = rhs.compound;
  
     // return the existing object
     return *this;
@@ -45,6 +48,8 @@ void ASTFunctionNode::semAnalyze(){
 		this->param->semAnalyze();
 	}
     this->compound->semAnalyze();
+	
+	returnAnalyze();
     
      if(this->next != NULL)
         this->next->semAnalyze();
@@ -55,6 +60,13 @@ void ASTFunctionNode::semAnalyze(){
 void ASTFunctionNode::scopeAnalyze(){
     
     sa->getST()->insertDeclaration(id, this);
+}
+
+void ASTFunctionNode::returnAnalyze() {
+	if(this->declarationType != Scanner::VOID && !returnMet) {
+		sa->semanticError("Missing return statement for function: " +
+			ASTNode::lookup->getIdentifierName(id), lineNumber);
+	}
 }
 
 void ASTFunctionNode::printNode(int indent, ostream * output) {
