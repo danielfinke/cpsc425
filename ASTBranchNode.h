@@ -30,7 +30,12 @@ public:
 	void scopeAnalyze();
 	void typeAnalyze();
 	void printNode(int indent, ostream * output);
+        void caseAnalyze();
+        bool contains(int x);
     
+        
+    vector<int> caseList;
+    bool defaultReached;
     ASTExpressionNode * expression;
     ASTCaseNode * firstCase;
     

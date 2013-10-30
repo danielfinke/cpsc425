@@ -821,8 +821,8 @@ ASTNode * Parser::branchStmt(vector<int> syncSet){
 				bNode->firstCase = dynamic_cast<ASTCaseNode *>(transition("caseStmt", &Parser::caseStmt, syncSet));
 				current =bNode->firstCase;
 				while(lookahead.getTokenType() == sc->CASE || lookahead.getTokenType() == sc->DEFAULT){
-					current->nextCase = dynamic_cast<ASTCaseNode *>(transition("caseStmt", &Parser::caseStmt, syncSet));
-					current = current->nextCase;
+					current->next = dynamic_cast<ASTCaseNode *>(transition("caseStmt", &Parser::caseStmt, syncSet));
+					current = dynamic_cast<ASTCaseNode *>(current->next);
 				}
 
 				if(match(sc->END, syncSet)) {
