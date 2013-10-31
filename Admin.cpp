@@ -119,7 +119,7 @@ void Admin::compile(int processTo) {
 			break;
 		case 3:
 			top = ps->startParsing();
-			if(top != NULL)
+			if(top != NULL && ps->getErrorCount() == 0)
 			  {
 				   sa->semAnalyze(top);
 
@@ -128,7 +128,7 @@ void Admin::compile(int processTo) {
 		default:
 			// Will be changed as phases get added
 			top = ps->startParsing();
-			if(top != NULL)
+			if(top != NULL && ps->getErrorCount() == 0)
 			  {
 				   sa->semAnalyze(top);
 

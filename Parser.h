@@ -84,7 +84,10 @@ public:
 
 	// Main functions
 	void loopScanner();
-        ASTNode * startParsing();
+    ASTNode * startParsing();
+	
+	// Getters/setters
+	int getErrorCount();
 };
 
 #endif

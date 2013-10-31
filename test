@@ -22,6 +22,8 @@ int boo(int input[]) {
 		/*case 4:
 			return input[0] - 4;*/
 	end;
+
+	return 5;
 }
 
 /*int readint(void) {

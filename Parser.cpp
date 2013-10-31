@@ -120,6 +120,8 @@ ASTNode* Parser::startParsing(){
 	}
 }
 
+int Parser::getErrorCount() { return errorCount; }
+
 /*The following methods are based on the parsing grammar given by Jernej Polajnar
  * and are a set of mutually recursive methods.
  * Each production is represented a method which matches terminal symbols and 
