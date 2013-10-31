@@ -70,7 +70,7 @@ void SemanticAnalyzer::semAnalyze(ASTNode* topNode){
 	
 	// Loop over all global declarations for forward-declarations
 	try {
-		cout << "Starting pre-analysis" << endl;
+		//cout << "Starting pre-analysis" << endl;
 		ASTNode::init = true;
 		while(current != NULL) {
 			current->semAnalyze();
@@ -84,7 +84,7 @@ void SemanticAnalyzer::semAnalyze(ASTNode* topNode){
 		}
 
 		// Analyze the rest of the source code
-		cout << "Starting full analysis" << endl;
+		//cout << "Starting full analysis" << endl;
 		ASTNode::init = false;
 		topNode->semAnalyze();
 	}
