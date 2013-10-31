@@ -895,14 +895,11 @@ ASTNode * Parser::caseStmt(vector<int> syncSet){
 //method for expression production rule
 // Commented out expression types because they will be taken care of later during semantic analysis
 ASTNode * Parser::expression(vector<int> syncSet){
-	//vector<int> firstSet;
-	
     ASTExpressionNode * exp = dynamic_cast<ASTExpressionNode *>(transition("addExp", &Parser::addExp, syncSet));
 	
-	/*firstSet.push_back(sc->LTEQ); firstSet.push_back(sc->LT); firstSet.push_back(sc->GT); firstSet.push_back(sc->GTEQ);
-	firstSet.push_back(sc->EQ); firstSet.push_back(sc->NEQ);
-	firstSet.insert(firstSet.end(), syncSet.begin(), syncSet.end());
-	syntaxCheck(firstSet);*/
+	if(exp != NULL) {
+		exp->lineNumber = admin->getLineNumber();
+	}
 	
     if(isRelopLookahead())
     {
@@ -917,7 +914,6 @@ ASTNode * Parser::expression(vector<int> syncSet){
 		
 			next->right = dynamic_cast<ASTExpressionNode *>(transition("addExp", &Parser::addExp, syncSet2));
 			next->left = exp;
-			//next->type = ((ASTExpressionNode *)right)->type;
 			exp = next;
 		}
     }
@@ -931,11 +927,6 @@ ASTNode * Parser::expression(vector<int> syncSet){
 ASTNode * Parser::addExp(vector<int> syncSet){
 	bool isNeg = false;
 	ASTExpressionNode * exp = NULL;
-	/*vector<int> firstSet;
-	
-	firstSet.push_back(sc->MINUS);
-	firstSet.insert(firstSet.end(), syncSet.begin(), syncSet.end());
-	syntaxCheck(firstSet);*/
 	
     if(lookahead.getTokenType() == sc->MINUS) {
 		vector<int> syncSet2 = SyncSetBuilder::getSyncSet("[uminus]");
@@ -955,15 +946,8 @@ ASTNode * Parser::addExp(vector<int> syncSet){
 		ASTUnaryNode * next = new ASTUnaryNode;
 		next->operation = sc->MINUS;
 		next->operand = exp;
-		//next->type = ((ASTExpressionNode *)exp)->type;
 		exp = next;
 	}
-	
-	/*firstSet.clear();
-	firstSet.push_back(sc->PLUS); firstSet.push_back(sc->MINUS);
-	firstSet.push_back(sc->OR); firstSet.push_back(sc->ORELSE);
-	firstSet.insert(firstSet.end(), syncSet.begin(), syncSet.end());
-	syntaxCheck(firstSet);*/
 	
     while(isAddopLookahead()){
 		vector<int> syncSet2 = SyncSetBuilder::getSyncSet("{addop term}");
@@ -977,24 +961,24 @@ ASTNode * Parser::addExp(vector<int> syncSet){
 		
 			next->right = dynamic_cast<ASTExpressionNode *>(transition("term", &Parser::term, syncSet2));
 			next->left = exp;
-			//next->type = ((ASTExpressionNode *)right)->type;
 			exp = next;
 		}
     }
+	
+	if(exp != NULL) {
+		exp->lineNumber = admin->getLineNumber();
+	}
 	
 	return exp;
 }
 
 //method for term production rule
 ASTNode * Parser::term(vector<int> syncSet){
-	//vector<int> firstSet;
-	
     ASTExpressionNode * exp = dynamic_cast<ASTExpressionNode *>(transition("factor", &Parser::factor, syncSet));
 	
-	/*firstSet.push_back(sc->MULT); firstSet.push_back(sc->DIV); firstSet.push_back(sc->MOD);
-	firstSet.push_back(sc->AND); firstSet.push_back(sc->ANDTHEN);
-	firstSet.insert(firstSet.end(), syncSet.begin(), syncSet.end());
-	syntaxCheck(firstSet);*/
+	if(exp != NULL) {
+		exp->lineNumber = admin->getLineNumber();
+	}
 	
     while(isMultopLookahead()) {
 		vector<int> syncSet2 = SyncSetBuilder::getSyncSet("{multop factor}");
@@ -1008,7 +992,6 @@ ASTNode * Parser::term(vector<int> syncSet){
 		
 			next->right = dynamic_cast<ASTExpressionNode *>(transition("factor", &Parser::factor, syncSet2));
 			next->left = exp;
-			//next->type = ((ASTExpressionNode *)right)->type;
 			exp = next;
 		}
     }
@@ -1074,6 +1057,10 @@ ASTNode * Parser::nidFactor(vector<int> syncSet){
 			syntaxError("nid-factor", syncSet);
     }
 	
+	if(eNode != NULL) {
+		eNode->lineNumber = admin->getLineNumber();
+	}
+	
 	return eNode;
 }
 
@@ -1087,7 +1074,6 @@ ASTNode * Parser::nidFactor(vector<int> syncSet){
 ASTNode * Parser::idFactor(vector<int> syncSet){
 	int id = lookahead.getAttributeValue();
 	ASTExpressionNode * exp = NULL;
-	//vector<int> firstSet;
 	
     if(match(sc->ID, syncSet)) {
     
@@ -1100,10 +1086,6 @@ ASTNode * Parser::idFactor(vector<int> syncSet){
 			exp = new ASTVariableNode;
                         exp->lineNumber = admin->getLineNumber();
 			((ASTVariableNode *)exp)->id = id;
-
-			/*firstSet.push_back(sc->LSQR);
-			firstSet.insert(firstSet.end(), syncSet.begin(), syncSet.end());
-			syntaxCheck(firstSet);*/
 
 			// Start var-tail production rule
 			if(lookahead.getTokenType() == sc->LSQR){
@@ -1122,6 +1104,10 @@ ASTNode * Parser::idFactor(vector<int> syncSet){
 			// End var-tail production rule
 		}
 		// End id-tail production rule
+	}
+	
+	if(exp != NULL) {
+		exp->lineNumber = admin->getLineNumber();
 	}
 	
 	return exp;
