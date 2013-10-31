@@ -1,69 +1,114 @@
-int x;
-float y; -- gives error (a)
+int x, y, z;
 
-void main(void) -- recovered by here (a)
-{
-	int t[4];
-	t[0] := 1;
-	t[int] := 2; -- gives error (b)
-	t[2] := 3;
-
-	int y;
-}
-
-void doMe2(void) {-- recovers by here (b)
-	;
-}
-
-int testing )insideOut( --gives error (c)
-{
-	int x,y,z;  -- recoveres by here (c)
-}
-
-int mine(void){
-	float a; -- give error (d)
-	int b;
-	b := 0;
-
-	if(b = 4){
-	b := b+1;
+int boo(int input[]) {
+	-- Some sort of compound statement
+	{
+		int t;
+		t := 42;
+		; -- Check out this null statement. AH YEAH
 	}
-} -- recovers here(d)
 
-int yours (void){
-	8 ; -- gives error (e)
+	input[1] := readint();
+	if(input[1] = 4) {
+		writeint(input); -- Passing array to int param
+		return 3;
+	}
 
-	exit ; -- recovers here (e)
+	branch (input[0]) -- multiple same case, multiple default
+		case 4:
+			return input[0] * 2;
+		default:
+			return input[0] * 500;
+		case 4:
+			return input[0] - 4;
+		default:
+			return 0;
+	end;
+
+	--return 5; -- Missing return statement
 }
 
-void myID(ref float){ -- gives error (f)
-	continue ;-- recovers by here (f)
-} 
+-- Redefining pre-defined function
+int readint(void) {
+	return true; -- Return bool from int-returning func
+}
 
-void myID2 (ref float big){ --errors here (g)
-	/*really messes it up with the 2 "ID"s
-	won't recover in this scope*/
-} -- recovers here (g)
+void foo(void) {
+	return true; -- Returning value from void func
+}
 
-void howAboutMe(,int a){ -- error here (h)
-	/*confuses the hell out of the compiler
-	gets out of scope*/
-	;
-	continue ;
-	exit ;
-} --recovers here (h)
+int main(void) {
+	int x[4], y;
+	int bad1[-1*3]; -- Negative-sized array
+	int bad2[y*3]; -- Dynamically-sized array
+	bool yourFace;
+	bool youSuck;
+	int meaning_of_life;
 
-void ILikeBigButts(int booty, big){ --errors here (i)
-	;	--fixed by here (i)
-	continue ;
+	x[0] := 0+1;
+	x[1] := boo(x);
+	x[1] := boo(y); -- Passing int to array param
+	y := foo(); -- Function is void
+	boo(x); -- Function is nonvoid
+	if(y) { -- y is not a boolean
+		;
+	}
 
-	branch (IAmAnId)
-	CASE 7: bitchPlease; -- error here (j)
-	case 9: holla;
-	default; forADolla;
+	youSuck := -false;
+
+	exit; -- Exit outside loop
+	continue; -- Continue outside loop
+
+	if(x[y-1]=0){
+		yourFace := not true;
+		youSuck := true;
+	}
+	else{
+		x:=-5;
+	}
+
+	x := true; -- Assignment of wrong type
+	x := 4 + false; -- Wrong types for oper
+
+	-- Dangling else
+	if(yourFace)
+		if(x[0] = 1)
+			x[0] := 2;
+		else
+			x[0] := 1;
+	if(youSuck)
+		if(x[0] = 1)
+			x[0] := 2;
+		else
+			x[0] := 1;
+	else
+		youSuck := true;
+
+	loop x:=x*(1+2);
+	if(x>=10)
+		exit;
+	if(y = 4) {
+		continue;
+	}
 	end;
-} -- fixed by here (j)
 
+	loop x:=x+1;
+	loop y:=y+1;
+		exit;
+	end;
+	if(y = 7) {
+		int xyz;
+		exit; -- Exit outside loop, because CS has declarations (int xyz)
+	}
+	continue;
+	end;
 
+	meaning_of_life := 42;
 
+	return 3;
+}
 
+-- Last defn is not int main(void)
+int main2(void) {
+	return 4;
+}

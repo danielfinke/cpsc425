@@ -8,12 +8,12 @@
 #include "ASTFunctionNode.h"
 #include "ScopeTable.h"
 
-ASTFunctionNode::ASTFunctionNode() : ASTDeclarationNode(), returnMet(false),
+ASTFunctionNode::ASTFunctionNode() : ASTDeclarationNode(),
 		param(NULL), compound(NULL) {
 }
 
 ASTFunctionNode::ASTFunctionNode(const ASTFunctionNode& orig):ASTDeclarationNode(orig),
-		returnMet(orig.returnMet), param(orig.param),
+		param(orig.param),
         compound(orig.compound)
 {
 }
@@ -23,7 +23,6 @@ ASTFunctionNode& ASTFunctionNode::operator= (const ASTFunctionNode &rhs)
 	ASTDeclarationNode::operator=(rhs);
 	
     // do the copy
-	returnMet = rhs.returnMet;
 	param = rhs.param;
 	compound = rhs.compound;
  
@@ -44,12 +43,12 @@ void ASTFunctionNode::semAnalyze(){
             return;
     }
 	
+	returnAnalyze();
+	
 	if(getParamCount() > 0) {
 		this->param->semAnalyze();
 	}
     this->compound->semAnalyze();
-	
-	returnAnalyze();
     
      if(this->next != NULL)
         this->next->semAnalyze();
@@ -63,7 +62,7 @@ void ASTFunctionNode::scopeAnalyze(){
 }
 
 void ASTFunctionNode::returnAnalyze() {
-	if(this->declarationType != Scanner::VOID && !returnMet) {
+	if(!this->compound->statement->returnAnalyze()) {
 		sa->semanticError("Missing return statement for function: " +
 			ASTNode::lookup->getIdentifierName(id), lineNumber);
 	}

@@ -74,6 +74,33 @@ void ASTIfNode::typeAnalyze() {
 	}
 }
 
+bool ASTIfNode::returnAnalyze() {
+	bool retInBranches = true;
+	ASTStatementNode * curState = statement;
+	
+	// Must have an else statement in order to return true
+	if(elseStatement != NULL) {
+		while(curState != NULL) {
+			retInBranches = retInBranches && curState->returnAnalyze();
+			curState = dynamic_cast<ASTStatementNode *>(curState->next);
+		}
+		curState = elseStatement;
+		while(curState != NULL) {
+			retInBranches = retInBranches && curState->returnAnalyze();
+			curState = dynamic_cast<ASTStatementNode *>(curState->next);
+		}
+	}
+	else {
+		retInBranches = false;
+	}
+	
+	if(next != NULL) {
+		return retInBranches || dynamic_cast<ASTStatementNode *>(next)->returnAnalyze();
+	}
+	
+	return retInBranches;
+}
+
 void ASTIfNode::printNode(int indent, ostream * output) {
 	this->output = output;
 	

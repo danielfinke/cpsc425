@@ -18,7 +18,7 @@
  * statement in the list of statements.
  */
 
-class ASTCompoundNode : public ASTStatementNode{
+class ASTCompoundNode : public virtual ASTStatementNode{
 public:
     ASTCompoundNode();
     ASTCompoundNode(const ASTCompoundNode& orig);
@@ -28,6 +28,8 @@ public:
 	virtual void semAnalyze();
 	virtual void scopeAnalyze();
 	virtual void printNode(int indent, ostream * output);
+	
+	bool returnAnalyze();
 	
 	ASTDeclarationNode * dec;
 	ASTStatementNode * statement;

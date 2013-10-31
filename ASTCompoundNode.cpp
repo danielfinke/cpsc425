@@ -59,6 +59,16 @@ void ASTCompoundNode::scopeAnalyze(){
     //nothing
 }
 
+bool ASTCompoundNode::returnAnalyze() {
+	bool children = this->statement->returnAnalyze();
+	
+	if(next != NULL) {
+		return children || dynamic_cast<ASTStatementNode *>(next)->returnAnalyze();
+	}
+	
+	return children;
+}
+
 void ASTCompoundNode::printNode(int indent, ostream * output) {
 	this->output = output;
 	

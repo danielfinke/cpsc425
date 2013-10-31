@@ -94,6 +94,22 @@ void ASTBranchNode::typeAnalyze() {
 	}
 }
 
+bool ASTBranchNode::returnAnalyze() {
+	bool retInCases = true;
+	ASTCaseNode * curCase = firstCase;
+	
+	while(curCase != NULL) {
+		retInCases = retInCases && curCase->returnAnalyze();
+		curCase = dynamic_cast<ASTCaseNode *>(curCase->next);
+	}
+	
+	if(next != NULL) {
+		return retInCases || dynamic_cast<ASTStatementNode *>(next)->returnAnalyze();
+	}
+	
+	return retInCases;
+}
+
 void ASTBranchNode::printNode(int indent, ostream * output) {
 	this->output = output;
 	

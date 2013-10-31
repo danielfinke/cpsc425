@@ -19,6 +19,8 @@ int boo(int input[]) {
 			return input[0] * 2;
 		default:
 			return input[0] * 500;
+		/*case 4:
+			return input[0] - 4;*/
 	end;
 }
 
@@ -80,7 +82,10 @@ int main(void) {
 		exit;
 	end;
 	if(y = 7) {
-		exit;
+		int xyz;
+		loop x:=x-1;
+			exit;
+		end;
 	}
 	continue;
 	end;

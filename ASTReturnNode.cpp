@@ -45,7 +45,7 @@ void ASTReturnNode::semAnalyze(){
     if(this->expression !=NULL)
           this->expression->semAnalyze();
 	
-	returnAnalyze();
+	returnAnalyzeType();
     
      if(this->next != NULL)
         this->next->semAnalyze();
@@ -59,7 +59,11 @@ void ASTReturnNode::scopeAnalyze(){
     
 }
 
-void ASTReturnNode::returnAnalyze() {
+bool ASTReturnNode::returnAnalyze() {
+	return true;
+}
+
+void ASTReturnNode::returnAnalyzeType() {
 	if(funcScope == NULL) {
 		//sa->semanticError("Use of return outside of function", lineNumber);
 		// Do nothing

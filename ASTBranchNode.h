@@ -30,9 +30,10 @@ public:
 	void scopeAnalyze();
 	void typeAnalyze();
 	void printNode(int indent, ostream * output);
-        void caseAnalyze();
-        bool contains(int x);
+	void caseAnalyze();
+	bool contains(int x);
     
+	bool returnAnalyze();
         
     vector<int> caseList;
     bool defaultReached;

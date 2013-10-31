@@ -30,7 +30,8 @@ public:
     ASTExpressionNode * expression;
 	ASTFunctionNode * funcScope;
 private:
-	void returnAnalyze();
+	bool returnAnalyze();
+	void returnAnalyzeType();
 };
 
 #endif	/* ASTRETURNNODE_H */

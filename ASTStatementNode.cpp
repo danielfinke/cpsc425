@@ -43,6 +43,14 @@ void ASTStatementNode::scopeAnalyze(){
     
 }
 
+bool ASTStatementNode::returnAnalyze() {
+	if(next != NULL) {
+		return dynamic_cast<ASTStatementNode *>(next)->returnAnalyze();
+	}
+	
+	return false;
+}
+
 void ASTStatementNode::printNode(int indent, ostream * output) {
 	this->output = output;
 	

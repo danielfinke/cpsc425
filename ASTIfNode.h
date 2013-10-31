@@ -29,6 +29,8 @@ public:
 	void typeAnalyze();
 	void printNode(int indent, ostream * output);
 	
+	bool returnAnalyze();
+	
 	ASTExpressionNode * exp;
 	ASTStatementNode * statement, *elseStatement;
 private:

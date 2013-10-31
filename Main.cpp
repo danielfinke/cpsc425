@@ -53,7 +53,7 @@ int main(int argc, const char * argv[]) {
 			cout << "Selected phases not yet implemented" << endl;
 			return 8;
 		}
-		/*else if(cmd == "-s" || cmd == "-sem") {
+		else if(cmd == "-s" || cmd == "-sem") {
 			if(processTo != 0) {
 				processTo = 3;
 			}
@@ -62,7 +62,7 @@ int main(int argc, const char * argv[]) {
 				return 7;
 			}
 		}
-		else if(cmd == "-t" || cmd == "-tup") {
+		/*else if(cmd == "-t" || cmd == "-tup") {
 			if(processTo != 0) {
 				processTo = 4;
 			}
@@ -143,7 +143,7 @@ int main(int argc, const char * argv[]) {
 	}
 
 	if(!unattended && filenames.size() > 0) {
-		cout << "CAD Compiler v1.2" << endl;
+		cout << "CAD Compiler v1.3" << endl;
 		cout << "Source files: " << endl;
 		for(int i = 0; i < filenames.size(); i++) {
 			cout << "  " << filenames[i] << endl;

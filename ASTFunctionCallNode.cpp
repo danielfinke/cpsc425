@@ -7,6 +7,7 @@
 
 #include "ASTFunctionCallNode.h"
 #include "ScopeTable.h"
+#include "ASTVariableNode.h"
 
 ASTFunctionCallNode::ASTFunctionCallNode() : ASTStatementNode(), ASTExpressionNode(), id(0),
 		funcDec(NULL), argument(NULL), isStatement(false) {
@@ -103,10 +104,25 @@ void ASTFunctionCallNode::typeAnalyze() {
 	ASTExpressionNode * arg = argument;
 	ASTParamNode * param = funcDec->param;
 	while(arg != NULL && param != NULL) {
+		ASTVariableNode * argAsVar = dynamic_cast<ASTVariableNode *>(arg);
+		
 		if(arg->type != param->declarationType) {
 			// Semantic error - mismatched argument types
-			//cout << sa->admin->getIdentifierName(id) << endl;
 			sa->semanticError("Mismatched argument types", lineNumber);
+		}
+		else if(argAsVar != NULL) {
+			if(argAsVar->varDec->isArray) {
+				if(argAsVar->isArray == param->isArray) {
+					// Semantic error - mismatched argument types
+					sa->semanticError("Mismatched argument types", lineNumber);
+				}
+			}
+			else {
+				if(argAsVar->isArray != param->isArray) {
+					// Semantic error - mismatched argument types
+					sa->semanticError("Mismatched argument types", lineNumber);
+				}
+			}
 		}
 		arg = dynamic_cast<ASTExpressionNode *>(arg->next);
 		param = (ASTParamNode *)(param->next);

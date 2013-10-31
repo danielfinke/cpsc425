@@ -51,6 +51,17 @@ void ASTLoopNode::scopeAnalyze(){
     
 }
 
+bool ASTLoopNode::returnAnalyze() {
+	// If first statement returns, then so does this
+	bool firstRets = this->statement->returnAnalyze();
+	
+	if(next != NULL) {
+		return firstRets || dynamic_cast<ASTStatementNode *>(next)->returnAnalyze();
+	}
+	
+	return firstRets;
+}
+
 void ASTLoopNode::printNode(int indent, ostream * output) {
 	this->output = output;
 	

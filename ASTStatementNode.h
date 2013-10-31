@@ -19,9 +19,11 @@ public:
     ASTStatementNode(const ASTStatementNode& orig);
     ASTStatementNode& operator= (const ASTStatementNode &rhs);
     virtual ~ASTStatementNode();
-         virtual void semAnalyze();
-         virtual void scopeAnalyze();
+	virtual void semAnalyze();
+	virtual void scopeAnalyze();
 	virtual void printNode(int indent, ostream * output);
+	
+	virtual bool returnAnalyze();
 private:
 
 };

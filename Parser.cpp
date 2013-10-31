@@ -327,7 +327,7 @@ ASTNode * Parser::funDecTail(vector<int> syncSet){
         fNode->lineNumber = admin->getLineNumber();
 	ASTParamNode * pNode = new ASTParamNode;
 	ASTCompoundNode * cNode = new ASTCompoundNode;
-				
+	
 	// For semantic purpose of "return", set the current function
 	curFunc = fNode;
 	
@@ -614,6 +614,7 @@ ASTNode * Parser::arguments(vector<int> syncSet){
 ASTNode * Parser::compoundStmt(vector<int> syncSet){
 	int decType = 0;
 	int id =0;
+	bool hasDeclarations = false;
 	ASTCompoundNode * cNode = new ASTCompoundNode;
         cNode->lineNumber =admin->getLineNumber();
 	ASTDeclarationNode * dNode = new ASTDeclarationNode;
@@ -633,6 +634,8 @@ ASTNode * Parser::compoundStmt(vector<int> syncSet){
 			id = lookahead.getAttributeValue();
 
 			if(match(sc->ID, syncSet2)) {
+				
+				hasDeclarations = true;
 
 				decType = dNode->declarationType;
 
@@ -656,6 +659,11 @@ ASTNode * Parser::compoundStmt(vector<int> syncSet){
 				}
 			}
 		}
+		
+		// Restrict exiting if within loop
+		if(loopNesting > 0 && hasDeclarations) {
+			compoundCount++;
+		}
 
 		do{
 			
@@ -673,6 +681,10 @@ ASTNode * Parser::compoundStmt(vector<int> syncSet){
 		}while(isStatementLookahead());
 
 		match(sc->RCRLY, syncSet);
+	}
+	
+	if(loopNesting > 0 && hasDeclarations) {
+		compoundCount--;
 	}
 	
 	return cNode;
@@ -718,6 +730,10 @@ ASTNode * Parser::loopStmt(vector<int> syncSet){
 	
 	// For supporting semantics for exit/continue
 	loopNesting++;
+	if(compoundCount > 0) {
+		compCountOld = compoundCount;
+		compoundCount = 0;
+	}
 	
     if(match(sc->LOOP, syncSet)) {
 	
@@ -733,6 +749,10 @@ ASTNode * Parser::loopStmt(vector<int> syncSet){
 	}
 	
 	loopNesting--;
+	if(compCountOld > 0) {
+		compoundCount = compCountOld;
+		compCountOld = 0;
+	}
 	
 	return lNode;
 }
@@ -746,7 +766,7 @@ ASTNode * Parser::exitStmt(vector<int> syncSet){
 		match(sc->SEMI, syncSet);
 	}
 	
-	if(loopNesting > 0) {
+	if(loopNesting > 0 && compoundCount == 0) {
 		marker->enabled = true;
 	}
 	
@@ -763,7 +783,7 @@ ASTNode * Parser::continueStmt(vector<int> syncSet){
 		match(sc->SEMI, syncSet);
 	}
 	
-	if(loopNesting > 0) {
+	if(loopNesting > 0 && compoundCount == 0) {
 		marker->enabled = true;
 	}
     
@@ -789,7 +809,6 @@ ASTNode * Parser::returnStmt(vector<int> syncSet){
 	
 	// Set the function this is returning from
 	rNode->funcScope = curFunc;
-	curFunc->returnMet = true;
 	
     return rNode;
 }

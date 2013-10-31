@@ -23,7 +23,7 @@ using namespace std;
 class Parser
 {
 private:
-	int errorCount, loopNesting;
+	int errorCount, loopNesting, compoundCount, compCountOld;
 	Admin* admin;
 	Scanner* sc;
 	Token lookahead;
