@@ -127,7 +127,7 @@ void ASTBranchNode::printNode(int indent, ostream * output) {
 //helper functions, checks caseList to see if contains x
 bool ASTBranchNode :: contains(int x){
     
-    for(int i; i<caseList.size(); i++){
+    for(int i = 0; i<caseList.size(); i++){
         if(caseList.at(i)==x)
             return true;
     }
