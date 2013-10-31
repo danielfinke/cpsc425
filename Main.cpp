@@ -48,7 +48,7 @@ int main(int argc, const char * argv[]) {
 			}
 		}
 		// Disabled until they are implemented
-		else if(cmd == "-s" || cmd == "-sem" || cmd == "-t" || cmd == "-tup" ||
+		else if(cmd == "-t" || cmd == "-tup" ||
 				cmd == "-c" || cmd == "-compile") {
 			cout << "Selected phases not yet implemented" << endl;
 			return 8;
