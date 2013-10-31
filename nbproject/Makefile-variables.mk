@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=GNU-Linux-x86
 CND_ARTIFACT_DIR_Debug=dist/Debug/GNU-Linux-x86
-CND_ARTIFACT_NAME_Debug=parser
-CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux-x86/parser
+CND_ARTIFACT_NAME_Debug=compiler
+CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux-x86/compiler
 CND_PACKAGE_DIR_Debug=dist/Debug/GNU-Linux-x86/package
-CND_PACKAGE_NAME_Debug=parser.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux-x86/package/parser.tar
+CND_PACKAGE_NAME_Debug=compiler.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux-x86/package/compiler.tar
 # Release configuration
 CND_PLATFORM_Release=GNU-Linux-x86
 CND_ARTIFACT_DIR_Release=dist/Release/GNU-Linux-x86
-CND_ARTIFACT_NAME_Release=parser
-CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux-x86/parser
+CND_ARTIFACT_NAME_Release=compiler
+CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux-x86/compiler
 CND_PACKAGE_DIR_Release=dist/Release/GNU-Linux-x86/package
-CND_PACKAGE_NAME_Release=parser.tar
-CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux-x86/package/parser.tar
+CND_PACKAGE_NAME_Release=compiler.tar
+CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux-x86/package/compiler.tar
 #
 # include compiler specific variables
 #

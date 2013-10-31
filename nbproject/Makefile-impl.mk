@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=parser
+PROJECTNAME=compiler
 
 # Active Configuration
 DEFAULTCONF=Debug
