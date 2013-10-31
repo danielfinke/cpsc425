@@ -1,11 +1,44 @@
 int x, y, z;
+bool a,b,c;
+
+
+int myAwesomeFunction(void){
+	int wootWoot;
+	wootWoot := 5;
+	
+	return;
+}
+
+
+bool myBooawesomeFunction(void){
+	int wootWoot;
+	int pirate[myAwesomeFunction()];
+	boo(pirate[x]);
+	wootWoot := boo(x,y,z);
+	wootWoot := 5;
+
+	
+	branch(true) --can't switch on true
+		case 4: ;
+	end;
+	return wootWoot;
+}
 
 int boo(int input[]) {
 	-- Some sort of compound statement
-	{
+	{		
 		int t;
+		bool ImABoolean;
 		t := 42;
-		; -- Check out this null statement. AH YEAH
+		
+		abraKadabra:= 5; --undelcared id
+
+		if(a > x) {;}--mismatch relationtional operator types 
+		if(x&&y){;} -- incorrect logical operator type
+		if(not x){;}
+
+		--bool ImABoo00oolean;
+		ImABoolean := 5; --assigned wrongly typed value
 	}
 
 	input[1] := readint();

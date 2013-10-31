@@ -899,10 +899,6 @@ ASTNode * Parser::caseStmt(vector<int> syncSet){
 ASTNode * Parser::expression(vector<int> syncSet){
     ASTExpressionNode * exp = dynamic_cast<ASTExpressionNode *>(transition("addExp", &Parser::addExp, syncSet));
 	
-	if(exp != NULL) {
-		exp->lineNumber = admin->getLineNumber();
-	}
-	
     if(isRelopLookahead())
     {
 		vector<int> syncSet2 = SyncSetBuilder::getSyncSet("[relop add-exp]");
@@ -919,6 +915,10 @@ ASTNode * Parser::expression(vector<int> syncSet){
 			exp = next;
 		}
     }
+	
+	if(exp != NULL) {
+		exp->lineNumber = admin->getLineNumber();
+	}
 	
 	return exp;
 }
@@ -978,10 +978,6 @@ ASTNode * Parser::addExp(vector<int> syncSet){
 ASTNode * Parser::term(vector<int> syncSet){
     ASTExpressionNode * exp = dynamic_cast<ASTExpressionNode *>(transition("factor", &Parser::factor, syncSet));
 	
-	if(exp != NULL) {
-		exp->lineNumber = admin->getLineNumber();
-	}
-	
     while(isMultopLookahead()) {
 		vector<int> syncSet2 = SyncSetBuilder::getSyncSet("{multop factor}");
 
@@ -997,6 +993,10 @@ ASTNode * Parser::term(vector<int> syncSet){
 			exp = next;
 		}
     }
+	
+	if(exp != NULL) {
+		exp->lineNumber = admin->getLineNumber();
+	}
 	
 	return exp;
 }
