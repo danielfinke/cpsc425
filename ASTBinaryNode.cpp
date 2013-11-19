@@ -175,13 +175,13 @@ ASTLiteralNode * ASTBinaryNode::calc() {
 	}
 	
 	// Short circuit exceptions
-	if(oper == Scanner::AND) {
+	if(oper == Scanner::ANDTHEN) {
 		if(!leftVal) {
 			ret->value = leftVal->value;
 			return ret;
 		}
 	}
-	else if(oper == Scanner::OR) {
+	else if(oper == Scanner::ORELSE) {
 		if(leftVal) {
 			ret->value = leftVal->value;
 			return ret;
@@ -209,10 +209,10 @@ ASTLiteralNode * ASTBinaryNode::calc() {
 		case Scanner::MOD:
 			ret->value = leftVal->value % rightVal->value;
 			break;
-		case Scanner::ANDTHEN:
+		case Scanner::AND:
 			ret->value = leftVal->value && rightVal->value;
 			break;
-		case Scanner::ORELSE:
+		case Scanner::OR:
 			ret->value = leftVal->value || rightVal->value;
 			break;
 		case Scanner::LTEQ:

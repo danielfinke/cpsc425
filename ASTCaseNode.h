@@ -28,7 +28,7 @@ public:
 	void semAnalyze();
 	void scopeAnalyze();
 	void typeAnalyze();
-        void genQuadruples();
+    string genQuadruples();
 	void printNode(int indent, ostream * output);
     
     int type;

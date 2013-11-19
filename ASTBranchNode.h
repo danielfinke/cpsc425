@@ -30,9 +30,9 @@ public:
 	void scopeAnalyze();
 	void typeAnalyze();
 	void printNode(int indent, ostream * output);
-	void genQuadruples();
+	string genQuadruples();
         
-        void caseAnalyze();
+    void caseAnalyze();
 	bool contains(int x);
     
 	bool returnAnalyze();
