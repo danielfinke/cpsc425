@@ -87,6 +87,9 @@ void ASTAssignmentNode::typeAnalyze() {
 		// Semantic error - assigning wrongly typed value
 		sa->semanticError("Assigning wrongly typed value", lineNumber);
 	}
+	else {
+		setDeclarationInitialized();
+	}
 }
 
 void ASTAssignmentNode::printNode(int indent, ostream * output) {
@@ -112,4 +115,8 @@ void ASTAssignmentNode::printNode(int indent, ostream * output) {
 	if(next != NULL) {
 		next->printNode(indent, output);
 	}
+}
+
+void ASTAssignmentNode::setDeclarationInitialized() {
+	this->left->initialized = true;
 }

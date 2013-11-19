@@ -37,6 +37,8 @@ public:
 	void typeAnalyze();
 	void printNode(int indent, ostream * output);
 	
+	void setDeclarationInitialized();
+	
 	bool isArray;
 	int id;
 	ASTDeclarationNode * left;

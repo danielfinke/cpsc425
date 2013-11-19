@@ -106,9 +106,13 @@ void ASTFunctionCallNode::typeAnalyze() {
 	while(arg != NULL && param != NULL) {
 		ASTVariableNode * argAsVar = dynamic_cast<ASTVariableNode *>(arg);
 		
-		if(arg->type != param->declarationType) {
-			// Semantic error - mismatched argument types
-			sa->semanticError("Mismatched argument types", lineNumber);
+		if((arg->type == Scanner::NUM || arg->type == Scanner::INT) &&
+				(param->declarationType == Scanner::NUM || param->declarationType == Scanner::INT)) {
+			
+		}
+		else if((arg->type == Scanner::BLIT || arg->type == Scanner::BOOL) &&
+				(param->declarationType == Scanner::BLIT || param->declarationType == Scanner::BOOL)) {
+			
 		}
 		else if(argAsVar != NULL) {
 			if(argAsVar->varDec->isArray) {
@@ -123,6 +127,10 @@ void ASTFunctionCallNode::typeAnalyze() {
 					sa->semanticError("Mismatched argument types", lineNumber);
 				}
 			}
+		}
+		else {
+			// Semantic error - mismatched argument types
+			sa->semanticError("Mismatched argument types", lineNumber);
 		}
 		arg = dynamic_cast<ASTExpressionNode *>(arg->next);
 		param = (ASTParamNode *)(param->next);
