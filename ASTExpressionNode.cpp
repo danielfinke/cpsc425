@@ -27,6 +27,8 @@ ASTExpressionNode& ASTExpressionNode::operator= (const ASTExpressionNode &rhs)
     return *this;
 }
 
+
+
 ASTLiteralNode * ASTExpressionNode::calc() {
 	return NULL;
 }

@@ -28,6 +28,7 @@ public:
 	virtual void scopeAnalyze();
 	virtual void typeAnalyze();
 	virtual void printNode(int indent, ostream * output) = 0;
+        /*virtual*/ void genQuadruples();
 	
 	bool isGlobalDec;
 	ASTNode * next;

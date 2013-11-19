@@ -6,7 +6,7 @@
 Admin::Admin(void) : linePos(0), lineCount(0), traceScanner(false),
         traceParser(false), outputAST(false), almostDone(false), line(""),
 		fileName(""),
-	source(NULL), output(&cout), errOutput(&cout), sc(NULL), ps(NULL), sa(NULL)
+	source(NULL), output(&cout), errOutput(&cout), sc(NULL), ps(NULL), sa(NULL),qua(NULL)
 {
 	ASTNode::lookup = NULL;
 	ASTNode::sa = NULL;
@@ -16,7 +16,8 @@ Admin::Admin(ifstream & file, string fileName, ostream & out) : linePos(0), line
         traceScanner(false), traceParser(false), outputAST(false),
 		almostDone(false), fileName(fileName),
 	line(""), source(&file), output(&out), errOutput(&out),
-	sc(new Scanner(*this)), ps(new Parser(*this, *sc)), sa(new SemanticAnalyzer(this))
+	sc(new Scanner(*this)), ps(new Parser(*this, *sc)), sa(new SemanticAnalyzer(this)),
+        qua(new QuadrupleGenerator())
 {
 	ASTNode::lookup = sc;
 	ASTNode::sa = sa;
@@ -26,7 +27,8 @@ Admin::Admin(ifstream & file, string fileName, ostream & out, bool traceEnabled)
         traceScanner(traceEnabled), traceParser(traceEnabled),
 		outputAST(false),
 	almostDone(false), line(""), fileName(fileName), source(&file), output(&out),
-	errOutput(&out), sc(new Scanner(*this)), ps(new Parser(*this, *sc)), sa(new SemanticAnalyzer(this))
+	errOutput(&out), sc(new Scanner(*this)), ps(new Parser(*this, *sc)), sa(new SemanticAnalyzer(this)),
+        qua(new QuadrupleGenerator())
 {
 	ASTNode::lookup = sc;
 	ASTNode::sa = sa;
@@ -36,7 +38,8 @@ Admin::Admin(const Admin &other) : linePos(other.linePos), lineCount(other.lineC
         traceScanner(other.traceScanner), traceParser(other.traceParser),
 		outputAST(other.outputAST), almostDone(other.almostDone), fileName(other.fileName),
         line(other.line), source(other.source), output(other.output), errOutput(other.errOutput),
-		sc(new Scanner(*this)), ps(new Parser(*this, *sc)), sa(new SemanticAnalyzer(this))
+		sc(new Scanner(*this)), ps(new Parser(*this, *sc)), sa(new SemanticAnalyzer(this)),
+        qua(new QuadrupleGenerator())
 {
 	ASTNode::lookup = sc;
 	ASTNode::sa = sa;
@@ -60,6 +63,7 @@ Admin& Admin::operator= (const Admin &rhs)
     sc = new Scanner(*this);
     ps = new Parser(*this, *sc);
 	sa = new SemanticAnalyzer(this);
+        qua = new QuadrupleGenerator();
 	
 	ASTNode::lookup = sc;
 	ASTNode::sa = sa;
@@ -74,6 +78,7 @@ Admin::~Admin(void)
 	delete sc;
 	delete ps;
 	delete sa;
+        delete qua;
 }
 
 // Returns true if a character is a whitespace character
@@ -125,6 +130,15 @@ void Admin::compile(int processTo) {
 
 			  }
 			break;
+                 case 4:
+                        top = ps->startParsing();
+			if(top != NULL && ps->getErrorCount() == 0)
+			  {
+				   sa->semAnalyze(top);
+
+			  }
+                        qua->GenerateQuadruples(top);
+                        break;
 		default:
 			// Will be changed as phases get added
 			top = ps->startParsing();
@@ -133,7 +147,9 @@ void Admin::compile(int processTo) {
 				   sa->semAnalyze(top);
 
 			  }
-			int t = 4;
+                        qua->GenerateQuadruples(top);
+                        //daniel ? why do we need?? i commented it
+			//int t = 4;
                          
 	}
 }

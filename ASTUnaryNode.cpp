@@ -127,6 +127,21 @@ ASTLiteralNode * ASTUnaryNode::calc() {
 	return ret;
 }
 
+string ASTUnaryNode::genQuadruples(){
+   
+    string txt ="(";
+    switch(operation){
+        case Scanner::MINUS:
+            txt+="uminus,";
+            break;
+        case Scanner::NOT:
+            txt+="not,";
+            break;
+    }
+
+    //txt+=operand.genQuadruples();
+}
+
 void ASTUnaryNode::printNode(int indent, ostream * output) {
 	this->output = output;
 	
