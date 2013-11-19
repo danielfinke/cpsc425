@@ -78,6 +78,14 @@ void ASTBinaryNode::scopeAnalyze(){
 string ASTBinaryNode::genQuadruples(){
     Quadruple quad = new Quadruple();
     quad.result = getTemp();
+	
+	if(oper == Scanner::ANDTHEN) {
+		return genAndThenSS();
+	}
+	else if(oper == Scanner::ORELSE) {
+		return genOrElseSS();
+	}
+	
     quad.arg1 = left->genQuadruples();
     quad.arg2 = right->genQuadruples();
     
@@ -110,14 +118,8 @@ string ASTBinaryNode::genQuadruples(){
         case Scanner::AND:
             quad.operation="and";
             break;
-        case Scanner::ANDTHEN:
-            //very different
-            break;
         case Scanner::OR:
             quad.operation="or";
-            break;
-        case Scanner::ORELSE:
-            //very different
             break;
         case Scanner::MULT:
             quad.operation="mult";
@@ -133,6 +135,53 @@ string ASTBinaryNode::genQuadruples(){
     vec.push_back(quad);
     return quad.result;
 }
+
+string ASTBinaryNode::genAndThenSS() {
+	Quadruple quad;
+	quad.operation = "iff";
+	quad.arg1 = left->genQuadruples();
+	quad.result = getLabel();
+	
+	Quadruple quad2;
+	quad2.operation = "and";
+	quad2.arg1 = quad.arg1;
+	quad2.arg2 = right->genQuadruples();
+	quad2.result = quad2.arg1;
+	
+	Quadruple quad3;
+	quad3.operation = "lab";
+	quad3.result = quad.result;
+	
+	vec.push_back(quad);
+	vec.push_back(quad2);
+	vec.push_back(quad3);
+	
+	return quad2.result;
+}
+
+string ASTBinaryNode::genOrElseSS() {
+	Quadruple quad;
+	quad.operation = "ift";
+	quad.arg1 = left->genQuadruples();
+	quad.result = getLabel();
+	
+	Quadruple quad2;
+	quad2.operation = "or";
+	quad2.arg1 = quad.arg1;
+	quad2.arg2 = right->genQuadruples();
+	quad2.result = quad2.arg1;
+	
+	Quadruple quad3;
+	quad3.operation = "lab";
+	quad3.result = quad.result;
+	
+	vec.push_back(quad);
+	vec.push_back(quad2);
+	vec.push_back(quad3);
+	
+	return quad2.result;
+}
+
 void ASTBinaryNode::typeAnalyze() {
 	if(left == NULL || right == NULL) {
 		type = -1;

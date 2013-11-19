@@ -41,7 +41,7 @@ public:
 	static Scanner * lookup;
     static SemanticAnalyzer * sa;
     static bool init;
-    static vector <Quadruple> vec;
+    static vector <Quadruple> vec; // How to initialize??
     static int tempCounter;
     static int labelCounter;
 protected:

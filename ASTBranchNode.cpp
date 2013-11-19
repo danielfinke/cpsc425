@@ -40,6 +40,11 @@ ASTBranchNode::~ASTBranchNode() {
     delete firstCase;
 }
 
+string ASTBranchNode::genQuadruples() {
+	string expTemp = expression->genQuadruples();
+	ASTCaseNode * cNode = firstCase;
+}
+
 void ASTBranchNode ::semAnalyze(){
     
     if(init || !this->isGlobalDec){

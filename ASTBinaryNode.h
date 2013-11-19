@@ -31,6 +31,8 @@ public:
 	void scopeAnalyze();
 	void typeAnalyze();
     string genQuadruples();
+	string genAndThenSS();
+	string genOrElseSS();
 	
 	ASTLiteralNode * calc();
 	void printNode(int indent, ostream * output);
