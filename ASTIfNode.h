@@ -30,6 +30,7 @@ public:
 	void printNode(int indent, ostream * output);
 	
 	bool returnAnalyze();
+        string genQuadruples();
 	
 	ASTExpressionNode * exp;
 	ASTStatementNode * statement, *elseStatement;

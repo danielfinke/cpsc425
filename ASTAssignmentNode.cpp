@@ -66,7 +66,8 @@ void ASTAssignmentNode::scopeAnalyze(){
 }
 
 string ASTAssignmentNode::genQuadruples(){
-    
+    //fix for assign to array element
+    //READ ABOVE FIX
     Quadruple quad = new Quadruple();
     
     quad.operation="asg";

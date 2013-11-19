@@ -15,6 +15,7 @@ public:
     Quadruple();
     Quadruple(const Quadruple& orig);
     virtual ~Quadruple();
+    Quadruple(string oper, string arg1, string arg2, string result);
     
     string operation;
     string arg1;

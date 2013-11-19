@@ -7,6 +7,7 @@
 
 #include "ASTIfNode.h"
 #include "SemanticAnalyzer.h"
+#include "Quadruple.h"
 
 ASTIfNode::ASTIfNode() : ASTStatementNode(), exp(NULL), statement(NULL), elseStatement(NULL) {
 }
@@ -34,6 +35,37 @@ ASTIfNode::~ASTIfNode() {
     delete exp;
     delete statement;
     delete elseStatement;
+}
+
+string ASTIfNode::genQuadruples(){
+    
+    Quadruple ifquad = new Quadruple();
+    ifquad.operation ="iff";
+    ifquad.arg1 = exp->genQuadruples();
+ 
+    if(elseStatement!=NULL)
+    {
+        string elseLabel = getLabel();
+        string endLabel = getLabel();
+        ifquad.result=elseLabel;
+        
+        vec.push_back(ifquad);
+        statement->genQuadruples();
+        vec.push_back(new Quadruple("goto","","",endLabel));
+        vec.push_back(new Quadruple("lab","","",elseLabel));
+        elseStatement->genQuadruples();
+        vec.push_back(new Quadruple("lab","","",endLabel));
+    }
+    else
+    {
+        string endLabel=getLabel();
+        ifquad.result=endLabel;
+        
+        vec.push_back(ifquad);
+        statement->genQuadruples();
+        vec.push_back(new Quadruple("lab","","",endLabel));
+    }
+    
 }
 
 void ASTIfNode::semAnalyze(){
