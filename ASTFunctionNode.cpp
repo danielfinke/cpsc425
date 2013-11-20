@@ -74,7 +74,6 @@ void ASTFunctionNode::semAnalyze(){
 	returnAnalyze();
 	
 	if(getParamCount() > 0) {
-		this->param->initialized = true;
 		this->param->semAnalyze();
 	}
     this->compound->semAnalyze();

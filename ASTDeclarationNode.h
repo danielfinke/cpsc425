@@ -35,7 +35,6 @@ public:
 	
     int declarationType;
     int id;
-	bool initialized;
 private:
 
 };
