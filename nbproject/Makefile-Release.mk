@@ -60,6 +60,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/IdentificationTableItem.o \
 	${OBJECTDIR}/Main.o \
 	${OBJECTDIR}/Parser.o \
+	${OBJECTDIR}/QuadrupleGenerator.o \
 	${OBJECTDIR}/Scanner.o \
 	${OBJECTDIR}/ScopeTable.o \
 	${OBJECTDIR}/SemanticAnalyzer.o \
@@ -85,11 +86,11 @@ LDLIBSOPTIONS=
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/compiler
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/cpsc425
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/compiler: ${OBJECTFILES}
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/cpsc425: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/compiler ${OBJECTFILES} ${LDLIBSOPTIONS}
+	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/cpsc425 ${OBJECTFILES} ${LDLIBSOPTIONS}
 
 ${OBJECTDIR}/ASTAssignmentNode.o: ASTAssignmentNode.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -216,6 +217,11 @@ ${OBJECTDIR}/Parser.o: Parser.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Parser.o Parser.cpp
 
+${OBJECTDIR}/QuadrupleGenerator.o: QuadrupleGenerator.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/QuadrupleGenerator.o QuadrupleGenerator.cpp
+
 ${OBJECTDIR}/Scanner.o: Scanner.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
@@ -247,7 +253,7 @@ ${OBJECTDIR}/Token.o: Token.cpp
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r ${CND_BUILDDIR}/${CND_CONF}
-	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/compiler
+	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/cpsc425
 
 # Subprojects
 .clean-subprojects:

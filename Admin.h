@@ -6,6 +6,7 @@
 #include <vector>
 #include "ASTNode.h"
 #include "SemanticAnalyzer.h"
+#include "QuadrupleGenerator.h"
 class Scanner;
 class Parser;
 class Token;
@@ -33,6 +34,7 @@ private:
 	Scanner* sc;
 	Parser* ps;
 	SemanticAnalyzer* sa;
+        QuadrupleGenerator* qua;
 	
 	bool isWhiteSpace(char c);
 	bool isInvisibleCharacter(char c);

@@ -28,6 +28,7 @@ public:
 	void semAnalyze(bool restrictIdents);
 	void scopeAnalyze();
 	void typeAnalyze();
+        string genQuadruples();
 	
 	ASTLiteralNode * calc();
 	void printNode(int indent, ostream * output);
