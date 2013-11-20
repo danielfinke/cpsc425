@@ -45,6 +45,9 @@ public:
     static vector <Quadruple> vec; // How to initialize??
     static int tempCounter;
     static int labelCounter;
+	
+	static int curLevel;
+	static int curDisplacement;
 protected:
     void printIndented(string text, int indent);
 private:

@@ -38,7 +38,20 @@ ASTFunctionNode::~ASTFunctionNode() {
 
 string ASTFunctionNode::genQuadruples() {
 	int numLocals = 0;
+	ASTParamNode * curParam = param;
 	ASTDeclarationNode * decNode = compound->dec;
+	
+	curLevel++;
+	curDisplacement = 2;
+	
+	int i = -1;
+	// Calculate parameters level/displacement
+	while(curParam != NULL) {
+		curParam->level = curLevel;
+		curParam->displacement = i;
+		i--;
+		curParam = dynamic_cast<ASTParamNode *>(curParam->next);
+	}
 	
 	// Calculate locals size
 	while(decNode != NULL) {
@@ -47,10 +60,16 @@ string ASTFunctionNode::genQuadruples() {
 		if(decAsVar != NULL) {
 			if(!decAsVar->isArray) {
 				numLocals++;
+				decAsVar->level = curLevel;
+				decAsVar->displacement = curDisplacement;
+				curDisplacement++;
 			}
 			else {
 				ASTLiteralNode * sizeVal = decAsVar->arrayExp->calc();
 				numLocals += sizeVal->value;
+				decAsVar->level = curLevel;
+				decAsVar->displacement = curDisplacement;
+				curDisplacement += sizeVal->value;
 			}
 		}
 		decNode = dynamic_cast<ASTDeclarationNode *>(decNode->next);
@@ -58,6 +77,9 @@ string ASTFunctionNode::genQuadruples() {
 	
 	stringstream ss;
 	ss << numLocals;
+	
+	// Will return to update size
+	int ecsIndex = vec.size();
 	
 	Quadruple funQuad;
 	funQuad.operation = "fun";
@@ -67,6 +89,14 @@ string ASTFunctionNode::genQuadruples() {
 	vec.push_back(funQuad);
 	
 	compound->statement->genQuadruples();
+	
+	// Update temp size
+	// -2 because of link and return address on stack
+	ss.str("");
+	ss << (curDisplacement - 2);
+	vec[ecsIndex].arg2 = ss.str();
+	
+	curLevel--;
 	
 	if(this->next != NULL) {
 		this->next->genQuadruples();

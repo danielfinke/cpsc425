@@ -6,12 +6,18 @@
  */
 
 #include "ASTCompoundNode.h"
+#include "ASTVariableDeclarationNode.h"
+#include "ASTLiteralNode.h"
 #include "ScopeTable.h"
 
-ASTCompoundNode::ASTCompoundNode() : ASTStatementNode(), dec(NULL), statement(NULL) {
+ASTCompoundNode::ASTCompoundNode() : ASTStatementNode(),
+		prevDisplacement(0),
+		dec(NULL), statement(NULL)
+{
 }
 
 ASTCompoundNode::ASTCompoundNode(const ASTCompoundNode& orig):ASTStatementNode(orig),
+		prevDisplacement(orig.prevDisplacement),
 		dec(orig.dec), statement(orig.statement)
 {
 }
@@ -20,6 +26,7 @@ ASTCompoundNode& ASTCompoundNode::operator= (const ASTCompoundNode &rhs)
 {
 	ASTStatementNode::operator=(rhs);
 	
+	prevDisplacement = rhs.prevDisplacement;
 	dec = rhs.dec;
 	statement = rhs.statement;
  
@@ -36,17 +43,50 @@ string ASTCompoundNode::genQuadruples(){
 	int numLocals = 0;
 	ASTDeclarationNode * decNode = dec;
 	
+	curLevel++;
+	prevDisplacement = curDisplacement;
+	curDisplacement = 1;
+	
+	// Calculate locals size
 	while(decNode != NULL) {
-		numLocals++;
+		ASTVariableDeclarationNode * decAsVar =
+				dynamic_cast<ASTVariableDeclarationNode *>(decNode);
+		if(decAsVar != NULL) {
+			if(!decAsVar->isArray) {
+				numLocals++;
+				decAsVar->level = curLevel;
+				decAsVar->displacement = curDisplacement;
+				curDisplacement++;
+			}
+			else {
+				ASTLiteralNode * sizeVal = decAsVar->arrayExp->calc();
+				numLocals += sizeVal->value;
+				decAsVar->level = curLevel;
+				decAsVar->displacement = curDisplacement;
+				curDisplacement += sizeVal->value;
+			}
+		}
 		decNode = dynamic_cast<ASTDeclarationNode *>(decNode->next);
 	}
 	
 	stringstream ss;
 	ss << numLocals;
 	
+	// Will return to update temp size
+	int ecsIndex = vec.size();
+	
     vec.push_back(Quadruple("ecs",ss.str(),"",""));
     statement->genQuadruples();
     vec.push_back(Quadruple("lcs","","",""));
+	
+	// Update temp size
+	// -1 because of link on stack
+	ss.str("");
+	ss << (curDisplacement - 1);
+	vec[ecsIndex].arg1 = ss.str();
+	
+	curDisplacement = prevDisplacement;
+	curLevel--;
 	
 	if(this->next != NULL) {
 		this->next->genQuadruples();
