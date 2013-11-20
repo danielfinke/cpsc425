@@ -29,6 +29,9 @@ public:
 	virtual void typeAnalyze();
 	virtual void printNode(int indent, ostream * output) = 0;
         virtual void genQuadruples();
+        
+        static string getTemp();
+        static string getLabel();
 	
 	bool isGlobalDec;
 	ASTNode * next;
@@ -38,6 +41,9 @@ public:
 	static Scanner * lookup;
     static SemanticAnalyzer * sa;
     static bool init;
+    static vector <Quadruple> vec;
+    static int tempCounter;
+    static int labelCounter;
 protected:
     void printIndented(string text, int indent);
 private:

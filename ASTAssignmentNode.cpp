@@ -7,6 +7,7 @@
 
 #include "ASTAssignmentNode.h"
 #include "ScopeTable.h"
+#include "Quadruple.h"
 
 ASTAssignmentNode::ASTAssignmentNode() : ASTStatementNode(), isArray(false),
 		id(0), left(NULL), exp(NULL), arrayExp(NULL)
@@ -66,7 +67,16 @@ void ASTAssignmentNode::scopeAnalyze(){
 
 string ASTAssignmentNode::genQuadruples(){
     
+    Quadruple quad = new Quadruple();
     
+    quad.operation="asg";
+    quad.result = left->genQuadruples();
+    quad.arg1 = exp->genQuadruples();
+    
+    vec.push_back(quad);
+    
+    return "";
+   
 }
 void ASTAssignmentNode::typeAnalyze() {
 	if(left == NULL || exp == NULL) {

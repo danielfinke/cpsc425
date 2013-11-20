@@ -8,6 +8,7 @@
 #include "ASTBinaryNode.h"
 #include "ASTLiteralNode.h"
 #include "SemanticAnalyzer.h"
+#include "Quadruple.h"
 
 ASTBinaryNode::ASTBinaryNode() : ASTExpressionNode(), oper(0), left(NULL), right(NULL) {
 }
@@ -71,9 +72,67 @@ void ASTBinaryNode::semAnalyze(bool restrictIdents){
 
 void ASTBinaryNode::scopeAnalyze(){
     
-    //nothing to do?
+    //nothing to do
 }
 
+string ASTBinaryNode::genQuadruples(){
+    Quadruple quad = new Quadruple();
+    quad.result = getTemp();
+    quad.arg1 = left->genQuadruples();
+    quad.arg2 = right->genQuadruples();
+    
+    switch(oper){
+        case Scanner::LTEQ:
+            quad.operation="lte";
+            break;
+        case Scanner::LT:
+            quad.operation="lt";
+            break;
+        case Scanner::GTEQ:
+            quad.operation="gte";
+            
+            break;
+        case Scanner::GT:
+            quad.operation="gt";
+            break;
+        case Scanner::EQ:
+            quad.operation="eq";
+            break;
+        case Scanner::NEQ:
+            quad.operation="neq";
+            break;
+        case Scanner::PLUS:
+            quad.operation="add";
+            break;
+        case Scanner::MINUS:
+            quad.operation="sub";
+            break;
+        case Scanner::AND:
+            quad.operation="and";
+            break;
+        case Scanner::ANDTHEN:
+            //very different
+            break;
+        case Scanner::OR:
+            quad.operation="or";
+            break;
+        case Scanner::ORELSE:
+            //very different
+            break;
+        case Scanner::MULT:
+            quad.operation="mult";
+            break;
+        case Scanner::DIV:
+            quad.operation="div";
+            break;
+        case Scanner::MOD:
+            quad.operation="mod";
+            break;
+    }
+    
+    vec.push_back(quad);
+    return quad.result;
+}
 void ASTBinaryNode::typeAnalyze() {
 	if(left == NULL || right == NULL) {
 		type = -1;

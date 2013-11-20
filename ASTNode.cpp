@@ -10,6 +10,8 @@
 
 Scanner * ASTNode::lookup = 0;
 SemanticAnalyzer * ASTNode::sa = 0;
+int ASTNode:: tempCounter=1;
+int ASTNode:: labelCounter=1;
 bool ASTNode::init = true;
 
 ASTNode::ASTNode() : next(NULL), output(NULL), isGlobalDec(false), lineNumber(0){
@@ -61,4 +63,17 @@ void ASTNode::printIndented(string text, int indent) {
 		*output << " ";
 	}
 	*output << text << endl;
+}
+
+static string ASTNode::getLabel(){
+    
+    std::stringstream sstm;
+    sstm<<"t"<<labelCounter++;
+    return sstm.str();
+}
+
+static string ASTNode::getTemp(){
+    std:stringstream sstm;
+    sstm<<"L"<<tempCounter++;
+    return sstm.str();
 }

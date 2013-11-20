@@ -23,7 +23,6 @@ ASTUnaryNode& ASTUnaryNode::operator= (const ASTUnaryNode &rhs)
 	
     // do the copy
         operation=rhs.operation;
-        type =rhs.type;
         operand = rhs.operand;
     
     // return the existing object
@@ -129,17 +128,20 @@ ASTLiteralNode * ASTUnaryNode::calc() {
 
 string ASTUnaryNode::genQuadruples(){
    
-    string txt ="(";
+    Quadruple quad = new Quadruple();
+    quad.result=getTemp();
+    quad.arg1 =operand->genQuadruples();
     switch(operation){
         case Scanner::MINUS:
-            txt+="uminus,";
+            quad.operation="uminus";
             break;
         case Scanner::NOT:
-            txt+="not,";
+            quad.operation="not";
             break;
     }
-
-    //txt+=operand.genQuadruples();
+    
+    vec.push_back(quad);
+    return quad.result();
 }
 
 void ASTUnaryNode::printNode(int indent, ostream * output) {
