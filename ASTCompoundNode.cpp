@@ -32,6 +32,15 @@ ASTCompoundNode::~ASTCompoundNode() {
 	delete statement;
 }
 
+string ASTCompoundNode::genQuadruples(){
+    
+    //NEEDS SIZE
+    vec.push_back(new Quadruple("ecs","","",""));
+    //dec.genQuadruples();
+    statement.genQuadruples();
+    vec.push_back(new Quadruples("lcs","","",""));
+}
+
 void ASTCompoundNode::semAnalyze(){
     
     if(init || !this->isGlobalDec){

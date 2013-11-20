@@ -46,6 +46,10 @@ void ASTLoopNode::semAnalyze(){
     
 }
 
+string ASTLoopNode::genQuadruples(){
+    
+}
+
 void ASTLoopNode::scopeAnalyze(){
     //nothing
     

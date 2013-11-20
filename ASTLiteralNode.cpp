@@ -26,6 +26,13 @@ ASTLiteralNode& ASTLiteralNode::operator= (const ASTLiteralNode &rhs)
 ASTLiteralNode::~ASTLiteralNode() {
 }
 
+string ASTLiteralNode::genQuadruples(){
+    std::stringstream sstm;
+    sstm<< value;
+    
+    return sstm.str();
+}
+
 void ASTLiteralNode::semAnalyze(){
     
     if(init || !this->isGlobalDec){

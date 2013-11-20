@@ -28,6 +28,7 @@ public:
 	virtual void semAnalyze();
 	virtual void scopeAnalyze();
 	virtual void printNode(int indent, ostream * output);
+        virtual void genQuadruples();
 	
 	bool returnAnalyze();
 	
