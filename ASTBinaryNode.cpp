@@ -77,7 +77,6 @@ void ASTBinaryNode::scopeAnalyze(){
 
 string ASTBinaryNode::genQuadruples(){
     Quadruple quad;
-    quad.result = getTemp();
 	//does the short circuit operations in quadruples
 	if(oper == Scanner::ANDTHEN) {
 		return genAndThenSS();
@@ -85,6 +84,7 @@ string ASTBinaryNode::genQuadruples(){
 	else if(oper == Scanner::ORELSE) {
 		return genOrElseSS();
 	}
+    quad.result = getTemp();
 	//does the rest of them
     quad.arg1 = left->genQuadruples();
     quad.arg2 = right->genQuadruples();
@@ -138,21 +138,27 @@ string ASTBinaryNode::genQuadruples(){
 
 //generates the shot cicuited and set of qudruples
 string ASTBinaryNode::genAndThenSS() {
+	Quadruple temp;
+	temp.operation = "asg";
+	temp.arg1 = left->genQuadruples();
+	temp.result = getTemp();
+	
 	Quadruple quad;
 	quad.operation = "iff";
-	quad.arg1 = left->genQuadruples();
+	quad.arg1 = temp.result;
 	quad.result = getLabel();
 	
 	Quadruple quad2;
 	quad2.operation = "and";
 	quad2.arg1 = quad.arg1;
 	quad2.arg2 = right->genQuadruples();
-	quad2.result = quad2.arg1;
+	quad2.result = temp.result;
 	
 	Quadruple quad3;
 	quad3.operation = "lab";
 	quad3.result = quad.result;
 	
+	vec.push_back(temp);
 	vec.push_back(quad);
 	vec.push_back(quad2);
 	vec.push_back(quad3);
@@ -162,21 +168,27 @@ string ASTBinaryNode::genAndThenSS() {
 
 //generates the short circuited Or set of quadruples
 string ASTBinaryNode::genOrElseSS() {
+	Quadruple temp;
+	temp.operation = "asg";
+	temp.arg1 = left->genQuadruples();
+	temp.result = getTemp();
+	
 	Quadruple quad;
 	quad.operation = "ift";
-	quad.arg1 = left->genQuadruples();
+	quad.arg1 = temp.result;
 	quad.result = getLabel();
 	
 	Quadruple quad2;
 	quad2.operation = "or";
 	quad2.arg1 = quad.arg1;
 	quad2.arg2 = right->genQuadruples();
-	quad2.result = quad2.arg1;
+	quad2.result = temp.result;
 	
 	Quadruple quad3;
 	quad3.operation = "lab";
 	quad3.result = quad.result;
 	
+	vec.push_back(temp);
 	vec.push_back(quad);
 	vec.push_back(quad2);
 	vec.push_back(quad3);
