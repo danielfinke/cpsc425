@@ -32,6 +32,7 @@ public:
 	virtual void scopeAnalyze();
 	// todo: make pure virtual
 	virtual void printNode(int indent, ostream * output);
+	virtual string genQuadruples();
 	
     int declarationType;
     int id;

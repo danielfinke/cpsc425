@@ -17,7 +17,7 @@ Admin::Admin(ifstream & file, string fileName, ostream & out) : linePos(0), line
 		almostDone(false), fileName(fileName),
 	line(""), source(&file), output(&out), errOutput(&out),
 	sc(new Scanner(*this)), ps(new Parser(*this, *sc)), sa(new SemanticAnalyzer(this)),
-        qua(new QuadrupleGenerator())
+        qua(new QuadrupleGenerator(this))
 {
 	ASTNode::lookup = sc;
 	ASTNode::sa = sa;
@@ -28,7 +28,7 @@ Admin::Admin(ifstream & file, string fileName, ostream & out, bool traceEnabled)
 		outputAST(false),
 	almostDone(false), line(""), fileName(fileName), source(&file), output(&out),
 	errOutput(&out), sc(new Scanner(*this)), ps(new Parser(*this, *sc)), sa(new SemanticAnalyzer(this)),
-        qua(new QuadrupleGenerator())
+    qua(new QuadrupleGenerator(this))
 {
 	ASTNode::lookup = sc;
 	ASTNode::sa = sa;
@@ -39,7 +39,7 @@ Admin::Admin(const Admin &other) : linePos(other.linePos), lineCount(other.lineC
 		outputAST(other.outputAST), almostDone(other.almostDone), fileName(other.fileName),
         line(other.line), source(other.source), output(other.output), errOutput(other.errOutput),
 		sc(new Scanner(*this)), ps(new Parser(*this, *sc)), sa(new SemanticAnalyzer(this)),
-        qua(new QuadrupleGenerator())
+        qua(new QuadrupleGenerator(this))
 {
 	ASTNode::lookup = sc;
 	ASTNode::sa = sa;
@@ -63,7 +63,7 @@ Admin& Admin::operator= (const Admin &rhs)
     sc = new Scanner(*this);
     ps = new Parser(*this, *sc);
 	sa = new SemanticAnalyzer(this);
-        qua = new QuadrupleGenerator();
+        qua = new QuadrupleGenerator(this);
 	
 	ASTNode::lookup = sc;
 	ASTNode::sa = sa;
@@ -78,7 +78,7 @@ Admin::~Admin(void)
 	delete sc;
 	delete ps;
 	delete sa;
-        delete qua;
+    //delete qua;
 }
 
 // Returns true if a character is a whitespace character
@@ -127,30 +127,36 @@ void Admin::compile(int processTo) {
 			if(top != NULL && ps->getErrorCount() == 0)
 			  {
 				   sa->semAnalyze(top);
-
 			  }
 			break;
-                 case 4:
-                        top = ps->startParsing();
+        case 4:
+            top = ps->startParsing();
 			if(top != NULL && ps->getErrorCount() == 0)
 			  {
 				   sa->semAnalyze(top);
-
 			  }
-                        qua->GenerateQuadruples(top);
-                        break;
+			if(sa->getErrorCount() == 0) {
+				qua->GenerateQuadruples(top);
+			}
+			break;
 		default:
-			// Will be changed as phases get added
 			top = ps->startParsing();
 			if(top != NULL && ps->getErrorCount() == 0)
 			  {
 				   sa->semAnalyze(top);
-
 			  }
-                        qua->GenerateQuadruples(top);
-                        //daniel ? why do we need?? i commented it
-			//int t = 4;
-                         
+			if(sa->getErrorCount() == 0) {
+				qua->GenerateQuadruples(top);
+			}
+			//daniel ? why do we need?? i commented it
+			// NO COMMENTING THIS. IT HOLDS THE WORLD TOGETHER
+			int t = 4;   
+	}
+}
+
+void Admin::outputExecutable(vector<Quadruple> quads) {
+	for(int i = 0; i < quads.size(); i++) {
+		*output << quads[i].getQuadrupleTuple() << endl;
 	}
 }
 

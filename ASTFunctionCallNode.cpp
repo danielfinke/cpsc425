@@ -54,11 +54,14 @@ string ASTFunctionCallNode::genQuadruples() {
     while(curArg!=NULL)
     {
 		ASTVariableNode * arrayArg = dynamic_cast<ASTVariableNode *>(curArg);
-        if(arrayArg == NULL || !arrayArg->isArray) {
+        if(arrayArg != NULL && arrayArg->isArray) {
 			revArgVec.push_back(Quadruple("arg",curArg->genQuadruples(),"",""));
 		}
-		else {
+		else if(arrayArg != NULL && !arrayArg->isArray && arrayArg->varDec->isArray) {
 			revArgVec.push_back(Quadruple("arga",curArg->genQuadruples(),"",""));
+		}
+		else {
+			revArgVec.push_back(Quadruple("arg",curArg->genQuadruples(),"",""));
 		}
 		
 		curArg = dynamic_cast<ASTExpressionNode *>(curArg->next);

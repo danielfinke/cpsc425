@@ -34,7 +34,7 @@ private:
 	Scanner* sc;
 	Parser* ps;
 	SemanticAnalyzer* sa;
-        QuadrupleGenerator* qua;
+    QuadrupleGenerator* qua;
 	
 	bool isWhiteSpace(char c);
 	bool isInvisibleCharacter(char c);
@@ -51,7 +51,7 @@ public:
 
 	// Getters/setters
 	bool getOutputAST();
-        int getLineNumber();
+    int getLineNumber();
 	void setOutputAST(bool outputAST);
 	void setOutputStream(ostream & out);
 	void setErrOutputStream(ostream & out);
@@ -68,6 +68,7 @@ public:
 	
 	// Other functions
 	void compile(int processTo);
+	void outputExecutable(vector<Quadruple> quads);
 	void enableOutputAST();
 	char getCh(bool skipWs);
 	void endLine();

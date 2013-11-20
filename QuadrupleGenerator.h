@@ -12,13 +12,13 @@
 class QuadrupleGenerator {
 public:
     QuadrupleGenerator();
+	QuadrupleGenerator(Admin * admin);
     QuadrupleGenerator(const QuadrupleGenerator& orig);
     virtual ~QuadrupleGenerator();
     
     void GenerateQuadruples(ASTNode* top);
 private:
-
-    
+	Admin * admin;
 };
 
 #endif	/* QUADRUPLEGENERATOR_H */

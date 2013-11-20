@@ -72,11 +72,11 @@ string ASTAssignmentNode::genQuadruples(){
 		quad.operation = "tae";
 		quad.arg1 = exp->genQuadruples();
 		quad.arg2 = arrayExp->genQuadruples();
-		quad.result = left->genQuadruples();
+		quad.result = left->lookup->getIdentifierName(id);
 	}
     else {
 		quad.operation="asg";
-		quad.result = left->genQuadruples();
+		quad.result = left->lookup->getIdentifierName(id);
 		quad.arg1 = exp->genQuadruples();
 	}
     

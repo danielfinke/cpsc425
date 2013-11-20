@@ -6,25 +6,47 @@
  */
 
 #include "QuadrupleGenerator.h"
+#include "ASTVariableDeclarationNode.h"
+#include "Admin.h"
 
-QuadrupleGenerator::QuadrupleGenerator() {
+QuadrupleGenerator::QuadrupleGenerator() : admin(NULL) {
 }
 
-QuadrupleGenerator::QuadrupleGenerator(const QuadrupleGenerator& orig) {
+QuadrupleGenerator::QuadrupleGenerator(Admin * admin) :
+		admin(admin)
+{
+}
+
+QuadrupleGenerator::QuadrupleGenerator(const QuadrupleGenerator& orig) :
+		admin(orig.admin)
+{
 }
 
 QuadrupleGenerator::~QuadrupleGenerator() {
 }
 
 void QuadrupleGenerator:: GenerateQuadruples(ASTNode* top){
-    top->vec.push_back(Quadruple("start", "1", "", ""));
-	top->vec.push_back(Quadruple("rval", "", "", "t1"));
+	int numGlobals = 0;
+	ASTNode * cur = top;
+	
+	while(cur != NULL) {
+		if(dynamic_cast<ASTVariableDeclarationNode *>(cur) != NULL) {
+			numGlobals++;
+		}
+		cur = cur->next;
+	}
+	
+	stringstream ss;
+	ss << numGlobals;
+	
+    top->vec.push_back(Quadruple("start", ss.str(), "", ""));
+	top->vec.push_back(Quadruple("rval", "", "", top->getTemp()));
 	top->vec.push_back(Quadruple("call", "main", "", ""));
 	top->vec.push_back(Quadruple("hlt", "", "", ""));
 	
 	top->genQuadruples();
 	
-	for(int i = 0; i < top->vec.size(); i++) {
-		cout << top->vec[i].getQuadrupleTuple() << endl;
+	if(admin != NULL) {
+		admin->outputExecutable(top->vec);
 	}
 }

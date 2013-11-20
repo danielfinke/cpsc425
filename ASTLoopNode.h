@@ -11,7 +11,7 @@
 #include "ASTStatementNode.h"
 
 /*ASTLoopNode represents the loop statement. It is a subclass of ASTStatementNode
- * and overrides the print method.It has a pointer to the first statement of
+ * and overrides the print method. It has a pointer to the first statement of
  * the statement list within the loop construct. 
  */
 class ASTLoopNode : public ASTStatementNode {
@@ -24,10 +24,11 @@ public:
 	void semAnalyze();
 	void scopeAnalyze();
 	void printNode(int indent, ostream * output);
-        string genQuadruples();
+    string genQuadruples();
 	
 	bool returnAnalyze();
 	
+	string contLabel, endLabel;
 	ASTStatementNode * statement;
 private:
 

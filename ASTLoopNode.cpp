@@ -7,10 +7,14 @@
 
 #include "ASTLoopNode.h"
 
-ASTLoopNode::ASTLoopNode() : ASTStatementNode(), statement(NULL) {
+ASTLoopNode::ASTLoopNode() : ASTStatementNode(), statement(NULL), contLabel(""),
+		endLabel("")
+{
 }
 
-ASTLoopNode::ASTLoopNode(const ASTLoopNode& orig) : ASTStatementNode(orig), statement(orig.statement)  {
+ASTLoopNode::ASTLoopNode(const ASTLoopNode& orig) : ASTStatementNode(orig), statement(orig.statement),
+		contLabel(""), endLabel("")
+{
 }
 
 ASTLoopNode& ASTLoopNode::operator= (const ASTLoopNode &rhs)
@@ -18,8 +22,9 @@ ASTLoopNode& ASTLoopNode::operator= (const ASTLoopNode &rhs)
 	ASTStatementNode::operator=(rhs);
 	
     // do the copy
-        statement = rhs.statement;
-    
+    statement = rhs.statement;
+	contLabel = rhs.contLabel;
+    endLabel = rhs.endLabel;
  
     // return the existing object
     return *this;
@@ -47,7 +52,20 @@ void ASTLoopNode::semAnalyze(){
 }
 
 string ASTLoopNode::genQuadruples(){
-    
+	contLabel = getLabel();
+	endLabel = getLabel();
+    vec.push_back(Quadruple("lab","","",contLabel));
+	
+	statement->genQuadruples();
+	
+	vec.push_back(Quadruple("goto","","",contLabel));
+	vec.push_back(Quadruple("lab","","",endLabel));
+	
+	if(this->next != NULL) {
+		this->next->genQuadruples();
+	}
+	
+	return "";
 }
 
 void ASTLoopNode::scopeAnalyze(){

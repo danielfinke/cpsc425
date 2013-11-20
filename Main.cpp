@@ -62,7 +62,7 @@ int main(int argc, const char * argv[]) {
 				return 7;
 			}
 		}
-		/*else if(cmd == "-t" || cmd == "-tup") {
+		else if(cmd == "-t" || cmd == "-tup") {
 			if(processTo != 0) {
 				processTo = 4;
 			}
@@ -71,7 +71,7 @@ int main(int argc, const char * argv[]) {
 				return 7;
 			}
 		}
-		else if(cmd == "-c" || cmd == "-compile") {
+		/*else if(cmd == "-c" || cmd == "-compile") {
 			if(processTo != 0) {
 				processTo = 5;
 			}
@@ -143,7 +143,7 @@ int main(int argc, const char * argv[]) {
 	}
 
 	if(!unattended && filenames.size() > 0) {
-		cout << "CAD Compiler v1.3" << endl;
+		cout << "CAD Compiler v1.4" << endl;
 		cout << "Source files: " << endl;
 		for(int i = 0; i < filenames.size(); i++) {
 			cout << "  " << filenames[i] << endl;
@@ -187,6 +187,9 @@ int main(int argc, const char * argv[]) {
 	}
 	
 	// Make sure these get appended for multiple files
+	if(!fileOutput) {
+		outputFile = "a.quad";
+	}
     ofstream output(outputFile);
 	ofstream errOutput(errOutputFile);
 
@@ -199,28 +202,34 @@ int main(int argc, const char * argv[]) {
 			continue;
 		}
 		
-		if(!unattended) {
+		/*if(!unattended) {
 			(fileOutput ? output : cout) << "-- Starting " << filenames[i] << endl << endl;
-		}
+		}*/
 		
 		Admin admin(file, filenames[i], cout, verbose);
 		admin.setOutputAST(astOutput);
+		
+		admin.setOutputStream(output);
 
-		if(fileOutput) {
-			admin.setOutputStream(output);
-			if(!errFileOutput) {
-				admin.setErrOutputStream(output);
-			}
-		}
+//		if(fileOutput) {
+//			admin.setOutputStream(output);
+//			/*if(!errFileOutput) {
+//				admin.setErrOutputStream(output);
+//			}*/
+//		}
+//		else {
+//			ofstream defaultOutput("a.quad");
+//			admin.setOutputStream(defaultOutput);
+//		}
 		if(errFileOutput) {
 			admin.setErrOutputStream(errOutput);
 		}
 	
 		admin.compile(processTo);
 		
-		if(!unattended) {
+		/*if(!unattended) {
 			(fileOutput ? output : cout) << endl << endl << "-- Ending " << filenames[i] << endl << endl;
-		}
+		}*/
 	}
 	
     output.close();

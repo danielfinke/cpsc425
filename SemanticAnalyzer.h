@@ -25,6 +25,7 @@ public:
 	// Reflects admin's semanticError
 	void semanticError(string desc, int lineNumber);
 	void incError();
+	int getErrorCount();
 private:
 	int errorCount;
 	Admin * admin;

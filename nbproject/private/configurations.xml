@@ -30,9 +30,9 @@
           <runcommandpicklistitem>"${OUTPUT_PATH}" -v -ast test</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" sortandsearch.cs13</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" -v test2</runcommandpicklistitem>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" test</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" test3</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" test2</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" test</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" test4</runcommandpicklistitem>
         </runcommandpicklist>
         <runcommand>"${OUTPUT_PATH}" test4</runcommand>

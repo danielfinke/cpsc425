@@ -19,13 +19,13 @@
 #include <iostream>
 #include <algorithm>
 
-Parser::Parser(void) : errorCount(0), loopNesting(0),
+Parser::Parser(void) : errorCount(0), loopNesting(0), compoundCount(0),
 		admin(NULL), sc(NULL), lookahead(Token()), astTop(NULL),
 		curFunc(NULL)
 {
 }
 Parser::Parser(Admin& adminMod, Scanner& scanner) : errorCount(0),
-		loopNesting(0),
+		loopNesting(0), compoundCount(0),
 		admin(&adminMod), sc(&scanner),lookahead(Token()),
 		astTop(NULL), curFunc(NULL)
 {
@@ -34,7 +34,7 @@ Parser::Parser(Admin& adminMod, Scanner& scanner) : errorCount(0),
  * because there should only be one instance available (these functions should rarely be used)
  */
 Parser::Parser(const Parser &other) : errorCount(other.errorCount),
-		loopNesting(other.loopNesting),
+		loopNesting(other.loopNesting), compoundCount(other.compoundCount),
 		admin(other.admin), sc(other.sc),lookahead(other.lookahead),
 		astTop(other.astTop), curFunc(other.curFunc)
 {
@@ -44,6 +44,7 @@ Parser& Parser::operator= (const Parser &rhs)
     // do the copy
 	errorCount = rhs.errorCount;
 	loopNesting = rhs.loopNesting;
+	compoundCount = rhs.compoundCount;
     admin = rhs.admin;
 	sc = rhs.sc;
     lookahead = rhs.lookahead;
@@ -58,6 +59,8 @@ Parser::~Parser(void)
 {
 	// The Parser does not delete the Scanner or Admin instances, because it does not have ownership.
 	delete astTop;
+	
+	loopChain.clear();
 }
 
 /*Transition function is used to avoid trace messages within the code
@@ -732,6 +735,8 @@ ASTNode * Parser::loopStmt(vector<int> syncSet){
 	
 	// For supporting semantics for exit/continue
 	loopNesting++;
+	//curLoop = lNode;
+	loopChain.push_back(lNode);
 	if(compoundCount > 0) {
 		compCountOld = compoundCount;
 		compoundCount = 0;
@@ -751,6 +756,7 @@ ASTNode * Parser::loopStmt(vector<int> syncSet){
 	}
 	
 	loopNesting--;
+	loopChain.pop_back();
 	if(compCountOld > 0) {
 		compoundCount = compCountOld;
 		compCountOld = 0;
@@ -770,6 +776,8 @@ ASTNode * Parser::exitStmt(vector<int> syncSet){
 	
 	if(loopNesting > 0 && compoundCount == 0) {
 		marker->enabled = true;
+		//marker->corrLoop = curLoop;
+		marker->corrLoop = loopChain.back();
 	}
 	
 	return marker;
@@ -787,6 +795,8 @@ ASTNode * Parser::continueStmt(vector<int> syncSet){
 	
 	if(loopNesting > 0 && compoundCount == 0) {
 		marker->enabled = true;
+		//marker->corrLoop = curLoop;
+		marker->corrLoop = loopChain.back();
 	}
     
     return marker;

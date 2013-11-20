@@ -33,6 +33,13 @@ ASTDeclarationNode& ASTDeclarationNode::operator= (const ASTDeclarationNode &rhs
 ASTDeclarationNode::~ASTDeclarationNode() {
 }
 
+string ASTDeclarationNode::genQuadruples() {
+	if(this->next != NULL) {
+		this->next->genQuadruples();
+	}
+	
+	return "";
+}
 
 void ASTDeclarationNode::semAnalyze(){
     

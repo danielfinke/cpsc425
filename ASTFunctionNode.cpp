@@ -6,6 +6,7 @@
  */
 
 #include "ASTFunctionNode.h"
+#include "ASTLiteralNode.h"
 #include "ScopeTable.h"
 
 ASTFunctionNode::ASTFunctionNode() : ASTDeclarationNode(),
@@ -39,8 +40,19 @@ string ASTFunctionNode::genQuadruples() {
 	int numLocals = 0;
 	ASTDeclarationNode * decNode = compound->dec;
 	
+	// Calculate locals size
 	while(decNode != NULL) {
-		numLocals++;
+		ASTVariableDeclarationNode * decAsVar =
+				dynamic_cast<ASTVariableDeclarationNode *>(decNode);
+		if(decAsVar != NULL) {
+			if(!decAsVar->isArray) {
+				numLocals++;
+			}
+			else {
+				ASTLiteralNode * sizeVal = decAsVar->arrayExp->calc();
+				numLocals += sizeVal->value;
+			}
+		}
 		decNode = dynamic_cast<ASTDeclarationNode *>(decNode->next);
 	}
 	

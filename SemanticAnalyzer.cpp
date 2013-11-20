@@ -99,6 +99,8 @@ void SemanticAnalyzer::semanticError(string desc, int lineNumber) {
 
 void SemanticAnalyzer::incError() { errorCount++; }
 
+int SemanticAnalyzer::getErrorCount() { return errorCount; }
+
 bool SemanticAnalyzer::isIntMainVoidLast(ASTDeclarationNode * lastDec) {
 	return lastDec->declarationType == Scanner::INT &&
 			lastDec->lookup->getIdentifierName(lastDec->id) == "main" &&

@@ -39,7 +39,15 @@ ASTVariableNode::~ASTVariableNode() {
 }
 
 string ASTVariableNode::genQuadruples() {
-	return lookup->getIdentifierName(id);
+	if(!isArray) {
+		return lookup->getIdentifierName(id);
+	}
+	else {
+		string arrayTemp = arrayExp->genQuadruples();
+		string arrRes = getTemp();
+		vec.push_back(Quadruple("fae",lookup->getIdentifierName(id),arrayTemp,arrRes));
+		return arrRes;
+	}
 }
 
 void ASTVariableNode::semAnalyze(){

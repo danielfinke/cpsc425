@@ -7,12 +7,15 @@
 
 #include "ASTMarkerNode.h"
 #include "SemanticAnalyzer.h"
+#include "ASTLoopNode.h"
 
-ASTMarkerNode::ASTMarkerNode() : ASTStatementNode(), type(0), enabled(false) {
+ASTMarkerNode::ASTMarkerNode() : ASTStatementNode(), type(0), enabled(false),
+		corrLoop(NULL)
+{
 }
 
 ASTMarkerNode::ASTMarkerNode(const ASTMarkerNode& orig) : ASTStatementNode(orig),type(orig.type),
-		enabled(orig.enabled)
+		enabled(orig.enabled), corrLoop(NULL)
 {
 }
 
@@ -23,12 +26,26 @@ ASTMarkerNode& ASTMarkerNode::operator= (const ASTMarkerNode &rhs)
     // do the copy
     type = rhs.type;
 	enabled = rhs.enabled;
+	corrLoop = rhs.corrLoop;
  
     // return the existing object
     return *this;
 }
 
 ASTMarkerNode::~ASTMarkerNode() {
+}
+
+string ASTMarkerNode::genQuadruples() {
+	switch(type) {
+		case Scanner::EXIT:
+			vec.push_back(Quadruple("goto","","",corrLoop->endLabel));
+			break;
+		case Scanner::CONTINUE:
+			vec.push_back(Quadruple("goto","","",corrLoop->contLabel));
+			break;
+	}
+	
+	return "";
 }
 
 void ASTMarkerNode::semAnalyze(){
