@@ -33,6 +33,7 @@ ASTDeclarationNode& ASTDeclarationNode::operator= (const ASTDeclarationNode &rhs
 ASTDeclarationNode::~ASTDeclarationNode() {
 }
 
+// Generic functionality used for stuff that happens at the global level
 string ASTDeclarationNode::genQuadruples() {
 	if(this->next != NULL) {
 		this->next->genQuadruples();

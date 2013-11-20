@@ -54,8 +54,10 @@ string ASTBranchNode::genQuadruples() {
 	ASTCaseNode * defNode = NULL;
 	string endLabel = getLabel();
 	
+	// Looping over the cases
 	while(cNode != NULL) {
 		
+		// Will put the default case last, without conditions
 		if(cNode->type == Scanner::DEFAULT) {
 			defNode = cNode;
 			cNode = dynamic_cast<ASTCaseNode *>(cNode->next);
@@ -65,6 +67,7 @@ string ASTBranchNode::genQuadruples() {
 		stringstream ss;
 		ss << cNode->num;
 		
+		// Case condition
 		Quadruple eqQuad;
 		eqQuad.operation = "eq";
 		eqQuad.arg1 = expTemp;
@@ -73,6 +76,7 @@ string ASTBranchNode::genQuadruples() {
 		
 		vec.push_back(eqQuad);
 		
+		// Case if false jump
 		Quadruple ifQuad;
 		ifQuad.operation = "iff";
 		ifQuad.arg1 = eqQuad.result;
@@ -82,16 +86,20 @@ string ASTBranchNode::genQuadruples() {
 		
 		cNode->genQuadruples();
 		
+		// Skip remainder of cases
 		vec.push_back(Quadruple("goto", "", "", endLabel));
+		// Start of next case
 		vec.push_back(Quadruple("lab", "", "", ifQuad.result));
 		
 		cNode = dynamic_cast<ASTCaseNode *>(cNode->next);
 	}
 	
+	// Now do the default's code
 	if(defNode != NULL) {
 		defNode->genQuadruples();
 	}
 	
+	// End of branch
 	vec.push_back(Quadruple("lab", "", "", endLabel));
 	
 	if(this->next != NULL) {

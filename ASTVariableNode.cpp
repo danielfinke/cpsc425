@@ -40,13 +40,16 @@ ASTVariableNode::~ASTVariableNode() {
 }
 
 string ASTVariableNode::genQuadruples() {
+	// Get the identifying address (level,displacement)
 	stringstream ss;
 	ss << "(" << varDec->level << "," << varDec->displacement << ")";
 		
+	// Non-array is simply this address
 	if(!isArray) {
 		//return lookup->getIdentifierName(id);
 		return ss.str();
 	}
+	// With array, need to actually produce a temp with the array access result
 	else {
 		string arrayTemp = arrayExp->genQuadruples();
 		string arrRes = getTemp();

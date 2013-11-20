@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=cpsc425
+PROJECTNAME=compiler
 
 # Active Configuration
 DEFAULTCONF=Debug

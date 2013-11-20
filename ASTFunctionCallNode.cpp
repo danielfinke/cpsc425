@@ -59,6 +59,7 @@ string ASTFunctionCallNode::genQuadruples() {
 		string argTemp = argument->genQuadruples();
 		vec.push_back(Quadruple("wrb",argTemp,"",""));
 	}
+	// Otherwise it's a custom function
 	else {
 		return genRegularCall();
 	}
@@ -72,29 +73,35 @@ string ASTFunctionCallNode::genRegularCall() {
     
 	string rVal = getTemp();
 	
+	// We have a return value, prepare one
 	if(funcDec->declarationType != Scanner::VOID) {
 		vec.push_back(Quadruple("rval","","",rVal));
 	}
 	
 	vector<Quadruple> revArgVec;
 	
+	// Loop over arguments, pushing them on a list
     ASTExpressionNode * curArg = argument;
 	ASTParamNode * curParam = funcDec->param;
     while(curArg!=NULL)
     {
+		// Pass by ref as expected
 		if(curParam->isRef) {
 			revArgVec.push_back(Quadruple("arga",curArg->genQuadruples(),"",""));
 			curArg = dynamic_cast<ASTExpressionNode *>(curArg->next);
 			continue;
 		}
 		
+		// Pass by value, because index supplied
 		ASTVariableNode * arrayArg = dynamic_cast<ASTVariableNode *>(curArg);
         if(arrayArg != NULL && arrayArg->isArray) {
 			revArgVec.push_back(Quadruple("arg",curArg->genQuadruples(),"",""));
 		}
+		// Pass by ref, because expecting/have an array
 		else if(arrayArg != NULL && !arrayArg->isArray && arrayArg->varDec->isArray) {
 			revArgVec.push_back(Quadruple("arga",curArg->genQuadruples(),"",""));
 		}
+		// Pass by value because both param/arg are values
 		else {
 			revArgVec.push_back(Quadruple("arg",curArg->genQuadruples(),"",""));
 		}
@@ -102,10 +109,12 @@ string ASTFunctionCallNode::genRegularCall() {
 		curArg = dynamic_cast<ASTExpressionNode *>(curArg->next);
     }
 	
+	// Actually, push the arguments in reverse order onto the stack
 	for(int i = revArgVec.size()-1; i >=0; i--) {
 		vec.push_back(revArgVec[i]);
 	}
 	
+	// Finally call the function
 	string funcName = lookup->getIdentifierName(funcDec->id);
 	vec.push_back(Quadruple("call",funcName,"",""));
 	
@@ -113,6 +122,7 @@ string ASTFunctionCallNode::genRegularCall() {
 		this->next->genQuadruples();
 	}
 	
+	// Depending on whether this is a statement or expression, return the SP
 	if(!isStatement) {
 		return rVal;
 	}
