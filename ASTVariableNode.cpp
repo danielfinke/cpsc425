@@ -50,6 +50,11 @@ void ASTVariableNode::semAnalyze(){
         this->arrayExp->semAnalyze();
      
     this->typeAnalyze();
+	
+	if(!varDec->initialized) {
+		// Semantic error - uninitialized variable
+		sa->semanticError("Variable has not been initialized", lineNumber);
+	}
     
      if(this->next != NULL)
         this->next->semAnalyze();

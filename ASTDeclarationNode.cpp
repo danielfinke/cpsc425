@@ -8,11 +8,14 @@
 #include "ASTDeclarationNode.h"
 #include "ScopeTable.h"
 
-ASTDeclarationNode::ASTDeclarationNode() : ASTNode(), declarationType(0), id(0) {
+ASTDeclarationNode::ASTDeclarationNode() : ASTNode(), declarationType(0), id(0),
+		initialized(false)
+{
 }
 
 ASTDeclarationNode::ASTDeclarationNode(const ASTDeclarationNode& orig):ASTNode(orig),
-        declarationType(orig.declarationType), id(orig.id)
+        declarationType(orig.declarationType), id(orig.id),
+		initialized(orig.initialized)
 {
 }
 
@@ -22,8 +25,9 @@ ASTDeclarationNode& ASTDeclarationNode::operator= (const ASTDeclarationNode &rhs
 	ASTNode::operator=(rhs);
 	
     // do the copy
-        declarationType= rhs.declarationType;
-        id=rhs.id;
+	declarationType= rhs.declarationType;
+	id=rhs.id;
+	initialized = rhs.initialized;
  
     // return the existing object
     return *this;

@@ -38,6 +38,8 @@ public:
 	void printNode(int indent, ostream * output);
         void genQuadruples();
 	
+	void setDeclarationInitialized();
+	
 	bool isArray;
 	int id;
 	ASTDeclarationNode * left;

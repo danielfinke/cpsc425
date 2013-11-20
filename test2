@@ -28,8 +28,11 @@ int boo(int input[]) {
 	-- Some sort of compound statement
 	{		
 		int t;
-		bool ImABoolean;
+		bool ImABoolean, ImAnotherBoolean;
 		t := 42;
+
+		ImABoolean := true;
+		ImAnotherBoolean := ImABoolean; -- Uninitialized var
 		
 		abraKadabra:= 5; --undelcared id
 
