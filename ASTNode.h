@@ -12,6 +12,7 @@
 #include <string>
 #include <sstream>
 #include "Scanner.h"
+#include "Quadruple.h"
 class ScopeTable;
 class SemanticAnalyzer;
 
@@ -28,10 +29,10 @@ public:
 	virtual void scopeAnalyze();
 	virtual void typeAnalyze();
 	virtual void printNode(int indent, ostream * output) = 0;
-        virtual string genQuadruples();
-        
-        static string getTemp();
-        static string getLabel();
+	virtual string genQuadruples();
+
+	static string getTemp();
+	static string getLabel();
 	
 	bool isGlobalDec;
 	ASTNode * next;

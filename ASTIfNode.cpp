@@ -39,7 +39,7 @@ ASTIfNode::~ASTIfNode() {
 
 string ASTIfNode::genQuadruples(){
     
-    Quadruple ifquad = new Quadruple();
+    Quadruple ifquad;
     ifquad.operation ="iff";
     ifquad.arg1 = exp->genQuadruples();
  
@@ -51,10 +51,10 @@ string ASTIfNode::genQuadruples(){
         
         vec.push_back(ifquad);
         statement->genQuadruples();
-        vec.push_back(new Quadruple("goto","","",endLabel));
-        vec.push_back(new Quadruple("lab","","",elseLabel));
+        vec.push_back(Quadruple("goto","","",endLabel));
+        vec.push_back(Quadruple("lab","","",elseLabel));
         elseStatement->genQuadruples();
-        vec.push_back(new Quadruple("lab","","",endLabel));
+        vec.push_back(Quadruple("lab","","",endLabel));
     }
     else
     {
@@ -63,7 +63,7 @@ string ASTIfNode::genQuadruples(){
         
         vec.push_back(ifquad);
         statement->genQuadruples();
-        vec.push_back(new Quadruple("lab","","",endLabel));
+        vec.push_back(Quadruple("lab","","",endLabel));
     }
     
 }

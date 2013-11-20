@@ -17,6 +17,14 @@ QuadrupleGenerator::~QuadrupleGenerator() {
 }
 
 void QuadrupleGenerator:: GenerateQuadruples(ASTNode* top){
-    // do main / first 4 quadruple lines
-    
+    top->vec.push_back(Quadruple("start", "1", "", ""));
+	top->vec.push_back(Quadruple("rval", "", "", "t1"));
+	top->vec.push_back(Quadruple("call", "main", "", ""));
+	top->vec.push_back(Quadruple("hlt", "", "", ""));
+	
+	top->genQuadruples();
+	
+	for(int i = 0; i < top->vec.size(); i++) {
+		cout << top->vec[i].getQuadrupleTuple() << endl;
+	}
 }

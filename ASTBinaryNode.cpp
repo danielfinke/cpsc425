@@ -76,7 +76,7 @@ void ASTBinaryNode::scopeAnalyze(){
 }
 
 string ASTBinaryNode::genQuadruples(){
-    Quadruple quad = new Quadruple();
+    Quadruple quad;
     quad.result = getTemp();
 	
 	if(oper == Scanner::ANDTHEN) {

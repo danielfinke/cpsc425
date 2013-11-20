@@ -7,6 +7,7 @@
 
 #include "ASTBranchNode.h"
 #include "SemanticAnalyzer.h"
+#include "Quadruple.h"
 
 ASTBranchNode::ASTBranchNode(): ASTStatementNode(), expression(NULL), firstCase(NULL), 
         defaultReached(false), caseList(0)
@@ -41,8 +42,59 @@ ASTBranchNode::~ASTBranchNode() {
 }
 
 string ASTBranchNode::genQuadruples() {
+	
+	/* temp vars
+	 * iff on case's val, skip to next case iff
+	 * recurse into case
+	 * goto end
+	 * next case iff
+	 */
 	string expTemp = expression->genQuadruples();
 	ASTCaseNode * cNode = firstCase;
+	ASTCaseNode * defNode = NULL;
+	string endLabel = getLabel();
+	
+	while(cNode != NULL) {
+		
+		if(cNode->type == Scanner::DEFAULT) {
+			defNode = cNode;
+			cNode = dynamic_cast<ASTCaseNode *>(cNode->next);
+			continue;
+		}
+		
+		stringstream ss;
+		ss << cNode->num;
+		
+		Quadruple eqQuad;
+		eqQuad.operation = "eq";
+		eqQuad.arg1 = expTemp;
+		eqQuad.arg2 = ss.str();
+		eqQuad.result = getTemp();
+		
+		vec.push_back(eqQuad);
+		
+		Quadruple ifQuad;
+		ifQuad.operation = "iff";
+		ifQuad.arg1 = eqQuad.result;
+		ifQuad.result = getLabel();
+		
+		vec.push_back(ifQuad);
+		
+		cNode->genQuadruples();
+		
+		vec.push_back(Quadruple("goto", "", "", endLabel));
+		vec.push_back(Quadruple("lab", "", "", ifQuad.result));
+		
+		cNode = dynamic_cast<ASTCaseNode *>(cNode->next);
+	}
+	
+	if(defNode != NULL) {
+		defNode->genQuadruples();
+	}
+	
+	vec.push_back(Quadruple("lab", "", "", endLabel));
+	
+	return "";
 }
 
 void ASTBranchNode ::semAnalyze(){

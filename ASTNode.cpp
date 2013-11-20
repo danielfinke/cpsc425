@@ -13,6 +13,7 @@ SemanticAnalyzer * ASTNode::sa = 0;
 int ASTNode:: tempCounter=1;
 int ASTNode:: labelCounter=1;
 bool ASTNode::init = true;
+vector<Quadruple> ASTNode::vec;
 
 ASTNode::ASTNode() : next(NULL), output(NULL), isGlobalDec(false), lineNumber(0){
 }
@@ -33,6 +34,10 @@ ASTNode& ASTNode:: operator = (const ASTNode& rhs){
 
 ASTNode::~ASTNode() {
     delete next;
+}
+
+string ASTNode::genQuadruples() {
+	return "";
 }
 
 void ASTNode::semAnalyze(){
@@ -65,14 +70,14 @@ void ASTNode::printIndented(string text, int indent) {
 	*output << text << endl;
 }
 
-static string ASTNode::getLabel(){
+string ASTNode::getLabel(){
     
     std::stringstream sstm;
     sstm<<"t"<<labelCounter++;
     return sstm.str();
 }
 
-static string ASTNode::getTemp(){
+string ASTNode::getTemp(){
     std:stringstream sstm;
     sstm<<"L"<<tempCounter++;
     return sstm.str();

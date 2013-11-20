@@ -33,6 +33,12 @@ ASTCaseNode::~ASTCaseNode() {
     delete statement;
 }
 
+string ASTCaseNode::genQuadruples() {
+	statement->genQuadruples();
+	
+	return "";
+}
+
 void ASTCaseNode::semAnalyze(){
     
     if(init || !this->isGlobalDec){

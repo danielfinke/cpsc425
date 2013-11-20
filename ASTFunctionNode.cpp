@@ -35,6 +35,34 @@ ASTFunctionNode::~ASTFunctionNode() {
     delete compound;
 }
 
+string ASTFunctionNode::genQuadruples() {
+	int numLocals = 0;
+	ASTDeclarationNode * decNode = compound->dec;
+	
+	while(decNode != NULL) {
+		numLocals++;
+		decNode = dynamic_cast<ASTDeclarationNode *>(decNode->next);
+	}
+	
+	stringstream ss;
+	ss << numLocals;
+	
+	Quadruple funQuad;
+	funQuad.operation = "fun";
+	funQuad.arg1 = lookup->getIdentifierName(id);
+	funQuad.arg2 = ss.str();
+	
+	vec.push_back(funQuad);
+	
+	compound->statement->genQuadruples();
+	
+	if(this->next != NULL) {
+		this->next->genQuadruples();
+	}
+	
+	return "";
+}
+
 void ASTFunctionNode::semAnalyze(){
     
     if(init || !this->isGlobalDec){

@@ -66,13 +66,19 @@ void ASTAssignmentNode::scopeAnalyze(){
 }
 
 string ASTAssignmentNode::genQuadruples(){
-    //fix for assign to array element
-    //READ ABOVE FIX
-    Quadruple quad = new Quadruple();
-    
-    quad.operation="asg";
-    quad.result = left->genQuadruples();
-    quad.arg1 = exp->genQuadruples();
+    Quadruple quad;
+	
+	if(isArray) {
+		quad.operation = "tae";
+		quad.arg1 = exp->genQuadruples();
+		quad.arg2 = arrayExp->genQuadruples();
+		quad.result = left->genQuadruples();
+	}
+    else {
+		quad.operation="asg";
+		quad.result = left->genQuadruples();
+		quad.arg1 = exp->genQuadruples();
+	}
     
     vec.push_back(quad);
     

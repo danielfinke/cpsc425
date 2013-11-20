@@ -34,6 +34,24 @@ ASTReturnNode::~ASTReturnNode() {
     delete expression;
 }
 
+string ASTReturnNode::genQuadruples() {
+	stringstream ss;
+	ss << funcScope->getParamCount();
+	
+	if(funcScope->declarationType == Scanner::VOID) {
+		vec.push_back(Quadruple("ret",ss.str(),"",""));
+	}
+	else {
+		vec.push_back(Quadruple("retv",ss.str(),expression->genQuadruples(),""));
+	}
+	
+	if(this->next != NULL) {
+		this->next->genQuadruples();
+	}
+	
+	return "";
+}
+
 void ASTReturnNode::semAnalyze(){
     
     if(init || !this->isGlobalDec){

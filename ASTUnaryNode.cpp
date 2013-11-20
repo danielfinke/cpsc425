@@ -128,7 +128,7 @@ ASTLiteralNode * ASTUnaryNode::calc() {
 
 string ASTUnaryNode::genQuadruples(){
    
-    Quadruple quad = new Quadruple();
+    Quadruple quad;
     quad.result=getTemp();
     quad.arg1 =operand->genQuadruples();
     switch(operation){
@@ -141,7 +141,7 @@ string ASTUnaryNode::genQuadruples(){
     }
     
     vec.push_back(quad);
-    return quad.result();
+    return quad.result;
 }
 
 void ASTUnaryNode::printNode(int indent, ostream * output) {

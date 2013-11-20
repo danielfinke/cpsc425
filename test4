@@ -1,0 +1,11 @@
+int x(int a)
+{
+	int y;
+    --return readint()+a;
+	return 4;
+}
+
+int main(void)
+{
+    return x(4)+5;
+}

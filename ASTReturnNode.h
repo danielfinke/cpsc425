@@ -26,6 +26,7 @@ public:
 	void semAnalyze();
 	void scopeAnalyze();
 	void printNode(int indent, ostream * output);
+	string genQuadruples();
     
     ASTExpressionNode * expression;
 	ASTFunctionNode * funcScope;

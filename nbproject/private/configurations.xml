@@ -24,7 +24,6 @@
       </nativedebugger>
       <runprofile version="9">
         <runcommandpicklist>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" -v test</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" -ast test</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" -ast test2</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" -v -ast test2</runcommandpicklistitem>
@@ -34,8 +33,9 @@
           <runcommandpicklistitem>"${OUTPUT_PATH}" test</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" test3</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" test2</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" test4</runcommandpicklistitem>
         </runcommandpicklist>
-        <runcommand>"${OUTPUT_PATH}" test2</runcommand>
+        <runcommand>"${OUTPUT_PATH}" test4</runcommand>
         <rundir></rundir>
         <buildfirst>true</buildfirst>
         <terminal-type>0</terminal-type>
