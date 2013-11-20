@@ -38,7 +38,7 @@ public:
 	void scopeAnalyze();
 	void typeAnalyze();
 	void printNode(int indent, ostream * output);
-        void genQuadruples();
+    string genQuadruples();
 	
 	int id;
 	ASTFunctionNode * funcDec;

@@ -42,13 +42,45 @@ string ASTFunctionCallNode::genQuadruples() {
     //statements dont return things
     //expressions do
     
-    vec.push_back(new Quadruple("rval","","",getTemp()));
-    ASTExpressionNode curArg =argument;
-    while(curArg!=null)
+	string rVal = getTemp();
+	
+	if(funcDec->declarationType != Scanner::VOID) {
+		vec.push_back(Quadruple("rval","","",rVal));
+	}
+	
+	vector<Quadruple> revArgVec;
+	
+    ASTExpressionNode * curArg = argument;
+    while(curArg!=NULL)
     {
-        
-  
+		ASTVariableNode * arrayArg = dynamic_cast<ASTVariableNode *>(curArg);
+        if(arrayArg == NULL || !arrayArg->isArray) {
+			revArgVec.push_back(Quadruple("arg",curArg->genQuadruples(),"",""));
+		}
+		else {
+			revArgVec.push_back(Quadruple("arga",curArg->genQuadruples(),"",""));
+		}
+		
+		curArg = dynamic_cast<ASTExpressionNode *>(curArg->next);
     }
+	
+	for(int i = revArgVec.size()-1; i >=0; i--) {
+		vec.push_back(revArgVec[i]);
+	}
+	
+	string funcName = lookup->getIdentifierName(funcDec->id);
+	vec.push_back(Quadruple("call",funcName,"",""));
+	
+	if(this->next != NULL) {
+		this->next->genQuadruples();
+	}
+	
+	if(!isStatement) {
+		return rVal;
+	}
+	else {
+		return "";
+	}
     
     /*
      * retval of temp

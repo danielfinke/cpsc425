@@ -81,6 +81,10 @@ string ASTAssignmentNode::genQuadruples(){
 	}
     
     vec.push_back(quad);
+	
+	if(this->next != NULL) {
+		this->next->genQuadruples();
+	}
     
     return "";
    

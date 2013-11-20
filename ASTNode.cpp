@@ -73,12 +73,12 @@ void ASTNode::printIndented(string text, int indent) {
 string ASTNode::getLabel(){
     
     std::stringstream sstm;
-    sstm<<"t"<<labelCounter++;
+    sstm<<"L"<<labelCounter++;
     return sstm.str();
 }
 
 string ASTNode::getTemp(){
     std:stringstream sstm;
-    sstm<<"L"<<tempCounter++;
+    sstm<<"t"<<tempCounter++;
     return sstm.str();
 }

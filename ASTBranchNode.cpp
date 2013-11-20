@@ -94,6 +94,10 @@ string ASTBranchNode::genQuadruples() {
 	
 	vec.push_back(Quadruple("lab", "", "", endLabel));
 	
+	if(this->next != NULL) {
+		this->next->genQuadruples();
+	}
+	
 	return "";
 }
 

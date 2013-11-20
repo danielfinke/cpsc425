@@ -31,6 +31,7 @@ public:
 	void scopeAnalyze();
 	void typeAnalyze();
 	void printNode(int indent, ostream * output);
+	string genQuadruples();
 	
 	int id;
 	ASTVariableDeclarationNode * varDec;

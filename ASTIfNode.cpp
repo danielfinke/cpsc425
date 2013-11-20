@@ -65,7 +65,12 @@ string ASTIfNode::genQuadruples(){
         statement->genQuadruples();
         vec.push_back(Quadruple("lab","","",endLabel));
     }
-    
+	
+	if(this->next != NULL) {
+		this->next->genQuadruples();
+	}
+	
+	return "";   
 }
 
 void ASTIfNode::semAnalyze(){

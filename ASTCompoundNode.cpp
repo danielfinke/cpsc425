@@ -33,12 +33,26 @@ ASTCompoundNode::~ASTCompoundNode() {
 }
 
 string ASTCompoundNode::genQuadruples(){
-    
-    //NEEDS SIZE
-    vec.push_back(new Quadruple("ecs","","",""));
-    //dec.genQuadruples();
-    statement.genQuadruples();
-    vec.push_back(new Quadruples("lcs","","",""));
+	int numLocals = 0;
+	ASTDeclarationNode * decNode = dec;
+	
+	while(decNode != NULL) {
+		numLocals++;
+		decNode = dynamic_cast<ASTDeclarationNode *>(decNode->next);
+	}
+	
+	stringstream ss;
+	ss << numLocals;
+	
+    vec.push_back(Quadruple("ecs",ss.str(),"",""));
+    statement->genQuadruples();
+    vec.push_back(Quadruple("lcs","","",""));
+	
+	if(this->next != NULL) {
+		this->next->genQuadruples();
+	}
+	
+	return "";
 }
 
 void ASTCompoundNode::semAnalyze(){

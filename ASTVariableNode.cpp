@@ -38,6 +38,10 @@ ASTVariableNode::~ASTVariableNode() {
     delete arrayExp;
 }
 
+string ASTVariableNode::genQuadruples() {
+	return lookup->getIdentifierName(id);
+}
+
 void ASTVariableNode::semAnalyze(){
     
     if(init || !this->isGlobalDec){
