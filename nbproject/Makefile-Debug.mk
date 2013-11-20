@@ -60,6 +60,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/IdentificationTableItem.o \
 	${OBJECTDIR}/Main.o \
 	${OBJECTDIR}/Parser.o \
+	${OBJECTDIR}/Quadruple.o \
 	${OBJECTDIR}/QuadrupleGenerator.o \
 	${OBJECTDIR}/Scanner.o \
 	${OBJECTDIR}/ScopeTable.o \
@@ -216,6 +217,11 @@ ${OBJECTDIR}/Parser.o: Parser.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Parser.o Parser.cpp
+
+${OBJECTDIR}/Quadruple.o: Quadruple.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Quadruple.o Quadruple.cpp
 
 ${OBJECTDIR}/QuadrupleGenerator.o: QuadrupleGenerator.cpp 
 	${MKDIR} -p ${OBJECTDIR}

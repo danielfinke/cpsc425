@@ -64,6 +64,10 @@ void ASTAssignmentNode::scopeAnalyze(){
     
 }
 
+string ASTAssignmentNode::genQuadruples(){
+    
+    
+}
 void ASTAssignmentNode::typeAnalyze() {
 	if(left == NULL || exp == NULL) {
 		return;
