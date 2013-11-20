@@ -38,6 +38,25 @@ ASTFunctionCallNode::~ASTFunctionCallNode() {
     delete argument;
 }
 
+string ASTFunctionCallNode::genQuadruples() {
+    //statements dont return things
+    //expressions do
+    
+    vec.push_back(new Quadruple("rval","","",getTemp()));
+    ASTExpressionNode curArg =argument;
+    while(curArg!=null)
+    {
+        
+  
+    }
+    
+    /*
+     * retval of temp
+     * arguments
+     * cal
+     */
+}
+
 void ASTFunctionCallNode::semAnalyze(){
     
     if(init || !this->isGlobalDec){
