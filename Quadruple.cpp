@@ -16,3 +16,11 @@ Quadruple::Quadruple(const Quadruple& orig) {
 Quadruple::~Quadruple() {
 }
 
+Quadruple::Quadruple(string oper, string arg1, string arg2, string result){
+    
+    this->operation = oper;
+    this->arg1 = arg1;
+    this->arg2=arg2;
+    this->result = result;
+    
+}
