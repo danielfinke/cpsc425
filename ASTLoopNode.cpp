@@ -54,11 +54,15 @@ void ASTLoopNode::semAnalyze(){
 string ASTLoopNode::genQuadruples(){
 	contLabel = getLabel();
 	endLabel = getLabel();
+	// Start of loop
     vec.push_back(Quadruple("lab","","",contLabel));
 	
+	// Do stuff
 	statement->genQuadruples();
 	
+	// Repeat from start of loop
 	vec.push_back(Quadruple("goto","","",contLabel));
+	// Outside end of loop
 	vec.push_back(Quadruple("lab","","",endLabel));
 	
 	if(this->next != NULL) {

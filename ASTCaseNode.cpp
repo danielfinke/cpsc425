@@ -33,6 +33,7 @@ ASTCaseNode::~ASTCaseNode() {
     delete statement;
 }
 
+// Simply do the statement within the case, since all code flow is done in branch
 string ASTCaseNode::genQuadruples() {
 	statement->genQuadruples();
 	
