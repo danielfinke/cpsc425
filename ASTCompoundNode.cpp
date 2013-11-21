@@ -36,6 +36,7 @@ string ASTCompoundNode::genQuadruples(){
 	int numLocals = 0;
 	ASTDeclarationNode * decNode = dec;
 	
+        //gets number of local variables for the compound
 	while(decNode != NULL) {
 		numLocals++;
 		decNode = dynamic_cast<ASTDeclarationNode *>(decNode->next);
@@ -44,6 +45,8 @@ string ASTCompoundNode::genQuadruples(){
 	stringstream ss;
 	ss << numLocals;
 	
+        //creates the quadruples for entering the compound
+        //its statements, and leaving the compound
     vec.push_back(Quadruple("ecs",ss.str(),"",""));
     statement->genQuadruples();
     vec.push_back(Quadruple("lcs","","",""));

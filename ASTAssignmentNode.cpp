@@ -68,12 +68,14 @@ void ASTAssignmentNode::scopeAnalyze(){
 string ASTAssignmentNode::genQuadruples(){
     Quadruple quad;
 	
+    //if its an array tae quadruple
 	if(isArray) {
 		quad.operation = "tae";
 		quad.arg1 = exp->genQuadruples();
 		quad.arg2 = arrayExp->genQuadruples();
 		quad.result = left->lookup->getIdentifierName(id);
 	}
+    //other wise asignement quadruple
     else {
 		quad.operation="asg";
 		quad.result = left->lookup->getIdentifierName(id);

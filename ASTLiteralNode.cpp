@@ -27,6 +27,7 @@ ASTLiteralNode::~ASTLiteralNode() {
 }
 
 string ASTLiteralNode::genQuadruples(){
+   //return the value of the literal
     std::stringstream sstm;
     sstm<< value;
     

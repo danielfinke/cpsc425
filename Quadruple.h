@@ -10,6 +10,10 @@
 #include <string>
 using namespace std;
 
+/*
+ *Quadruple class represents the quadruples which are created in the quadruple
+ * generator. Has an operation, arg1, arg2, and result.
+ */
 class Quadruple {
 public:
     Quadruple();

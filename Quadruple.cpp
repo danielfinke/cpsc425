@@ -18,6 +18,7 @@ Quadruple::Quadruple(const Quadruple& orig) : operation(orig.operation),
 Quadruple::~Quadruple() {
 }
 
+//creates a quadruple with the given arguments
 Quadruple::Quadruple(string oper, string arg1, string arg2, string result){
     
     this->operation = oper;
@@ -27,6 +28,7 @@ Quadruple::Quadruple(string oper, string arg1, string arg2, string result){
     
 }
 
+//returns the quadruple in the proper string format for the interpreter
 string Quadruple::getQuadrupleTuple() {
 	string tuple = "(" + operation + ",";
 	if(arg1 != "") {

@@ -9,6 +9,11 @@
 #define	QUADRUPLEGENERATOR_H
 #include "ASTNode.h"
 
+/*
+ *Quadruple generator starts the creation process of quadruples by first creating
+ * the standard 4 quadruples, and then calling the AST's top node's
+ * genQuadruple function
+ */
 class QuadrupleGenerator {
 public:
     QuadrupleGenerator();

@@ -38,9 +38,11 @@ string ASTReturnNode::genQuadruples() {
 	stringstream ss;
 	ss << funcScope->getParamCount();
 	
+        //if its a void function , create a ret quadruple
 	if(funcScope->declarationType == Scanner::VOID) {
 		vec.push_back(Quadruple("ret",ss.str(),"",""));
 	}
+        //if it returns a value, create a retv quadruple
 	else {
 		vec.push_back(Quadruple("retv",ss.str(),expression->genQuadruples(),""));
 	}

@@ -43,6 +43,14 @@ string ASTIfNode::genQuadruples(){
     ifquad.operation ="iff";
     ifquad.arg1 = exp->genQuadruples();
  
+    //if there is an else statements associated, follow this logic
+    /*if
+     * stuff
+     * end if label
+     * else label
+     * else stuff
+     * end label
+     */
     if(elseStatement!=NULL)
     {
         string elseLabel = getLabel();
@@ -56,6 +64,10 @@ string ASTIfNode::genQuadruples(){
         elseStatement->genQuadruples();
         vec.push_back(Quadruple("lab","","",endLabel));
     }
+    //if there is no else statement do it this way
+    /**if
+     statement stuff
+     end label*/
     else
     {
         string endLabel=getLabel();

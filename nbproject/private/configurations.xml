@@ -32,10 +32,10 @@
           <runcommandpicklistitem>"${OUTPUT_PATH}" -v test2</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" test3</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" test2</runcommandpicklistitem>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" test</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" test4</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" test</runcommandpicklistitem>
         </runcommandpicklist>
-        <runcommand>"${OUTPUT_PATH}" test4</runcommand>
+        <runcommand>"${OUTPUT_PATH}" test</runcommand>
         <rundir></rundir>
         <buildfirst>true</buildfirst>
         <terminal-type>0</terminal-type>

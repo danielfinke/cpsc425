@@ -127,7 +127,7 @@ ASTLiteralNode * ASTUnaryNode::calc() {
 }
 
 string ASTUnaryNode::genQuadruples(){
-   
+   //ceates the quadruple for unary functions
     Quadruple quad;
     quad.result=getTemp();
     quad.arg1 =operand->genQuadruples();

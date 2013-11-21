@@ -58,14 +58,15 @@ string ASTFunctionNode::genQuadruples() {
 	
 	stringstream ss;
 	ss << numLocals;
-	
+	//generate the function quadruple
 	Quadruple funQuad;
 	funQuad.operation = "fun";
 	funQuad.arg1 = lookup->getIdentifierName(id);
 	funQuad.arg2 = ss.str();
 	
 	vec.push_back(funQuad);
-	
+	//generates the functions statement, by passing the comound node
+        //in order to avoid the ecs and lcs quadruples
 	compound->statement->genQuadruples();
 	
 	if(this->next != NULL) {

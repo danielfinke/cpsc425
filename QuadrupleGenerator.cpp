@@ -25,10 +25,12 @@ QuadrupleGenerator::QuadrupleGenerator(const QuadrupleGenerator& orig) :
 QuadrupleGenerator::~QuadrupleGenerator() {
 }
 
+
 void QuadrupleGenerator:: GenerateQuadruples(ASTNode* top){
 	int numGlobals = 0;
 	ASTNode * cur = top;
 	
+        //calculates number of global variables
 	while(cur != NULL) {
 		if(dynamic_cast<ASTVariableDeclarationNode *>(cur) != NULL) {
 			numGlobals++;
@@ -39,13 +41,16 @@ void QuadrupleGenerator:: GenerateQuadruples(ASTNode* top){
 	stringstream ss;
 	ss << numGlobals;
 	
+        //creates the 4 standard quadruples to start the file
     top->vec.push_back(Quadruple("start", ss.str(), "", ""));
 	top->vec.push_back(Quadruple("rval", "", "", top->getTemp()));
 	top->vec.push_back(Quadruple("call", "main", "", ""));
 	top->vec.push_back(Quadruple("hlt", "", "", ""));
 	
+        //starts the process of generating the rest of the quadruples
 	top->genQuadruples();
 	
+        //outputs the executable quadruple code
 	if(admin != NULL) {
 		admin->outputExecutable(top->vec);
 	}
