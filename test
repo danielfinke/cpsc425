@@ -79,6 +79,7 @@ int main(void) {
 	}
 	end;
 
+
 	loop x:=x+1;
 	loop y:=y+1;
 		exit;
@@ -92,6 +93,13 @@ int main(void) {
 	continue;
 	end;
 
+	if(true && true){
+		youSuck := readbool();
+	}
+
+	if(true || false){
+		writebool(youSuck);
+	}
 	meaning_of_life := 42;
 
 	return 3;
