@@ -6,6 +6,7 @@
  */
 
 #include "ASTVariableNode.h"
+#include "ASTLiteralNode.h"
 #include "ScopeTable.h"
 
 ASTVariableNode::ASTVariableNode() : ASTExpressionNode(), id(0),
@@ -39,13 +40,18 @@ ASTVariableNode::~ASTVariableNode() {
 }
 
 string ASTVariableNode::genQuadruples() {
+	stringstream ss;
+	ss << "(" << varDec->level << "," << varDec->displacement << ")";
+		
 	if(!isArray) {
-		return lookup->getIdentifierName(id);
+		//return lookup->getIdentifierName(id);
+		return ss.str();
 	}
 	else {
 		string arrayTemp = arrayExp->genQuadruples();
 		string arrRes = getTemp();
-		vec.push_back(Quadruple("fae",lookup->getIdentifierName(id),arrayTemp,arrRes));
+		//vec.push_back(Quadruple("fae",lookup->getIdentifierName(id),arrayTemp,arrRes));
+		vec.push_back(Quadruple("fae",ss.str(),arrayTemp,arrRes));
 		return arrRes;
 	}
 }

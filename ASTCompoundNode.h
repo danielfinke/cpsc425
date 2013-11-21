@@ -32,6 +32,7 @@ public:
 	
 	bool returnAnalyze();
 	
+	int prevDisplacement;
 	ASTDeclarationNode * dec;
 	ASTStatementNode * statement;
 private:

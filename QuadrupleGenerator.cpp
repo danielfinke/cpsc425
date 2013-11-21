@@ -7,6 +7,7 @@
 
 #include "QuadrupleGenerator.h"
 #include "ASTVariableDeclarationNode.h"
+#include "ASTLiteralNode.h"
 #include "Admin.h"
 
 QuadrupleGenerator::QuadrupleGenerator() : admin(NULL) {
@@ -32,8 +33,22 @@ void QuadrupleGenerator:: GenerateQuadruples(ASTNode* top){
 	
         //calculates number of global variables
 	while(cur != NULL) {
-		if(dynamic_cast<ASTVariableDeclarationNode *>(cur) != NULL) {
-			numGlobals++;
+		ASTVariableDeclarationNode * decAsVar =
+				dynamic_cast<ASTVariableDeclarationNode *>(cur);
+		if(decAsVar != NULL) {
+			if(!decAsVar->isArray) {
+				numGlobals++;
+				decAsVar->level = cur->curLevel;
+				decAsVar->displacement = cur->curDisplacement;
+				cur->curDisplacement++;
+			}
+			else {
+				ASTLiteralNode * sizeVal = decAsVar->arrayExp->calc();
+				numGlobals += sizeVal->value;
+				decAsVar->level = cur->curLevel;
+				decAsVar->displacement = cur->curDisplacement;
+				cur->curDisplacement += sizeVal->value;
+			}
 		}
 		cur = cur->next;
 	}
@@ -46,6 +61,12 @@ void QuadrupleGenerator:: GenerateQuadruples(ASTNode* top){
 	top->vec.push_back(Quadruple("rval", "", "", top->getTemp()));
 	top->vec.push_back(Quadruple("call", "main", "", ""));
 	top->vec.push_back(Quadruple("hlt", "", "", ""));
+	
+	// Update temp size
+	// (Only 1 extra displacement because of main return value)
+	ss.str("");
+	ss << top->curDisplacement;
+	top->vec[0].arg1 = ss.str();
 	
         //starts the process of generating the rest of the quadruples
 	top->genQuadruples();

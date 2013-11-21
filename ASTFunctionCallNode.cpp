@@ -39,7 +39,35 @@ ASTFunctionCallNode::~ASTFunctionCallNode() {
 }
 
 string ASTFunctionCallNode::genQuadruples() {
-    //statements dont return things
+	string readTemp = "";
+	
+	// First the system calls
+	string ident = lookup->getIdentifierName(id);
+	if(ident == "readint") {
+		readTemp = getTemp();
+		vec.push_back(Quadruple("rdi","","",readTemp));
+	}
+	else if(ident == "writeint") {
+		string argTemp = argument->genQuadruples();
+		vec.push_back(Quadruple("wri",argTemp,"",""));
+	}
+	else if(ident == "readbool") {
+		readTemp = getTemp();
+		vec.push_back(Quadruple("rdb","","",readTemp));
+	}
+	else if(ident == "writebool") {
+		string argTemp = argument->genQuadruples();
+		vec.push_back(Quadruple("wrb",argTemp,"",""));
+	}
+	else {
+		return genRegularCall();
+	}
+	
+	return readTemp;
+}
+
+string ASTFunctionCallNode::genRegularCall() {
+	//statements dont return things
     //expressions do
     
 	string rVal = getTemp();
@@ -51,8 +79,15 @@ string ASTFunctionCallNode::genQuadruples() {
 	vector<Quadruple> revArgVec;
 	
     ASTExpressionNode * curArg = argument;
+	ASTParamNode * curParam = funcDec->param;
     while(curArg!=NULL)
     {
+		if(curParam->isRef) {
+			revArgVec.push_back(Quadruple("arga",curArg->genQuadruples(),"",""));
+			curArg = dynamic_cast<ASTExpressionNode *>(curArg->next);
+			continue;
+		}
+		
 		ASTVariableNode * arrayArg = dynamic_cast<ASTVariableNode *>(curArg);
         if(arrayArg != NULL && arrayArg->isArray) {
 			revArgVec.push_back(Quadruple("arg",curArg->genQuadruples(),"",""));

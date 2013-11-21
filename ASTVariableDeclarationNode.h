@@ -32,6 +32,8 @@ public:
 	virtual void scopeAnalyze();
 	virtual void printNode(int indent, ostream * output);
 	
+	int level;
+	int displacement;
 	bool isArray;
 	ASTExpressionNode * arrayExp;
 private:

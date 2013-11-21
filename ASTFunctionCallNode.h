@@ -40,6 +40,8 @@ public:
 	void printNode(int indent, ostream * output);
     string genQuadruples();
 	
+	string genRegularCall();
+	
 	int id;
 	ASTFunctionNode * funcDec;
 	ASTExpressionNode * argument;

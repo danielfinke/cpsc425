@@ -15,6 +15,9 @@ int ASTNode:: labelCounter=1;
 bool ASTNode::init = true;
 vector<Quadruple> ASTNode::vec;
 
+int ASTNode::curLevel = 0;
+int ASTNode::curDisplacement = 0;
+
 ASTNode::ASTNode() : next(NULL), output(NULL), isGlobalDec(false), lineNumber(0){
 }
 
@@ -79,6 +82,10 @@ string ASTNode::getLabel(){
 
 string ASTNode::getTemp(){
     std:stringstream sstm;
-    sstm<<"t"<<tempCounter++;
+    //sstm<<"t"<<tempCounter++;
+	
+	sstm << "(" << curLevel << "," << curDisplacement << ")";
+	curDisplacement++;
+	
     return sstm.str();
 }

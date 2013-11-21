@@ -6,6 +6,8 @@
  */
 
 #include "ASTAssignmentNode.h"
+#include "ASTVariableDeclarationNode.h"
+#include "ASTLiteralNode.h"
 #include "ScopeTable.h"
 #include "Quadruple.h"
 
@@ -68,21 +70,37 @@ void ASTAssignmentNode::scopeAnalyze(){
 string ASTAssignmentNode::genQuadruples(){
     Quadruple quad;
 	
-    //if its an array tae quadruple
+	stringstream ss;
+	ASTVariableDeclarationNode * leftDec = (ASTVariableDeclarationNode *)left;
+	ss << "(" << leftDec->level << "," << leftDec->displacement << ")";
+	//if its an array tae quadruple
 	if(isArray) {
 		quad.operation = "tae";
 		quad.arg1 = exp->genQuadruples();
 		quad.arg2 = arrayExp->genQuadruples();
-		quad.result = left->lookup->getIdentifierName(id);
+		//quad.result = left->lookup->getIdentifierName(id);
+		quad.result = ss.str();
+		
+		vec.push_back(quad);
 	}
     //other wise asignement quadruple
     else {
 		quad.operation="asg";
-		quad.result = left->lookup->getIdentifierName(id);
-		quad.arg1 = exp->genQuadruples();
+		//quad.result = left->lookup->getIdentifierName(id);
+		quad.result = ss.str();
+		// Special case, short-circuit assignment, don't bother storing temp var
+		string asgShort = exp->genQuadruples();
+		if(vec.back().operation == "rdi" ||
+				vec.back().operation == "rdb") {
+			//vec.back().result = left->lookup->getIdentifierName(id);
+			vec.back().result = ss.str();
+		}
+		// Some sort of expression, a temp var is necessary
+		else {
+			quad.arg1 = asgShort;
+			vec.push_back(quad);
+		}
 	}
-    
-    vec.push_back(quad);
 	
 	if(this->next != NULL) {
 		this->next->genQuadruples();

@@ -9,12 +9,15 @@
 #include "ScopeTable.h"
 #include "ASTLiteralNode.h"
 
-ASTVariableDeclarationNode::ASTVariableDeclarationNode() : ASTDeclarationNode(), isArray(false), arrayExp(NULL)
+ASTVariableDeclarationNode::ASTVariableDeclarationNode() : ASTDeclarationNode(),
+		level(0), displacement(0),
+		isArray(false), arrayExp(NULL)
 {
 }
 
 ASTVariableDeclarationNode::ASTVariableDeclarationNode(const ASTVariableDeclarationNode& orig) :ASTDeclarationNode(orig),
-        isArray(orig.isArray),arrayExp(orig.arrayExp)
+        level(orig.level), displacement(orig.displacement),
+		isArray(orig.isArray),arrayExp(orig.arrayExp)
 {
 }
 
@@ -23,8 +26,10 @@ ASTVariableDeclarationNode& ASTVariableDeclarationNode::operator= (const ASTVari
 	ASTDeclarationNode::operator=(rhs);
 	
     // do the copy
-        isArray = rhs.isArray;
-        arrayExp = rhs.arrayExp;
+	level = rhs.level;
+	displacement = rhs.displacement;
+	isArray = rhs.isArray;
+	arrayExp = rhs.arrayExp;
  
     // return the existing object
     return *this;
